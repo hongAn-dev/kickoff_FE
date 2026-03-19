@@ -1,157 +1,205 @@
-<div class="min-h-screen bg-slate-50">
-  <div class="max-w-6xl mx-auto px-4 py-8">
-
-    <!-- Header Row -->
-    <div class="flex items-center justify-between mb-6">
-      <div>
-        <h1 class="text-2xl font-bold text-slate-800">Quản lý User</h1>
-        <p class="text-slate-500 text-sm mt-1">Tổng: {{ users.length }} user</p>
-      </div>
-      <button (click)="openCreate()"
-        class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2 shadow">
-        <span class="text-lg">+</span> Thêm User
-      </button>
+<div class="h-full flex flex-col p-8 sm:p-10 space-y-8" data-purpose="main-content-area">
+  
+  <!-- Header Row with Title and Button -->
+  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shrink-0">
+    <div>
+      <h1 class="text-3xl font-bold text-white tracking-tight flex items-center gap-3">
+        <span class="material-symbols-outlined text-primary text-4xl">group</span>
+        User Management
+      </h1>
+      <p class="text-slate-400 text-sm mt-1 flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        Total {{ users.length }} active personnel
+      </p>
     </div>
+    
+    <button (click)="openCreate()" class="bg-primary hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(55,19,236,0.4)] hover:shadow-[0_0_30px_rgba(55,19,236,0.6)] flex items-center gap-2 group">
+      <span class="material-symbols-outlined group-hover:rotate-90 transition-transform">add</span> 
+      Add User
+    </button>
+  </div>
 
-    <!-- Alerts -->
-    @if (successMsg) {
-      <div class="mb-4 bg-green-50 border border-green-300 text-green-700 px-4 py-3 rounded-lg flex items-center gap-2">
-        ✅ {{ successMsg }}
-      </div>
-    }
-    @if (errorMsg) {
-      <div class="mb-4 bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-lg flex items-center gap-2">
-        ❌ {{ errorMsg }}
-      </div>
-    }
+  <!-- Alerts -->
+  @if (successMsg) {
+    <div class="glass border-emerald-500/30 bg-emerald-500/10 text-emerald-400 px-5 py-4 rounded-xl flex items-center gap-3 shrink-0 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
+      <span class="material-symbols-outlined">check_circle</span> {{ successMsg }}
+    </div>
+  }
+  @if (errorMsg && !showModal) {
+    <div class="glass border-rose-500/30 bg-rose-500/10 text-rose-400 px-5 py-4 rounded-xl flex items-center gap-3 shrink-0 shadow-[0_0_15px_rgba(244,63,94,0.1)]">
+      <span class="material-symbols-outlined">error</span> {{ errorMsg }}
+    </div>
+  }
 
-    <!-- Loading -->
-    @if (loading) {
-      <div class="flex justify-center items-center py-20">
-        <div class="animate-spin rounded-full h-10 w-10 border-4 border-indigo-500 border-t-transparent"></div>
-        <span class="ml-3 text-slate-500">Đang tải...</span>
-      </div>
-    }
+  <!-- Loading -->
+  @if (loading) {
+    <div class="flex flex-col justify-center items-center py-24 flex-1">
+      <div class="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent shadow-[0_0_20px_rgba(55,19,236,0.5)]"></div>
+      <span class="mt-4 text-primary font-bold tracking-widest uppercase animate-pulse text-sm">Synchronizing...</span>
+    </div>
+  }
 
-    <!-- Table -->
-    @if (!loading) {
-      <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-        <table class="w-full text-sm">
-          <thead class="bg-slate-100 border-b border-slate-200">
+  @if (!loading) {
+    <!-- Data Table Container -->
+    <div class="glass rounded-2xl overflow-hidden flex-1 flex flex-col min-h-0 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+      <div class="overflow-y-auto w-full h-full relative">
+        <table class="w-full text-left border-collapse min-w-[800px]">
+          <thead class="bg-white/5 border-b border-white/10 sticky top-0 z-10 backdrop-blur-md">
             <tr>
-              <th class="px-4 py-3 text-left text-slate-600 font-semibold w-12">#</th>
-              <th class="px-4 py-3 text-left text-slate-600 font-semibold">Tên</th>
-              <th class="px-4 py-3 text-left text-slate-600 font-semibold">Email</th>
-              <th class="px-4 py-3 text-left text-slate-600 font-semibold">Vai trò</th>
-              <th class="px-4 py-3 text-left text-slate-600 font-semibold">Ngày tạo</th>
-              <th class="px-4 py-3 text-center text-slate-600 font-semibold">Thao tác</th>
+              <th class="px-6 py-5 text-xs font-bold uppercase tracking-[0.15em] text-slate-400 w-16 text-center">ID</th>
+              <th class="px-6 py-5 text-xs font-bold uppercase tracking-[0.15em] text-slate-400">Personnel</th>
+              <th class="px-6 py-5 text-xs font-bold uppercase tracking-[0.15em] text-slate-400">Contact</th>
+              <th class="px-6 py-5 text-xs font-bold uppercase tracking-[0.15em] text-slate-400 text-center">Security Level</th>
+              <th class="px-6 py-5 text-xs font-bold uppercase tracking-[0.15em] text-slate-400 text-right">Created</th>
+              <th class="px-6 py-5 text-xs font-bold uppercase tracking-[0.15em] text-slate-400 text-center w-32">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="divide-y divide-white/5">
             @for (user of users; track user.id; let i = $index) {
-              <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors duration-150">
-                <td class="px-4 py-3 text-slate-400 font-mono text-xs">{{ user.id }}</td>
-                <td class="px-4 py-3 font-medium text-slate-800">{{ user.name }}</td>
-                <td class="px-4 py-3 text-slate-600">{{ user.email }}</td>
-                <td class="px-4 py-3">
-                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-700">
+              <tr class="glass-hover transition-colors group">
+                <td class="px-6 py-5 text-center text-slate-500 font-mono text-xs">{{ user.id }}</td>
+                <td class="px-6 py-5">
+                  <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-xl border border-white/10 p-0 flex items-center justify-center bg-gradient-to-br from-primary/30 to-purple-600/30 text-white font-bold text-sm shadow-[0_0_10px_rgba(255,255,255,0.05)] overflow-hidden">
+                      {{ user.name.charAt(0).toUpperCase() }}
+                    </div>
+                    <div>
+                      <p class="text-sm font-semibold text-white group-hover:text-primary-100 transition-colors">{{ user.name }}</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-5">
+                  <div class="flex items-center gap-2 text-slate-400">
+                    <span class="material-symbols-outlined text-[16px]">mail</span>
+                    <span class="text-sm">{{ user.email }}</span>
+                  </div>
+                </td>
+                <td class="px-6 py-5 text-center">
+                  <span class="inline-flex items-center px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest border border-indigo-400/30 bg-indigo-500/10 text-indigo-300">
+                    <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 mr-2"></span>
                     {{ user.role }}
                   </span>
                 </td>
-                <td class="px-4 py-3 text-slate-500 text-xs">
+                <td class="px-6 py-5 text-right text-slate-400 text-sm font-mono">
                   {{ user.createdAt ? (user.createdAt | date:'dd/MM/yyyy HH:mm') : '—' }}
                 </td>
-                <td class="px-4 py-3 text-center">
-                  <button (click)="openEdit(user)"
-                    class="inline-flex items-center px-3 py-1.5 text-xs bg-amber-50 text-amber-700 border border-amber-200 rounded-md hover:bg-amber-100 transition-colors mr-1">
-                    ✏️ Sửa
-                  </button>
-                  <button (click)="deleteUser(user)"
-                    class="inline-flex items-center px-3 py-1.5 text-xs bg-red-50 text-red-700 border border-red-200 rounded-md hover:bg-red-100 transition-colors">
-                    🗑️ Xóa
-                  </button>
+                <td class="px-6 py-5 text-center">
+                  <div class="flex gap-2 justify-center opacity-70 group-hover:opacity-100 transition-opacity">
+                    <button (click)="openEdit(user)" class="w-8 h-8 rounded-lg glass glass-hover text-slate-300 hover:text-primary hover:border-primary/50 transition-colors flex items-center justify-center pointer-events-auto" title="Edit">
+                      <span class="material-symbols-outlined text-sm">edit</span>
+                    </button>
+                    <button (click)="deleteUser(user)" class="w-8 h-8 rounded-lg glass glass-hover text-slate-300 hover:text-rose-400 hover:border-rose-400/50 hover:bg-rose-500/10 transition-colors flex items-center justify-center pointer-events-auto" title="Delete">
+                      <span class="material-symbols-outlined text-sm">delete</span>
+                    </button>
+                  </div>
                 </td>
               </tr>
             } @empty {
               <tr>
-                <td colspan="6" class="px-4 py-12 text-center text-slate-400">
-                  <div class="text-4xl mb-2">👤</div>
-                  <p>Chưa có user nào. Hãy thêm user đầu tiên!</p>
+                <td colspan="6" class="px-6 py-20 text-center">
+                  <div class="flex flex-col items-center justify-center opacity-50">
+                    <div class="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mb-4 border border-white/10">
+                      <span class="material-symbols-outlined text-4xl text-slate-400">group_off</span>
+                    </div>
+                    <p class="text-slate-300 text-lg font-medium">No personnel found</p>
+                    <p class="text-slate-500 text-sm mt-1">Initiate system by adding the first user.</p>
+                  </div>
                 </td>
               </tr>
             }
           </tbody>
         </table>
       </div>
-    }
-  </div>
+    </div>
+  }
 </div>
 
-<!-- Modal -->
+<!-- Modal Create / Edit User -->
 @if (showModal) {
-  <div class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md animate-fade-in">
-      <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100">
-        <h2 class="text-lg font-bold text-slate-800">
-          {{ editingUser ? '✏️ Chỉnh sửa User' : '➕ Thêm User mới' }}
+  <div class="fixed inset-0 bg-background-dark/80 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-fade-in">
+    <div class="glass rounded-2xl shadow-[0_0_60px_rgba(55,19,236,0.25)] w-full max-w-md overflow-hidden flex flex-col border border-white/20">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between px-8 py-6 border-b border-white/10 shrink-0 bg-white/5 relative overflow-hidden">
+        <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary/20 rounded-full blur-2xl"></div>
+        <h2 class="text-xl font-bold text-white tracking-tight flex items-center gap-2 relative z-10">
+          <span class="material-symbols-outlined text-primary">{{ editingUser ? 'manage_accounts' : 'person_add' }}</span>
+          {{ editingUser ? 'Modify Record' : 'New Personnel' }}
         </h2>
-        <button (click)="closeModal()" class="text-slate-400 hover:text-slate-600 text-2xl leading-none">&times;</button>
+        <button (click)="closeModal()" class="w-8 h-8 rounded-full hover:bg-white/10 text-slate-400 hover:text-white flex items-center justify-center transition-colors relative z-10">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
       </div>
 
-      <form [formGroup]="userForm" (ngSubmit)="saveUser()" class="px-6 py-5 space-y-4">
-
+      <!-- Modal Body -->
+      <form [formGroup]="userForm" (ngSubmit)="saveUser()" class="px-8 py-6 overflow-y-auto space-y-6">
         @if (errorMsg) {
-          <div class="bg-red-50 border border-red-200 text-red-600 text-sm px-3 py-2 rounded-lg">{{ errorMsg }}</div>
+          <div class="bg-rose-500/10 border border-rose-500/30 text-rose-400 text-sm px-4 py-3 rounded-xl flex items-center gap-2">
+            <span class="material-symbols-outlined text-sm">error</span> {{ errorMsg }}
+          </div>
         }
 
         <!-- Name -->
         <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">Tên <span class="text-red-500">*</span></label>
-          <input formControlName="name" type="text" placeholder="Nguyễn Văn A"
-            class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition"
-            [class.border-red-400]="f['name'].invalid && f['name'].touched" />
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-[0.15em] mb-2">Full Name <span class="text-rose-500">*</span></label>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-[18px]">badge</span>
+            <input formControlName="name" type="text" placeholder="John Doe"
+              class="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition"
+              [class.!border-rose-400]="f['name'].invalid && f['name'].touched" />
+          </div>
           @if (f['name'].invalid && f['name'].touched) {
-            <p class="text-red-500 text-xs mt-1">
-              @if (f['name'].errors?.['required']) { Tên không được để trống. }
-              @if (f['name'].errors?.['minlength']) { Tên phải có ít nhất 2 ký tự. }
+            <p class="text-rose-400 text-xs mt-2 flex items-center gap-1">
+              <span class="material-symbols-outlined text-[14px]">info</span>
+              @if (f['name'].errors?.['required']) { Name is required. }
+              @if (f['name'].errors?.['minlength']) { Name must be at least 2 characters. }
             </p>
           }
         </div>
 
         <!-- Email -->
         <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">Email <span class="text-red-500">*</span></label>
-          <input formControlName="email" type="email" placeholder="example@email.com"
-            class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition"
-            [class.border-red-400]="f['email'].invalid && f['email'].touched" />
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-[0.15em] mb-2">Email Address <span class="text-rose-500">*</span></label>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-[18px]">mail</span>
+            <input formControlName="email" type="email" placeholder="john.doe@quantum.co"
+              class="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition"
+              [class.!border-rose-400]="f['email'].invalid && f['email'].touched" />
+          </div>
           @if (f['email'].invalid && f['email'].touched) {
-            <p class="text-red-500 text-xs mt-1">Email không hợp lệ.</p>
+            <p class="text-rose-400 text-xs mt-2 flex items-center gap-1">
+              <span class="material-symbols-outlined text-[14px]">info</span> Invalid email format.
+            </p>
           }
         </div>
 
         <!-- Role -->
         <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">Vai trò <span class="text-red-500">*</span></label>
-          <select formControlName="role"
-            class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition bg-white">
-            @for (role of roles; track role) {
-              <option [value]="role">{{ role }}</option>
-            }
-          </select>
-        </div>
-
-        <!-- Actions -->
-        <div class="flex gap-3 pt-2">
-          <button type="button" (click)="closeModal()"
-            class="flex-1 border border-slate-300 text-slate-600 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors">
-            Hủy
-          </button>
-          <button type="submit"
-            class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-2.5 rounded-lg text-sm font-medium transition-colors">
-            {{ editingUser ? 'Cập nhật' : 'Tạo mới' }}
-          </button>
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-[0.15em] mb-2">Security Clearance <span class="text-rose-500">*</span></label>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-[18px]">admin_panel_settings</span>
+            <select formControlName="role"
+              class="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition appearance-none">
+              @for (role of roles; track role) {
+                <option class="text-slate-800" [value]="role">{{ role }}</option>
+              }
+            </select>
+            <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none text-[18px]">expand_more</span>
+          </div>
         </div>
       </form>
+
+      <!-- Modal Footer actions -->
+      <div class="flex gap-4 px-8 py-6 border-t border-white/10 shrink-0 bg-white/5">
+        <button type="button" (click)="closeModal()"
+          class="flex-1 glass glass-hover border-white/20 text-white py-3 rounded-xl text-sm font-bold transition-colors">
+          Abort
+        </button>
+        <button type="button" (click)="saveUser()"
+          class="flex-1 bg-primary hover:bg-blue-700 text-white py-3 rounded-xl text-sm font-bold transition-all shadow-[0_0_20px_rgba(55,19,236,0.4)] hover:shadow-[0_0_30px_rgba(55,19,236,0.6)]">
+          {{ editingUser ? 'Commit Changes' : 'Initialize User' }}
+        </button>
+      </div>
     </div>
   </div>
 }

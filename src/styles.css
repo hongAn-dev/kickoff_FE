@@ -1,4 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
 @import "tailwindcss";
+
+@theme {
+  --color-primary: #3713ec;
+  --color-background-light: #f6f6f8;
+  --color-background-dark: #0a0817;
+
+  /* Keep legacy variables pointing to new palette to avoid breaking un-migrated parts */
+  --color-brand-navy: #3713ec;
+  --color-brand-slate: rgba(255, 255, 255, 0.1);
+  --color-brand-charcoal: #0a0817;
+
+  --font-display: "Space Grotesk", sans-serif;
+  --font-sans: "Space Grotesk", sans-serif;
+}
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -6,15 +22,43 @@
 
 body {
   margin: 0;
-  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-  background-color: #f8fafc;
-  color: #1e293b;
+  font-family: var(--font-display);
+  background: radial-gradient(circle at top right, rgba(55, 19, 236, 0.15), transparent),
+              radial-gradient(circle at bottom left, rgba(123, 31, 162, 0.15), transparent),
+              var(--color-background-dark);
+  color: #f1f5f9;
   -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
 }
 
 /* SPA smooth scroll */
 html {
   scroll-behavior: smooth;
+  /* Dark mode class to enable tailwind dark utilities if needed */
+  color-scheme: dark;
+}
+
+/* Glassmorphism Utilities */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-hover:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.sidebar-active {
+  background: rgba(55, 19, 236, 0.2);
+  border: 1px solid rgba(55, 19, 236, 0.3);
+}
+
+/* UI Elements overrides */
+.sidebar-link {
+  transition: all 0.2s ease;
 }
 
 /* Fade-in animation for modals */
@@ -34,3 +78,4 @@ html {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+

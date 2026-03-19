@@ -1,222 +1,289 @@
-<div class="min-h-screen bg-slate-50">
-  <div class="max-w-6xl mx-auto px-4 py-8">
-
-    <!-- Header -->
-    <div class="flex items-center justify-between mb-6">
-      <div>
-        <h1 class="text-2xl font-bold text-slate-800">Danh sách Task</h1>
-        <p class="text-slate-500 text-sm mt-1">Tổng: {{ tasks.length }} task</p>
-      </div>
-      <button (click)="openCreate()"
-        class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2 shadow">
-        <span class="text-lg">+</span> Thêm Task
-      </button>
+<div class="h-full flex flex-col p-8 sm:p-10 space-y-10" data-purpose="main-content-area">
+  
+  <!-- Alerts -->
+  @if (successMsg) {
+    <div class="glass border-emerald-500/30 bg-emerald-500/10 text-emerald-400 px-4 py-3 rounded-lg flex items-center gap-2">
+      <span class="material-symbols-outlined text-sm">check_circle</span> {{ successMsg }}
     </div>
-
-    <!-- Filter Bar -->
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm px-5 py-4 mb-5 flex flex-wrap gap-4 items-end">
-      <div class="flex flex-col gap-1 min-w-[150px]">
-        <label class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Trạng thái</label>
-        <select [(ngModel)]="filterStatus" [ngModelOptions]="{standalone: true}"
-          class="border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-400">
-          <option value="">Tất cả trạng thái</option>
-          @for (s of statusOptions; track s) { <option [value]="s">{{ s }}</option> }
-        </select>
-      </div>
-
-      <div class="flex flex-col gap-1 min-w-[150px]">
-        <label class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Độ ưu tiên</label>
-        <select [(ngModel)]="filterPriority" [ngModelOptions]="{standalone: true}"
-          class="border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-400">
-          <option value="">Tất cả độ ưu tiên</option>
-          @for (p of priorityOptions; track p) { <option [value]="p">{{ p }}</option> }
-        </select>
-      </div>
-
-      <div class="flex gap-2">
-        <button (click)="applyFilter()"
-          class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm">
-          Lọc
-        </button>
-        <button (click)="resetFilter()"
-          class="border border-slate-300 text-slate-600 hover:bg-slate-50 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-          ↺ Đặt lại
-        </button>
-      </div>
+  }
+  @if (errorMsg && !showModal) {
+    <div class="glass border-rose-500/30 bg-rose-500/10 text-rose-400 px-4 py-3 rounded-lg flex items-center gap-2">
+      <span class="material-symbols-outlined text-sm">error</span> {{ errorMsg }}
     </div>
+  }
 
-    <!-- Alerts -->
-    @if (successMsg) {
-      <div class="mb-4 bg-green-50 border border-green-300 text-green-700 px-4 py-3 rounded-lg">✅ {{ successMsg }}</div>
-    }
-    @if (errorMsg && !showModal) {
-      <div class="mb-4 bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-lg">❌ {{ errorMsg }}</div>
-    }
+  <!-- Loading -->
+  @if (loading) {
+    <div class="flex justify-center items-center py-20 flex-1">
+      <div class="animate-spin rounded-full h-10 w-10 border-4 border-primary border-t-transparent shadow-[0_0_15px_rgba(55,19,236,0.5)]"></div>
+      <span class="ml-4 text-primary font-bold animate-pulse">Loading data...</span>
+    </div>
+  }
 
-    <!-- Loading -->
-    @if (loading) {
-      <div class="flex justify-center items-center py-20">
-        <div class="animate-spin rounded-full h-10 w-10 border-4 border-indigo-500 border-t-transparent"></div>
-        <span class="ml-3 text-slate-500">Đang tải...</span>
+  @if (!loading) {
+    <!-- BEGIN: KPI Summary Cards -->
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-8 shrink-0" data-purpose="kpi-cards">
+      <!-- Card 1 -->
+      <div class="glass p-8 rounded-xl relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300">
+        <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors"></div>
+        <div class="flex justify-between items-start mb-6">
+          <div class="w-12 h-12 rounded-xl bg-primary/20 border border-primary/30 flex items-center justify-center text-primary">
+            <span class="material-symbols-outlined text-2xl">groups</span>
+          </div>
+          <span class="text-emerald-400 text-sm font-bold flex items-center gap-1 bg-emerald-400/10 px-2 py-1 rounded-lg">
+            <span class="material-symbols-outlined text-xs">trending_up</span> 12%
+          </span>
+        </div>
+        <p class="text-slate-400 text-sm font-medium mb-1">Total Employees</p>
+        <h3 class="text-4xl font-bold text-white tracking-tight">{{ users.length }}</h3>
+        <p class="text-[10px] text-slate-500 mt-4 uppercase tracking-[0.1em]">Updated real-time</p>
       </div>
-    }
 
-    <!-- Table -->
-    @if (!loading) {
-      <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-        <table class="w-full text-sm">
-          <thead class="bg-slate-100 border-b border-slate-200">
+      <!-- Card 2 -->
+      <div class="glass p-8 rounded-xl relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300">
+        <div class="absolute -right-4 -top-4 w-24 h-24 bg-purple-500/10 rounded-full blur-3xl group-hover:bg-purple-500/20 transition-colors"></div>
+        <div class="flex justify-between items-start mb-6">
+          <div class="w-12 h-12 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-400">
+            <span class="material-symbols-outlined text-2xl">task</span>
+          </div>
+          <span class="text-emerald-400 text-sm font-bold flex items-center gap-1 bg-emerald-400/10 px-2 py-1 rounded-lg">
+            <span class="material-symbols-outlined text-xs">trending_up</span> 5%
+          </span>
+        </div>
+        <p class="text-slate-400 text-sm font-medium mb-1">Active Tasks</p>
+        <h3 class="text-4xl font-bold text-white tracking-tight">{{ tasks.length }}</h3>
+        <p class="text-[10px] text-slate-500 mt-4 uppercase tracking-[0.1em]">Current sprint cycle</p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="glass p-8 rounded-xl relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300">
+        <div class="absolute -right-4 -top-4 w-24 h-24 bg-blue-400/10 rounded-full blur-3xl group-hover:bg-blue-400/20 transition-colors"></div>
+        <div class="flex justify-between items-start mb-6">
+          <div class="w-12 h-12 rounded-xl bg-blue-400/20 border border-blue-400/30 flex items-center justify-center text-blue-400">
+            <span class="material-symbols-outlined text-2xl">how_to_reg</span>
+          </div>
+          <span class="text-rose-400 text-sm font-bold flex items-center gap-1 bg-rose-400/10 px-2 py-1 rounded-lg">
+            <span class="material-symbols-outlined text-xs">trending_down</span> 0.5%
+          </span>
+        </div>
+        <p class="text-slate-400 text-sm font-medium mb-1">Attendance Rate</p>
+        <h3 class="text-4xl font-bold text-white tracking-tight">98.2%</h3>
+        <p class="text-[10px] text-slate-500 mt-4 uppercase tracking-[0.1em]">Avg. shift 8.4 hrs</p>
+      </div>
+    </section>
+    <!-- END: KPI Summary Cards -->
+
+    <!-- Central Data Grid Section -->
+    <section class="space-y-6 flex-1 flex flex-col min-h-0">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <h2 class="text-2xl font-bold text-white tracking-tight">Recent Activities</h2>
+        
+        <!-- Filter Bar -->
+        <div class="glass rounded-xl px-4 py-3 flex flex-wrap gap-4 items-center">
+          <div class="flex items-center gap-2">
+            <label class="text-xs font-semibold text-slate-400 uppercase tracking-wide">Status</label>
+            <select [(ngModel)]="filterStatus" [ngModelOptions]="{standalone: true}"
+              class="bg-white/5 border border-white/10 text-white rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all">
+              <option class="text-slate-800" value="">All Statuses</option>
+              @for (s of statusOptions; track s) { <option class="text-slate-800" [value]="s">{{ s }}</option> }
+            </select>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <label class="text-xs font-semibold text-slate-400 uppercase tracking-wide">Priority</label>
+            <select [(ngModel)]="filterPriority" [ngModelOptions]="{standalone: true}"
+              class="bg-white/5 border border-white/10 text-white rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all">
+              <option class="text-slate-800" value="">All Priorities</option>
+              @for (p of priorityOptions; track p) { <option class="text-slate-800" [value]="p">{{ p }}</option> }
+            </select>
+          </div>
+
+          <div class="flex gap-2">
+            <button (click)="applyFilter()"
+              class="bg-primary/20 border border-primary/50 hover:bg-primary/40 text-primary-200 px-4 py-1.5 rounded-lg text-sm font-bold transition-colors">
+              Filter
+            </button>
+            <button (click)="resetFilter()"
+              class="glass glass-hover text-slate-300 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors">
+              <span class="material-symbols-outlined text-sm align-text-bottom">restart_alt</span>
+            </button>
+          </div>
+
+          <button (click)="openCreate()" class="bg-primary hover:bg-blue-700 text-white px-4 py-1.5 rounded-lg text-sm font-bold transition-colors shadow-[0_0_15px_rgba(55,19,236,0.4)] flex items-center gap-1 ml-auto">
+            <span class="material-symbols-outlined text-sm">add</span> Assign New Task
+          </button>
+        </div>
+      </div>
+
+      <!-- Data Table -->
+      <div class="glass rounded-2xl overflow-y-auto flex-1 h-full shadow-2xl">
+        <table class="w-full text-left border-collapse relative">
+          <thead class="bg-white/5 border-b border-white/10 sticky top-0 z-10 backdrop-blur-md">
             <tr>
-              <th class="px-4 py-3 text-left text-slate-600 font-semibold w-12">#</th>
-              <th class="px-4 py-3 text-left text-slate-600 font-semibold">Tiêu đề</th>
-              <th class="px-4 py-3 text-left text-slate-600 font-semibold">Trạng thái</th>
-              <th class="px-4 py-3 text-left text-slate-600 font-semibold">Ưu tiên</th>
-              <th class="px-4 py-3 text-left text-slate-600 font-semibold">Người phụ trách</th>
-              <th class="px-4 py-3 text-left text-slate-600 font-semibold">Hạn hoàn thành</th>
-              <th class="px-4 py-3 text-center text-slate-600 font-semibold">Thao tác</th>
+              <th class="px-8 py-5 text-xs font-bold uppercase tracking-[0.15em] text-slate-400">User</th>
+              <th class="px-8 py-5 text-xs font-bold uppercase tracking-[0.15em] text-slate-400">Task</th>
+              <th class="px-8 py-5 text-xs font-bold uppercase tracking-[0.15em] text-slate-400 text-center">Priority</th>
+              <th class="px-8 py-5 text-xs font-bold uppercase tracking-[0.15em] text-slate-400 text-center">Status</th>
+              <th class="px-8 py-5 text-xs font-bold uppercase tracking-[0.15em] text-slate-400 text-right">Due Date</th>
+              <th class="px-8 py-5 text-xs font-bold uppercase tracking-[0.15em] text-slate-400 text-center">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="divide-y divide-white/5">
             @for (task of tasks; track task.id) {
-              <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors duration-150 group">
-                <td class="px-4 py-3 text-slate-400 font-mono text-xs">{{ task.id }}</td>
-                <td class="px-4 py-3">
-                  <a [routerLink]="['/tasks', task.id]"
-                    class="font-medium text-indigo-600 hover:underline line-clamp-1">
-                    {{ task.title }}
-                  </a>
+              <tr class="glass-hover transition-colors data-table-row">
+                <td class="px-8 py-6">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full border border-white/10 p-0.5 flex items-center justify-center bg-gradient-to-br from-primary/30 to-purple-500/30 text-white font-bold text-lg shadow-[0_0_10px_rgba(255,255,255,0.05)]">
+                      {{(task.userName || getUserName(task.userId)).charAt(0).toUpperCase()}}
+                    </div>
+                    <div>
+                      <p class="text-sm font-semibold text-white">{{ task.userName || getUserName(task.userId) }}</p>
+                      <p class="text-xs text-slate-500 font-mono">ID: {{ task.userId }}</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-8 py-6 max-w-[200px]">
+                  <p class="text-sm font-medium text-slate-200 line-clamp-1" [title]="task.title">{{ task.title }}</p>
                   @if (task.description) {
-                    <p class="text-slate-400 text-xs mt-0.5 line-clamp-1">{{ task.description }}</p>
+                    <p class="text-xs text-slate-500 line-clamp-1 mt-1" [title]="task.description">{{ task.description }}</p>
                   }
                 </td>
-                <td class="px-4 py-3">
-                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold border uppercase tracking-tight {{getStatusClass(task.status)}}">
-                    {{ task.status.replace('_', ' ') }}
-                  </span>
-                </td>
-                <td class="px-4 py-3">
-                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border {{getPriorityClass(task.priority)}}">
+                <td class="px-8 py-6 text-center">
+                  <span class="inline-block px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border {{ getPriorityClass(task.priority) }} bg-opacity-10">
                     {{ task.priority }}
                   </span>
                 </td>
-                <td class="px-4 py-3 text-slate-600">{{ task.userName || getUserName(task.userId) }}</td>
-                <td class="px-4 py-3 text-slate-500 text-xs">
-                  {{ task.dueDate ? (task.dueDate | date:'dd/MM/yyyy') : '—' }}
+                <td class="px-8 py-6 text-center">
+                  <span class="inline-block px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border {{ getStatusClass(task.status) }} bg-opacity-10">
+                    {{ task.status.replace('_', ' ') }}
+                  </span>
                 </td>
-                <td class="px-4 py-3 text-center">
-                  <button (click)="openEdit(task)"
-                    class="inline-flex items-center px-3 py-1.5 text-xs bg-amber-50 text-amber-700 border border-amber-200 rounded-md hover:bg-amber-100 transition-colors mr-1">
-                    ✏️ Sửa
-                  </button>
-                  <button (click)="deleteTask(task)"
-                    class="inline-flex items-center px-3 py-1.5 text-xs bg-red-50 text-red-700 border border-red-200 rounded-md hover:bg-red-100 transition-colors">
-                    🗑️ Xóa
-                  </button>
+                <td class="px-8 py-6 text-right">
+                  <span class="text-sm text-slate-400">{{ task.dueDate ? (task.dueDate | date:'mediumDate') : '—' }}</span>
+                </td>
+                <td class="px-8 py-6 text-center">
+                  <div class="flex gap-2 justify-center">
+                    <button (click)="openEdit(task)" class="w-8 h-8 rounded-lg glass glass-hover text-slate-300 hover:text-primary transition-colors flex items-center justify-center" title="Edit">
+                      <span class="material-symbols-outlined text-sm">edit</span>
+                    </button>
+                    <button (click)="deleteTask(task)" class="w-8 h-8 rounded-lg glass glass-hover text-slate-300 hover:text-rose-500 transition-colors flex items-center justify-center" title="Delete">
+                      <span class="material-symbols-outlined text-sm">delete</span>
+                    </button>
+                  </div>
                 </td>
               </tr>
             } @empty {
               <tr>
-                <td colspan="7" class="px-4 py-12 text-center text-slate-400">
-                  <div class="text-4xl mb-2"></div>
-                  <p>Không có task nào. Hãy thêm task đầu tiên!</p>
+                <td colspan="6" class="px-8 py-16 text-center">
+                  <div class="flex flex-col items-center justify-center opacity-50">
+                    <span class="material-symbols-outlined text-6xl text-slate-400 mb-4">inbox</span>
+                    <p class="text-slate-300 text-lg font-medium">No tasks found</p>
+                    <p class="text-slate-500 text-sm mt-1">Assign a new task to get started.</p>
+                  </div>
                 </td>
               </tr>
             }
           </tbody>
         </table>
       </div>
-    }
-  </div>
+    </section>
+  }
 </div>
 
 <!-- Modal Create / Edit Task -->
 @if (showModal) {
-  <div class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg">
-      <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100">
-        <h2 class="text-lg font-bold text-slate-800">
-          {{ editingTask ? '✏️ Chỉnh sửa Task' : '➕ Thêm Task mới' }}
+  <div class="fixed inset-0 bg-background-dark/80 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-fade-in">
+    <div class="glass rounded-2xl shadow-[0_0_50px_rgba(55,19,236,0.3)] w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh] border border-white/20">
+      
+      <div class="flex items-center justify-between px-8 py-6 border-b border-white/10 shrink-0 bg-white/5">
+        <h2 class="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary">{{ editingTask ? 'edit_square' : 'add_box' }}</span>
+          {{ editingTask ? 'Edit Task' : 'New Task' }}
         </h2>
-        <button (click)="closeModal()" class="text-slate-400 hover:text-slate-600 text-2xl leading-none">&times;</button>
+        <button (click)="closeModal()" class="w-8 h-8 rounded-full hover:bg-white/10 text-slate-400 hover:text-white flex items-center justify-center transition-colors">
+          <span class="material-symbols-outlined">close</span>
+        </button>
       </div>
 
-      <form [formGroup]="taskForm" (ngSubmit)="saveTask()" class="px-6 py-5 space-y-4">
-
+      <form [formGroup]="taskForm" (ngSubmit)="saveTask()" class="px-8 py-6 overflow-y-auto space-y-5">
         @if (errorMsg) {
-          <div class="bg-red-50 border border-red-200 text-red-600 text-sm px-3 py-2 rounded-lg">{{ errorMsg }}</div>
+          <div class="bg-rose-500/20 border border-rose-500/30 text-rose-300 text-sm px-4 py-3 rounded-xl flex items-center gap-2">
+            <span class="material-symbols-outlined text-sm">error</span> {{ errorMsg }}
+          </div>
         }
 
         <!-- Title -->
         <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">Tiêu đề <span class="text-red-500">*</span></label>
-          <input formControlName="title" type="text" placeholder="Nhập tiêu đề task..."
-            class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
-            [class.border-red-400]="f['title'].invalid && f['title'].touched" />
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Title <span class="text-rose-500">*</span></label>
+          <input formControlName="title" type="text" placeholder="Enter task title..."
+            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition"
+            [class.!border-rose-400]="f['title'].invalid && f['title'].touched" />
           @if (f['title'].invalid && f['title'].touched) {
-            <p class="text-red-500 text-xs mt-1">Tiêu đề không được để trống (ít nhất 3 ký tự).</p>
+            <p class="text-rose-400 text-xs mt-1.5 flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">info</span> Title is required (min 3 chars).</p>
           }
         </div>
 
         <!-- Description -->
         <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">Mô tả</label>
-          <textarea formControlName="description" rows="2" placeholder="Mô tả chi tiết..."
-            class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 transition resize-none"></textarea>
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Description</label>
+          <textarea formControlName="description" rows="3" placeholder="Task details..."
+            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition resize-none"></textarea>
         </div>
 
         <!-- Status + Priority row -->
-        <div class="grid grid-cols-2 gap-3">
+        <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">Trạng thái</label>
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Status</label>
             <select formControlName="status"
-              class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-400 transition">
-              @for (s of statusOptions; track s) { <option [value]="s">{{ s }}</option> }
+              class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition">
+              @for (s of statusOptions; track s) { <option class="text-slate-800" [value]="s">{{ s }}</option> }
             </select>
           </div>
           <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">Độ ưu tiên</label>
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Priority</label>
             <select formControlName="priority"
-              class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-400 transition">
-              @for (p of priorityOptions; track p) { <option [value]="p">{{ p }}</option> }
+              class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition">
+              @for (p of priorityOptions; track p) { <option class="text-slate-800" [value]="p">{{ p }}</option> }
             </select>
           </div>
         </div>
 
         <!-- User + DueDate row -->
-        <div class="grid grid-cols-2 gap-3">
+        <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">Người phụ trách <span class="text-red-500">*</span></label>
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Assignee <span class="text-rose-500">*</span></label>
             <select formControlName="userId"
-              class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
-              [class.border-red-400]="f['userId'].invalid && f['userId'].touched">
-              <option value="">-- Chọn user --</option>
+              class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition"
+              [class.!border-rose-400]="f['userId'].invalid && f['userId'].touched">
+              <option class="text-slate-800" value="">-- Select --</option>
               @for (user of users; track user.id) {
-                <option [value]="user.id">{{ user.name }}</option>
+                <option class="text-slate-800" [value]="user.id">{{ user.name }}</option>
               }
             </select>
             @if (f['userId'].invalid && f['userId'].touched) {
-              <p class="text-red-500 text-xs mt-1">Vui lòng chọn người phụ trách.</p>
+              <p class="text-rose-400 text-xs mt-1.5 flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">info</span> Please select an assignee.</p>
             }
           </div>
           <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">Hạn hoàn thành</label>
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Due Date</label>
             <input formControlName="dueDate" type="date"
-              class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 transition" />
+              class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition color-scheme-dark" />
           </div>
         </div>
 
-        <!-- Actions -->
-        <div class="flex gap-3 pt-2">
-          <button type="button" (click)="closeModal()"
-            class="flex-1 border border-slate-300 text-slate-600 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors">
-            Hủy
-          </button>
-          <button type="submit"
-            class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-2.5 rounded-lg text-sm font-medium transition-colors">
-            {{ editingTask ? 'Cập nhật' : 'Tạo mới' }}
-          </button>
-        </div>
       </form>
+
+      <!-- Actions -->
+      <div class="flex gap-4 px-8 py-6 border-t border-white/10 shrink-0 bg-white/5">
+        <button type="button" (click)="closeModal()"
+          class="flex-1 glass glass-hover border-white/20 text-white py-3 rounded-xl text-sm font-bold transition-colors">
+          Cancel
+        </button>
+        <button type="button" (click)="saveTask()"
+          class="flex-1 bg-primary hover:bg-blue-700 text-white py-3 rounded-xl text-sm font-bold transition-all shadow-[0_0_20px_rgba(55,19,236,0.4)] hover:shadow-[0_0_30px_rgba(55,19,236,0.6)]">
+          {{ editingTask ? 'Update Task' : 'Create Task' }}
+        </button>
+      </div>
     </div>
   </div>
 }
