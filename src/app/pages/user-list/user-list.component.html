@@ -56,52 +56,54 @@
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse min-w-[800px]">
           <thead>
-            <tr class="border-b border-slate-50 bg-slate-50/30">
-              <th class="px-8 py-8 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">ID</th>
-              <th class="px-12 py-8 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">Team Identity</th>
-              <th class="px-12 py-8 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">Channel</th>
-              <th class="px-12 py-8 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">Operational Role</th>
-              <th class="px-12 py-8 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600 text-right">Node Controls</th>
-            </tr>
+              <tr class="border-b border-slate-50/50">
+                <th class="px-8 py-5 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">ID</th>
+                <th class="px-12 py-5 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">Team Identity</th>
+                <th class="px-12 py-5 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">Channel</th>
+                <th class="px-12 py-5 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600 text-center">Operational Role</th>
+                <th class="px-12 py-5 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600 text-center">Commenced</th>
+                <th class="w-32 px-10 py-5 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600 text-right">Node Controls</th>
+              </tr>
           </thead>
           <tbody class="divide-y divide-slate-50">
             @for (user of users; track user.id) {
               <tr class="group hover:bg-slate-50/50 transition-all duration-500">
-                <td class="px-8 py-8">
-                  <span class="text-[10px] font-black text-slate-400 font-mono">#{{ user.id }}</span>
+                <td class="px-8 py-5">
+                  <span class="text-xs font-black text-slate-400 font-mono tracking-tighter">#{{ user.id }}</span>
                 </td>
-                <td class="px-12 py-8">
-                  <div class="flex items-center gap-6">
-                    <div class="size-14 rounded-[1.25rem] bg-white flex items-center justify-center text-primary font-black text-lg border border-slate-100 shadow-sm group-hover:scale-110 group-hover:shadow-md transition-all">
-                      {{ user.name.substring(0, 2).toUpperCase() }}
+                <td class="px-12 py-5">
+                  <div class="flex items-center gap-4">
+                    <div class="size-12 rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center text-primary font-black text-lg shadow-sm border border-slate-200/50">
+                      {{ user.name.substring(0, 1) }}
                     </div>
-                    <div>
-                      <p class="font-black text-slate-900 text-base leading-tight tracking-tight">{{ user.name }}</p>
-                    </div>
+                    <span class="text-base font-black text-slate-900 tracking-tight">{{ user.name }}</span>
                   </div>
                 </td>
-                <td class="px-12 py-8">
-                  <p class="text-sm text-slate-600 font-medium tracking-wide">{{ user.email }}</p>
+                <td class="px-12 py-5">
+                  <span class="text-sm font-medium text-slate-500">{{ user.email }}</span>
                 </td>
-                <td class="px-12 py-8">
-                  <span class="inline-flex px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest border border-blue-100 bg-blue-50 text-blue-600 shadow-sm">
+                <td class="px-12 py-5 text-center">
+                  <span class="px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-slate-100 text-slate-600 ring-1 ring-slate-200">
                     {{ user.role }}
                   </span>
                 </td>
-                <td class="px-12 py-8 text-right">
-                  <div class="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0">
-                    <button (click)="openEdit(user)" class="p-3 bg-white border border-slate-100 hover:bg-primary/5 text-slate-500 hover:text-primary rounded-2xl transition-all shadow-sm" title="Modify Access">
-                      <span class="material-symbols-outlined text-[20px]">manage_accounts</span>
+                <td class="px-12 py-5 text-center text-sm font-black text-slate-700">
+                  {{ user.createdAt | date:'yyyy-MM-dd' }}
+                </td>
+                <td class="px-10 py-5 text-right">
+                  <div class="flex items-center justify-end gap-3">
+                    <button (click)="openEdit(user)" class="size-10 rounded-2xl bg-slate-50 text-slate-400 hover:bg-primary hover:text-white transition-all flex items-center justify-center group">
+                      <span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform">person_edit</span>
                     </button>
-                    <button (click)="deleteUser(user)" class="p-3 bg-white border border-slate-100 hover:bg-rose-50 text-slate-500 hover:text-rose-500 rounded-2xl transition-all shadow-sm" title="Terminate Node">
-                      <span class="material-symbols-outlined text-[20px]">person_remove</span>
+                    <button (click)="deleteUser(user)" class="size-10 rounded-2xl bg-slate-50 text-slate-400 hover:bg-rose-500 hover:text-white transition-all flex items-center justify-center group">
+                      <span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform">person_remove</span>
                     </button>
                   </div>
                 </td>
               </tr>
             } @empty {
               <tr>
-                <td colspan="5" class="px-10 py-32 text-center">
+                <td colspan="6" class="px-10 py-32 text-center">
                   <div class="flex flex-col items-center">
                     <div class="size-28 bg-slate-50 rounded-[3rem] flex items-center justify-center mb-10 border border-slate-100 shadow-inner group/empty">
                       <span class="material-symbols-outlined text-6xl text-slate-400 group-hover:text-primary/20 transition-colors">diversity_3</span>
@@ -121,9 +123,9 @@
 
 <!-- Senior Refined User Modal (Consistent with Task Modal) -->
 @if (showModal) {
-  <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
-    <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-md animate-fade-in" (click)="closeModal()"></div>
-    <div class="relative bg-white w-full max-w-xl rounded-[3rem] shadow-2xl overflow-hidden animate-slide-up border border-slate-200/50">
+  <div class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8 animate-in fade-in duration-300">
+    <div (click)="closeModal()" class="absolute inset-0 bg-slate-900/40 backdrop-blur-xl"></div>
+    <div class="relative w-full max-w-xl max-h-[90vh] bg-white rounded-[3rem] shadow-2xl shadow-slate-900/20 overflow-y-auto overflow-x-hidden animate-in zoom-in-95 slide-in-from-bottom-10 duration-500 border border-slate-100 custom-scrollbar">
       
       <!-- Modal Header -->
       <div class="p-10 pb-8 border-b border-slate-50 flex items-center justify-between bg-slate-50/50">
