@@ -7,4 +7,10 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
   imports: [RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './app.html'
 })
-export class App {}
+export class App {
+  isSidebarCollapsed = false;
+
+  toggleSidebar(): void {
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
+}
