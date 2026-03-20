@@ -61,7 +61,6 @@
               <th class="px-12 py-8 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">Team Identity</th>
               <th class="px-12 py-8 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">Channel</th>
               <th class="px-12 py-8 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">Operational Role</th>
-              <th class="px-12 py-8 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">Activation Date</th>
               <th class="px-12 py-8 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600 text-right">Node Controls</th>
             </tr>
           </thead>
@@ -77,7 +76,7 @@
                       {{ user.name.substring(0, 2).toUpperCase() }}
                     </div>
                     <div>
-                      <p class="font-black text-slate-900 text-lg leading-tight tracking-tight">{{ user.name }}</p>
+                      <p class="font-black text-slate-900 text-base leading-tight tracking-tight">{{ user.name }}</p>
                     </div>
                   </div>
                 </td>
@@ -88,11 +87,6 @@
                   <span class="inline-flex px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest border border-blue-100 bg-blue-50 text-blue-600 shadow-sm">
                     {{ user.role }}
                   </span>
-                </td>
-                <td class="px-12 py-8">
-                  <p class="text-[10px] font-black text-slate-500 font-mono">
-                    {{ user.createdAt ? (user.createdAt | date:'yyyy-MM-dd HH:mm:ss') : '2026-03-18 08:34:29' }}
-                  </p>
                 </td>
                 <td class="px-12 py-8 text-right">
                   <div class="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0">
@@ -107,13 +101,13 @@
               </tr>
             } @empty {
               <tr>
-                <td colspan="6" class="px-12 py-36 text-center">
+                <td colspan="5" class="px-10 py-32 text-center">
                   <div class="flex flex-col items-center">
                     <div class="size-28 bg-slate-50 rounded-[3rem] flex items-center justify-center mb-10 border border-slate-100 shadow-inner group/empty">
                       <span class="material-symbols-outlined text-6xl text-slate-400 group-hover:text-primary/20 transition-colors">diversity_3</span>
                     </div>
-                    <h3 class="text-3xl font-black text-slate-900 mb-4 tracking-tight">Empty Roster</h3>
-                    <p class="text-slate-600 font-medium text-lg max-w-sm mx-auto leading-relaxed">No personnel discovered in current sector. Deploy new agents to initiate operations.</p>
+                    <h3 class="text-2xl font-black text-slate-900 mb-3 tracking-tight">Empty Roster</h3>
+                    <p class="text-slate-600 font-medium text-base max-w-sm mx-auto leading-relaxed">No personnel discovered in current sector. Deploy new agents to initiate operations.</p>
                   </div>
                 </td>
               </tr>

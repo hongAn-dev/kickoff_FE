@@ -95,16 +95,14 @@
         <table class="w-full text-left border-collapse min-w-[1400px]">
           <thead>
             <tr class="border-b border-slate-50 bg-slate-50/30">
-              <th class="px-8 py-7 text-[10px] font-black uppercase tracking-[0.25em] text-slate-600">ID</th>
-              <th class="px-10 py-7 text-[10px] font-black uppercase tracking-[0.25em] text-slate-600">Agent</th>
-              <th class="px-10 py-7 text-[10px] font-black uppercase tracking-[0.25em] text-slate-600">Task Intelligence</th>
-              <th class="px-10 py-7 text-[10px] font-black uppercase tracking-[0.25em] text-slate-600 text-center">Priority</th>
-              <th class="px-10 py-7 text-[10px] font-black uppercase tracking-[0.25em] text-slate-600 text-center">Status</th>
-              <th class="px-10 py-7 text-[10px] font-black uppercase tracking-[0.25em] text-slate-600">Target Date</th>
-              <th class="px-10 py-7 text-[10px] font-black uppercase tracking-[0.25em] text-slate-600">Time</th>
-              <th class="px-10 py-7 text-[10px] font-black uppercase tracking-[0.25em] text-slate-600">Created At</th>
-              <th class="px-10 py-7 text-[10px] font-black uppercase tracking-[0.25em] text-slate-600">Updated At</th>
-              <th class="px-10 py-7 text-[10px] font-black uppercase tracking-[0.25em] text-slate-600 text-right">Node Controls</th>
+              <th class="px-8 py-7 text-[11px] font-black uppercase tracking-[0.25em] text-slate-600">ID</th>
+              <th class="px-10 py-7 text-[11px] font-black uppercase tracking-[0.25em] text-slate-600">Agent</th>
+              <th class="px-10 py-7 text-[11px] font-black uppercase tracking-[0.25em] text-slate-600">Task Intelligence</th>
+              <th class="px-10 py-7 text-[11px] font-black uppercase tracking-[0.25em] text-slate-600 text-center">Priority</th>
+              <th class="px-10 py-7 text-[11px] font-black uppercase tracking-[0.25em] text-slate-600 text-center">Status</th>
+              <th class="px-10 py-7 text-[11px] font-black uppercase tracking-[0.25em] text-slate-600">Target Date</th>
+              <th class="px-10 py-7 text-[11px] font-black uppercase tracking-[0.25em] text-slate-600">Time</th>
+              <th class="px-10 py-7 text-[11px] font-black uppercase tracking-[0.25em] text-slate-600 text-right">Node Controls</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-50">
@@ -120,7 +118,7 @@
                     </div>
                     <div>
                       <p class="font-black text-slate-900 text-base leading-tight tracking-tight">{{ task.userName || getUserName(task.userId) }}</p>
-                      <p class="text-[9px] text-slate-600 font-black uppercase tracking-widest mt-1">ID CORE: {{ task.userId }}</p>
+                      <p class="text-[10px] text-slate-600 font-black uppercase tracking-widest mt-1">ID CORE: {{ task.userId }}</p>
                     </div>
                   </div>
                 </td>
@@ -129,16 +127,16 @@
                     {{ task.title }}
                   </p>
                   @if (task.description) {
-                    <p class="text-xs text-slate-600 font-medium line-clamp-1" [title]="task.description">{{ task.description }}</p>
+                    <p class="text-sm text-slate-600 font-medium line-clamp-1" [title]="task.description">{{ task.description }}</p>
                   }
                 </td>
                 <td class="px-10 py-7 text-center">
-                  <span class="inline-flex px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border shadow-sm" [ngClass]="getPriorityClass(task.priority)">
+                  <span class="inline-flex px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border shadow-sm" [ngClass]="getPriorityClass(task.priority)">
                     {{ task.priority }}
                   </span>
                 </td>
                 <td class="px-10 py-7 text-center">
-                  <span class="inline-flex px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border shadow-sm" [ngClass]="getStatusClass(task.status)">
+                  <span class="inline-flex px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border shadow-sm" [ngClass]="getStatusClass(task.status)">
                     {{ task.status.replace('_', ' ') }}
                   </span>
                 </td>
@@ -146,17 +144,7 @@
                   <span class="text-sm font-black text-slate-700 tracking-tight">{{ task.dueDate || '—' }}</span>
                 </td>
                 <td class="px-10 py-7">
-                  <span class="text-xs font-bold text-slate-600 font-mono">{{ task.dueTime || '—' }}</span>
-                </td>
-                <td class="px-10 py-7">
-                  <p class="text-[10px] font-black text-slate-400 font-mono">
-                    {{ task.createdAt ? (task.createdAt | date:'yyyy-MM-dd HH:mm:ss') : '2026-03-18 08:34:29' }}
-                  </p>
-                </td>
-                <td class="px-10 py-7">
-                  <p class="text-[10px] font-black text-slate-400 font-mono">
-                    {{ task.updatedAt ? (task.updatedAt | date:'yyyy-MM-dd HH:mm:ss') : '2026-03-18 08:34:29' }}
-                  </p>
+                  <span class="text-sm font-bold text-slate-600 font-mono">{{ task.dueTime || '—' }}</span>
                 </td>
                 <td class="px-10 py-7 text-center">
                   <div class="flex justify-center gap-2 opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0">
@@ -171,7 +159,7 @@
               </tr>
             } @empty {
               <tr>
-                <td colspan="10" class="px-10 py-32 text-center">
+                <td colspan="8" class="px-10 py-32 text-center">
                   <div class="flex flex-col items-center">
                     <div class="size-24 bg-slate-50 rounded-[2.5rem] flex items-center justify-center mb-8 border border-slate-100 shadow-inner group/empty">
                       <span class="material-symbols-outlined text-5xl text-slate-400 group-hover:text-primary/20 transition-colors">verified</span>
