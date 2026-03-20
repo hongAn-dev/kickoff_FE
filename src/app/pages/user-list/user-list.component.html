@@ -1,108 +1,119 @@
-<div class="h-full flex flex-col p-8 sm:p-10 space-y-8" data-purpose="main-content-area">
+<div data-purpose="blur-layer" class="p-8 lg:p-12 w-full animate-fade-in text-slate-900">
   
-  <!-- Header Row with Title and Button -->
-  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shrink-0">
-    <div>
-      <h1 class="text-3xl font-bold text-white tracking-tight flex items-center gap-3">
-        <span class="material-symbols-outlined text-primary text-4xl">group</span>
-        User Management
-      </h1>
-      <p class="text-slate-400 text-sm mt-1 flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        Total {{ users.length }} active personnel
+  <!-- Page Header & Actions -->
+  <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-10 mb-14">
+    <div class="space-y-4">
+      <div class="flex items-center gap-3">
+        <div class="h-1 w-12 bg-primary rounded-full"></div>
+        <p class="text-[11px] font-black text-slate-600 uppercase tracking-[0.4em]">Corporate Directory</p>
+      </div>
+      <h2 class="text-4xl lg:text-5xl font-black tracking-tight text-slate-900">Human Capital</h2>
+      <p class="text-slate-700 text-lg font-medium flex items-center gap-3">
+        Active synergy across <span class="bg-primary/10 text-primary px-3 py-1 rounded-xl text-sm font-black border border-primary/10 shadow-sm">{{ users.length }} team nodes</span>
       </p>
     </div>
-    
-    <button (click)="openCreate()" class="bg-primary hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(55,19,236,0.4)] hover:shadow-[0_0_30px_rgba(55,19,236,0.6)] flex items-center gap-2 group">
-      <span class="material-symbols-outlined group-hover:rotate-90 transition-transform">add</span> 
-      Add User
-    </button>
+    <div class="flex flex-wrap items-center gap-4">
+      <button (click)="loadUsers()"
+        class="flex-1 sm:flex-none h-14 px-8 bg-white border border-slate-200 rounded-2xl font-black text-[10px] uppercase tracking-widest text-slate-700 hover:text-primary hover:border-primary/50 transition-all flex items-center justify-center gap-3 shadow-sm group">
+        <span class="material-symbols-outlined text-xl transition-transform group-hover:rotate-180">sync</span> Pulse
+      </button>
+      <button (click)="openCreate()"
+        class="flex-1 sm:flex-none h-14 px-10 bg-primary text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:shadow-2xl hover:shadow-primary/40 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-3 shadow-xl shadow-primary/20">
+        <span class="material-symbols-outlined text-xl">person_add</span> Enlist Agent
+      </button>
+    </div>
   </div>
 
-  <!-- Alerts -->
+  <!-- Status Messages (Unified Design) -->
   @if (successMsg) {
-    <div class="glass border-emerald-500/30 bg-emerald-500/10 text-emerald-400 px-5 py-4 rounded-xl flex items-center gap-3 shrink-0 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
-      <span class="material-symbols-outlined">check_circle</span> {{ successMsg }}
+    <div class="mb-10 p-6 bg-emerald-50 border border-emerald-100 text-emerald-700 rounded-3xl flex items-center gap-5 animate-fade-in shadow-sm">
+      <div class="size-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center shadow-lg shadow-emerald-500/20">
+        <span class="material-symbols-outlined text-xl font-bold">check</span>
+      </div>
+      <span class="font-bold tracking-tight">{{ successMsg }}</span>
     </div>
   }
-  @if (errorMsg && !showModal) {
-    <div class="glass border-rose-500/30 bg-rose-500/10 text-rose-400 px-5 py-4 rounded-xl flex items-center gap-3 shrink-0 shadow-[0_0_15px_rgba(244,63,94,0.1)]">
-      <span class="material-symbols-outlined">error</span> {{ errorMsg }}
+  @if (errorMsg) {
+    <div class="mb-10 p-6 bg-rose-50 border border-rose-100 text-rose-700 rounded-3xl flex items-center gap-5 animate-fade-in shadow-sm">
+      <div class="size-10 rounded-xl bg-rose-500 text-white flex items-center justify-center shadow-lg shadow-rose-500/20">
+        <span class="material-symbols-outlined text-xl font-bold">warning</span>
+      </div>
+      <span class="font-bold tracking-tight">{{ errorMsg }}</span>
     </div>
   }
 
-  <!-- Loading -->
+  <!-- Loading State (Consistent) -->
   @if (loading) {
-    <div class="flex flex-col justify-center items-center py-24 flex-1">
-      <div class="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent shadow-[0_0_20px_rgba(55,19,236,0.5)]"></div>
-      <span class="mt-4 text-primary font-bold tracking-widest uppercase animate-pulse text-sm">Synchronizing...</span>
+    <div class="flex flex-col items-center justify-center py-44 bg-white/50 backdrop-blur-sm rounded-[3rem] border-2 border-dashed border-slate-200 mb-10">
+      <div class="size-24 border-4 border-slate-200 border-t-primary rounded-full animate-spin mb-8 shadow-inner"></div>
+      <p class="text-slate-800 font-black tracking-[0.4em] uppercase text-[10px]">Indexing Personnel Matrix...</p>
     </div>
   }
 
+  <!-- Standardized Team Table View -->
   @if (!loading) {
-    <!-- Data Table Container -->
-    <div class="glass rounded-2xl overflow-hidden flex-1 flex flex-col min-h-0 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-      <div class="overflow-y-auto w-full h-full relative">
+    <div class="bg-white rounded-[3rem] border border-slate-200 overflow-hidden mb-10">
+      <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse min-w-[800px]">
-          <thead class="bg-white/5 border-b border-white/10 sticky top-0 z-10 backdrop-blur-md">
-            <tr>
-              <th class="px-6 py-5 text-xs font-bold uppercase tracking-[0.15em] text-slate-400 w-16 text-center">ID</th>
-              <th class="px-6 py-5 text-xs font-bold uppercase tracking-[0.15em] text-slate-400">Personnel</th>
-              <th class="px-6 py-5 text-xs font-bold uppercase tracking-[0.15em] text-slate-400">Contact</th>
-              <th class="px-6 py-5 text-xs font-bold uppercase tracking-[0.15em] text-slate-400 text-center">Security Level</th>
-              <th class="px-6 py-5 text-xs font-bold uppercase tracking-[0.15em] text-slate-400 text-right">Created</th>
-              <th class="px-6 py-5 text-xs font-bold uppercase tracking-[0.15em] text-slate-400 text-center w-32">Actions</th>
+          <thead>
+            <tr class="border-b border-slate-50 bg-slate-50/30">
+              <th class="px-8 py-8 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">ID</th>
+              <th class="px-12 py-8 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">Team Identity</th>
+              <th class="px-12 py-8 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">Channel</th>
+              <th class="px-12 py-8 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">Operational Role</th>
+              <th class="px-12 py-8 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">Activation Date</th>
+              <th class="px-12 py-8 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600 text-right">Node Controls</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-white/5">
-            @for (user of users; track user.id; let i = $index) {
-              <tr class="glass-hover transition-colors group">
-                <td class="px-6 py-5 text-center text-slate-500 font-mono text-xs">{{ user.id }}</td>
-                <td class="px-6 py-5">
-                  <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 rounded-xl border border-white/10 p-0 flex items-center justify-center bg-gradient-to-br from-primary/30 to-purple-600/30 text-white font-bold text-sm shadow-[0_0_10px_rgba(255,255,255,0.05)] overflow-hidden">
-                      {{ user.name.charAt(0).toUpperCase() }}
+          <tbody class="divide-y divide-slate-50">
+            @for (user of users; track user.id) {
+              <tr class="group hover:bg-slate-50/50 transition-all duration-500">
+                <td class="px-8 py-8">
+                  <span class="text-[10px] font-black text-slate-400 font-mono">#{{ user.id }}</span>
+                </td>
+                <td class="px-12 py-8">
+                  <div class="flex items-center gap-6">
+                    <div class="size-14 rounded-[1.25rem] bg-white flex items-center justify-center text-primary font-black text-lg border border-slate-100 shadow-sm group-hover:scale-110 group-hover:shadow-md transition-all">
+                      {{ user.name.substring(0, 2).toUpperCase() }}
                     </div>
                     <div>
-                      <p class="text-sm font-semibold text-white group-hover:text-primary-100 transition-colors">{{ user.name }}</p>
+                      <p class="font-black text-slate-900 text-lg leading-tight tracking-tight">{{ user.name }}</p>
                     </div>
                   </div>
                 </td>
-                <td class="px-6 py-5">
-                  <div class="flex items-center gap-2 text-slate-400">
-                    <span class="material-symbols-outlined text-[16px]">mail</span>
-                    <span class="text-sm">{{ user.email }}</span>
-                  </div>
+                <td class="px-12 py-8">
+                  <p class="text-sm text-slate-600 font-medium tracking-wide">{{ user.email }}</p>
                 </td>
-                <td class="px-6 py-5 text-center">
-                  <span class="inline-flex items-center px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest border border-indigo-400/30 bg-indigo-500/10 text-indigo-300">
-                    <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 mr-2"></span>
+                <td class="px-12 py-8">
+                  <span class="inline-flex px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest border border-blue-100 bg-blue-50 text-blue-600 shadow-sm">
                     {{ user.role }}
                   </span>
                 </td>
-                <td class="px-6 py-5 text-right text-slate-400 text-sm font-mono">
-                  {{ user.createdAt ? (user.createdAt | date:'dd/MM/yyyy HH:mm') : '—' }}
+                <td class="px-12 py-8">
+                  <p class="text-[10px] font-black text-slate-500 font-mono">
+                    {{ user.createdAt ? (user.createdAt | date:'yyyy-MM-dd HH:mm:ss') : '2026-03-18 08:34:29' }}
+                  </p>
                 </td>
-                <td class="px-6 py-5 text-center">
-                  <div class="flex gap-2 justify-center opacity-70 group-hover:opacity-100 transition-opacity">
-                    <button (click)="openEdit(user)" class="w-8 h-8 rounded-lg glass glass-hover text-slate-300 hover:text-primary hover:border-primary/50 transition-colors flex items-center justify-center pointer-events-auto" title="Edit">
-                      <span class="material-symbols-outlined text-sm">edit</span>
+                <td class="px-12 py-8 text-right">
+                  <div class="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0">
+                    <button (click)="openEdit(user)" class="p-3 bg-white border border-slate-100 hover:bg-primary/5 text-slate-500 hover:text-primary rounded-2xl transition-all shadow-sm" title="Modify Access">
+                      <span class="material-symbols-outlined text-[20px]">manage_accounts</span>
                     </button>
-                    <button (click)="deleteUser(user)" class="w-8 h-8 rounded-lg glass glass-hover text-slate-300 hover:text-rose-400 hover:border-rose-400/50 hover:bg-rose-500/10 transition-colors flex items-center justify-center pointer-events-auto" title="Delete">
-                      <span class="material-symbols-outlined text-sm">delete</span>
+                    <button (click)="deleteUser(user)" class="p-3 bg-white border border-slate-100 hover:bg-rose-50 text-slate-500 hover:text-rose-500 rounded-2xl transition-all shadow-sm" title="Terminate Node">
+                      <span class="material-symbols-outlined text-[20px]">person_remove</span>
                     </button>
                   </div>
                 </td>
               </tr>
             } @empty {
               <tr>
-                <td colspan="6" class="px-6 py-20 text-center">
-                  <div class="flex flex-col items-center justify-center opacity-50">
-                    <div class="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mb-4 border border-white/10">
-                      <span class="material-symbols-outlined text-4xl text-slate-400">group_off</span>
+                <td colspan="6" class="px-12 py-36 text-center">
+                  <div class="flex flex-col items-center">
+                    <div class="size-28 bg-slate-50 rounded-[3rem] flex items-center justify-center mb-10 border border-slate-100 shadow-inner group/empty">
+                      <span class="material-symbols-outlined text-6xl text-slate-400 group-hover:text-primary/20 transition-colors">diversity_3</span>
                     </div>
-                    <p class="text-slate-300 text-lg font-medium">No personnel found</p>
-                    <p class="text-slate-500 text-sm mt-1">Initiate system by adding the first user.</p>
+                    <h3 class="text-3xl font-black text-slate-900 mb-4 tracking-tight">Empty Roster</h3>
+                    <p class="text-slate-600 font-medium text-lg max-w-sm mx-auto leading-relaxed">No personnel discovered in current sector. Deploy new agents to initiate operations.</p>
                   </div>
                 </td>
               </tr>
@@ -114,92 +125,89 @@
   }
 </div>
 
-<!-- Modal Create / Edit User -->
+<!-- Senior Refined User Modal (Consistent with Task Modal) -->
 @if (showModal) {
-  <div class="fixed inset-0 bg-background-dark/80 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-fade-in">
-    <div class="glass rounded-2xl shadow-[0_0_60px_rgba(55,19,236,0.25)] w-full max-w-md overflow-hidden flex flex-col border border-white/20">
+  <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-md animate-fade-in" (click)="closeModal()"></div>
+    <div class="relative bg-white w-full max-w-xl rounded-[3rem] shadow-2xl overflow-hidden animate-slide-up border border-slate-200/50">
       
       <!-- Modal Header -->
-      <div class="flex items-center justify-between px-8 py-6 border-b border-white/10 shrink-0 bg-white/5 relative overflow-hidden">
-        <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary/20 rounded-full blur-2xl"></div>
-        <h2 class="text-xl font-bold text-white tracking-tight flex items-center gap-2 relative z-10">
-          <span class="material-symbols-outlined text-primary">{{ editingUser ? 'manage_accounts' : 'person_add' }}</span>
-          {{ editingUser ? 'Modify Record' : 'New Personnel' }}
-        </h2>
-        <button (click)="closeModal()" class="w-8 h-8 rounded-full hover:bg-white/10 text-slate-400 hover:text-white flex items-center justify-center transition-colors relative z-10">
-          <span class="material-symbols-outlined text-[20px]">close</span>
+      <div class="p-10 pb-8 border-b border-slate-50 flex items-center justify-between bg-slate-50/50">
+        <div class="flex items-center gap-5">
+          <div class="size-14 bg-primary text-white rounded-[1.25rem] flex items-center justify-center shadow-lg shadow-primary/30">
+            <span class="material-symbols-outlined text-3xl">{{ editingUser ? 'person_edit' : 'person_add' }}</span>
+          </div>
+          <div>
+            <h3 class="text-2xl font-black text-slate-900 tracking-tight leading-none">
+              {{ editingUser ? 'Update Profile' : 'Enlist Agent' }}
+            </h3>
+            <p class="text-[10px] text-slate-600 font-black uppercase tracking-[0.3em] mt-2">Personnel Department • Secure</p>
+          </div>
+        </div>
+        <button (click)="closeModal()" class="size-12 flex items-center justify-center bg-white border border-slate-100 text-slate-500 hover:text-slate-800 hover:border-slate-300 rounded-2xl transition-all shadow-sm">
+          <span class="material-symbols-outlined text-2xl">close</span>
         </button>
       </div>
-
-      <!-- Modal Body -->
-      <form [formGroup]="userForm" (ngSubmit)="saveUser()" class="px-8 py-6 overflow-y-auto space-y-6">
+      
+      <form [formGroup]="userForm" (ngSubmit)="saveUser()" class="p-10 space-y-8">
         @if (errorMsg) {
-          <div class="bg-rose-500/10 border border-rose-500/30 text-rose-400 text-sm px-4 py-3 rounded-xl flex items-center gap-2">
-            <span class="material-symbols-outlined text-sm">error</span> {{ errorMsg }}
+          <div class="p-5 bg-rose-50 border border-rose-100 text-rose-600 rounded-2xl text-xs font-bold leading-relaxed flex items-center gap-3">
+            <span class="material-symbols-outlined text-rose-400">report</span>
+            {{ errorMsg }}
           </div>
         }
 
-        <!-- Name -->
-        <div>
-          <label class="block text-xs font-bold text-slate-400 uppercase tracking-[0.15em] mb-2">Full Name <span class="text-rose-500">*</span></label>
-          <div class="relative">
-            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-[18px]">badge</span>
-            <input formControlName="name" type="text" placeholder="John Doe"
-              class="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition"
-              [class.!border-rose-400]="f['name'].invalid && f['name'].touched" />
+        <div class="space-y-6">
+          <div class="space-y-4">
+            <label class="block text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] ml-1">Full Legal Name</label>
+            <div class="relative">
+              <input type="text" formControlName="name" placeholder="Agent's full name..."
+                class="w-full bg-slate-50 border-2 border-transparent rounded-[1.25rem] px-14 py-4.5 text-base font-bold focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/5 outline-none transition-all placeholder:text-slate-500 text-slate-900">
+              <span class="material-symbols-outlined absolute left-6 top-1/2 -translate-y-1/2 text-slate-500">badge</span>
+            </div>
+            @if (f['name'].touched && f['name'].invalid) {
+              <p class="text-[10px] text-rose-500 font-black mt-2 ml-1">Identity verification failed: Name required</p>
+            }
           </div>
-          @if (f['name'].invalid && f['name'].touched) {
-            <p class="text-rose-400 text-xs mt-2 flex items-center gap-1">
-              <span class="material-symbols-outlined text-[14px]">info</span>
-              @if (f['name'].errors?.['required']) { Name is required. }
-              @if (f['name'].errors?.['minlength']) { Name must be at least 2 characters. }
-            </p>
-          }
+          
+          <div class="space-y-4">
+            <label class="block text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] ml-1">Communication Channel</label>
+            <div class="relative">
+              <input type="email" formControlName="email" placeholder="agent@corpconnect.cloud"
+                class="w-full bg-slate-50 border-2 border-transparent rounded-[1.25rem] px-14 py-4.5 text-base font-bold focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/5 outline-none transition-all placeholder:text-slate-500 text-slate-900">
+              <span class="material-symbols-outlined absolute left-6 top-1/2 -translate-y-1/2 text-slate-500">alternate_email</span>
+            </div>
+            @if (f['email'].touched && f['email'].invalid) {
+              <p class="text-[10px] text-rose-500 font-black mt-2 ml-1">Routing error: Invalid email format</p>
+            }
+          </div>
+          
+          <div class="space-y-4">
+            <label class="block text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] ml-1">Operational Role Hierarchy</label>
+            <div class="relative">
+              <select formControlName="role" 
+                class="w-full bg-slate-50 border-2 border-transparent rounded-[1.25rem] px-6 py-4.5 text-sm font-black text-slate-800 focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/5 outline-none transition-all appearance-none cursor-pointer">
+                @for (role of roles; track role) {
+                  <option [value]="role">{{ role }}</option>
+                }
+              </select>
+              <span class="material-symbols-outlined absolute right-6 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none">expand_more</span>
+            </div>
+          </div>
         </div>
 
-        <!-- Email -->
-        <div>
-          <label class="block text-xs font-bold text-slate-400 uppercase tracking-[0.15em] mb-2">Email Address <span class="text-rose-500">*</span></label>
-          <div class="relative">
-            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-[18px]">mail</span>
-            <input formControlName="email" type="email" placeholder="john.doe@quantum.co"
-              class="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition"
-              [class.!border-rose-400]="f['email'].invalid && f['email'].touched" />
-          </div>
-          @if (f['email'].invalid && f['email'].touched) {
-            <p class="text-rose-400 text-xs mt-2 flex items-center gap-1">
-              <span class="material-symbols-outlined text-[14px]">info</span> Invalid email format.
-            </p>
-          }
-        </div>
-
-        <!-- Role -->
-        <div>
-          <label class="block text-xs font-bold text-slate-400 uppercase tracking-[0.15em] mb-2">Security Clearance <span class="text-rose-500">*</span></label>
-          <div class="relative">
-            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-[18px]">admin_panel_settings</span>
-            <select formControlName="role"
-              class="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition appearance-none">
-              @for (role of roles; track role) {
-                <option class="text-slate-800" [value]="role">{{ role }}</option>
-              }
-            </select>
-            <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none text-[18px]">expand_more</span>
-          </div>
+        <div class="pt-6 flex gap-6">
+          <button type="button" (click)="closeModal()"
+            class="flex-1 py-5 bg-white border border-slate-200 text-slate-700 font-black uppercase tracking-[0.2em] text-[10px] rounded-[1.5rem] hover:bg-slate-50 transition-all shadow-sm">
+            Discard Changes
+          </button>
+          <button type="submit" [disabled]="loading"
+            class="flex-[1.8] py-5 bg-primary text-white font-black uppercase tracking-[0.2em] text-[10px] rounded-[1.5rem] shadow-xl shadow-primary/30 hover:shadow-primary/40 hover:-translate-y-0.5 disabled:opacity-50 transition-all flex items-center justify-center gap-3">
+            @if (loading) { <span class="size-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></span> }
+            {{ editingUser ? 'Verify & Commit' : 'Deploy Agent' }}
+          </button>
         </div>
       </form>
-
-      <!-- Modal Footer actions -->
-      <div class="flex gap-4 px-8 py-6 border-t border-white/10 shrink-0 bg-white/5">
-        <button type="button" (click)="closeModal()"
-          class="flex-1 glass glass-hover border-white/20 text-white py-3 rounded-xl text-sm font-bold transition-colors">
-          Abort
-        </button>
-        <button type="button" (click)="saveUser()"
-          class="flex-1 bg-primary hover:bg-blue-700 text-white py-3 rounded-xl text-sm font-bold transition-all shadow-[0_0_20px_rgba(55,19,236,0.4)] hover:shadow-[0_0_30px_rgba(55,19,236,0.6)]">
-          {{ editingUser ? 'Commit Changes' : 'Initialize User' }}
-        </button>
-      </div>
     </div>
   </div>
 }

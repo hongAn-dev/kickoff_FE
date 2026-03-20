@@ -2,7 +2,6 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { TaskService } from '../../core/services/task.service';
 import { UserService } from '../../core/services/user.service';
 import { Task, TaskFilter, TaskPriority, TaskStatus, CreateTaskRequest, UpdateTaskRequest } from '../../core/models/task.model';
@@ -11,7 +10,7 @@ import { User } from '../../core/models/user.model';
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './task-list.component.html',
 })
 export class TaskListComponent implements OnInit {
@@ -43,6 +42,7 @@ export class TaskListComponent implements OnInit {
       status: ['TODO', Validators.required],
       priority: ['MEDIUM', Validators.required],
       dueDate: [''],
+      dueTime: [''],
       userId: ['', Validators.required],
     });
   }
@@ -98,6 +98,7 @@ export class TaskListComponent implements OnInit {
     this.editingTask = null;
     this.taskForm.reset({ status: 'TODO', priority: 'MEDIUM' });
     this.showModal = true;
+    document.body.classList.add('modal-open');
     this.errorMsg = '';
   }
 
@@ -109,14 +110,17 @@ export class TaskListComponent implements OnInit {
       status: task.status,
       priority: task.priority,
       dueDate: task.dueDate || '',
+      dueTime: task.dueTime || '',
       userId: task.userId,
     });
     this.showModal = true;
+    document.body.classList.add('modal-open');
     this.errorMsg = '';
   }
 
   closeModal(): void {
     this.showModal = false;
+    document.body.classList.remove('modal-open');
     this.editingTask = null;
     this.taskForm.reset({ status: 'TODO', priority: 'MEDIUM' });
   }
@@ -133,6 +137,7 @@ export class TaskListComponent implements OnInit {
       status: TaskStatus;
       priority: TaskPriority;
       dueDate: string;
+      dueTime: string;
       userId: string;
     };
 
@@ -143,6 +148,7 @@ export class TaskListComponent implements OnInit {
         status: formValue.status,
         priority: formValue.priority,
         dueDate: formValue.dueDate,
+        dueTime: formValue.dueTime,
       };
       this.taskService.update(this.editingTask.id, updateRequest).subscribe({
         next: () => {
@@ -159,6 +165,7 @@ export class TaskListComponent implements OnInit {
         status: formValue.status,
         priority: formValue.priority,
         dueDate: formValue.dueDate,
+        dueTime: formValue.dueTime,
         userId: +formValue.userId,
       };
       this.taskService.create(createRequest).subscribe({
@@ -185,20 +192,20 @@ export class TaskListComponent implements OnInit {
 
   getStatusClass(status: TaskStatus): string {
     const map: Record<TaskStatus, string> = {
-      TODO: 'bg-yellow-100 text-yellow-700 border-yellow-200',
-      IN_PROGRESS: 'bg-blue-100 text-blue-700 border-blue-200',
-      DONE: 'bg-green-100 text-green-700 border-green-200',
-      CANCELLED: 'bg-gray-100 text-gray-700 border-gray-200',
-      OVERDUE: 'bg-red-100 text-red-700 border-red-200',
+      TODO: 'bg-slate-50 text-slate-500 border-slate-100',
+      IN_PROGRESS: 'bg-blue-50 text-blue-600 border-blue-100',
+      DONE: 'bg-emerald-50 text-emerald-600 border-emerald-100',
+      CANCELLED: 'bg-slate-100 text-slate-400 border-slate-200',
+      OVERDUE: 'bg-rose-50 text-rose-600 border-rose-100',
     };
     return map[status] ?? '';
   }
 
   getPriorityClass(priority: TaskPriority): string {
     const map: Record<TaskPriority, string> = {
-      LOW: 'bg-slate-100 text-slate-600 border-slate-200',
-      MEDIUM: 'bg-orange-100 text-orange-700 border-orange-200',
-      HIGH: 'bg-red-100 text-red-700 border-red-200',
+      LOW: 'bg-slate-50 text-slate-400 border-slate-100',
+      MEDIUM: 'bg-blue-50 text-blue-500 border-blue-100',
+      HIGH: 'bg-amber-50 text-amber-600 border-amber-100',
     };
     return map[priority] ?? '';
   }

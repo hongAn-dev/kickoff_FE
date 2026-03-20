@@ -1,19 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #3713ec;
-  --color-background-light: #f6f6f8;
-  --color-background-dark: #0a0817;
+  --color-primary: #2463eb;
+  --color-background-light: #f8fafc;
+  --color-background-dark: #111621;
 
-  /* Keep legacy variables pointing to new palette to avoid breaking un-migrated parts */
-  --color-brand-navy: #3713ec;
-  --color-brand-slate: rgba(255, 255, 255, 0.1);
-  --color-brand-charcoal: #0a0817;
+  /* Legacy variable updates */
+  --color-brand-navy: #2463eb;
+  --color-brand-slate: #f1f5f9;
+  --color-brand-charcoal: #0f172a;
 
-  --font-display: "Space Grotesk", sans-serif;
-  --font-sans: "Space Grotesk", sans-serif;
+  --font-display: "Inter", sans-serif;
+  --font-sans: "Inter", sans-serif;
 }
 
 *, *::before, *::after {
@@ -23,10 +23,8 @@
 body {
   margin: 0;
   font-family: var(--font-display);
-  background: radial-gradient(circle at top right, rgba(55, 19, 236, 0.15), transparent),
-              radial-gradient(circle at bottom left, rgba(123, 31, 162, 0.15), transparent),
-              var(--color-background-dark);
-  color: #f1f5f9;
+  background-color: var(--color-background-light);
+  color: #0f172a;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
 }
@@ -34,8 +32,7 @@ body {
 /* SPA smooth scroll */
 html {
   scroll-behavior: smooth;
-  /* Dark mode class to enable tailwind dark utilities if needed */
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 /* Glassmorphism Utilities */
@@ -61,21 +58,83 @@ html {
   transition: all 0.2s ease;
 }
 
-/* Fade-in animation for modals */
+/* Senior UI Animations */
 @keyframes fade-in {
-  from { opacity: 0; transform: scale(0.97); }
-  to   { opacity: 1; transform: scale(1); }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(20px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes shift-right {
+  from { transform: translateX(-10px); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
 .animate-fade-in {
-  animation: fade-in 0.15s ease-out;
+  animation: fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-shift-right {
+  animation: shift-right 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Global Focus & Scrollbar Refinement */
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1;
 }
 
 /* Line clamp utility */
 .line-clamp-1 {
   display: -webkit-box;
   -webkit-line-clamp: 1;
-  line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* Modal Open Focus Blur Effect */
+body.modal-open aside,
+body.modal-open header,
+body.modal-open [data-purpose="blur-layer"] {
+  filter: blur(12px) brightness(0.9);
+  pointer-events: none;
+  transition: filter 0.5s cubic-bezier(0.16, 1, 0.3, 1), brightness 0.5s ease;
+  user-select: none;
+}
+
+/* Ensure modal stays sharp */
+.fixed.inset-0.z-50 {
+  backdrop-filter: none !important; /* Managed by layer blur */
+}
+
+/* Hide focus ring on mouse click but keep on keyboard tab */
+:focus:not(:focus-visible) {
+  outline: none;
 }
 

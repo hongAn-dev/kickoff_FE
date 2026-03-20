@@ -46,18 +46,20 @@ export class TaskDetailComponent implements OnInit {
 
   getStatusClass(status: string): string {
     const map: Record<string, string> = {
-      TODO: 'bg-yellow-100 text-yellow-700 border-yellow-200',
-      DOING: 'bg-blue-100 text-blue-700 border-blue-200',
-      DONE: 'bg-green-100 text-green-700 border-green-200',
+      TODO: 'bg-slate-50 text-slate-500 border-slate-100',
+      IN_PROGRESS: 'bg-blue-50 text-blue-600 border-blue-100',
+      DONE: 'bg-emerald-50 text-emerald-600 border-emerald-100',
+      CANCELLED: 'bg-slate-100 text-slate-400 border-slate-200',
+      OVERDUE: 'bg-rose-50 text-rose-600 border-rose-100',
     };
     return map[status] ?? '';
   }
 
   getPriorityClass(priority: string): string {
     const map: Record<string, string> = {
-      LOW: 'bg-slate-100 text-slate-600 border-slate-200',
-      MEDIUM: 'bg-orange-100 text-orange-700 border-orange-200',
-      HIGH: 'bg-red-100 text-red-700 border-red-200',
+      LOW: 'bg-slate-50 text-slate-400 border-slate-100',
+      MEDIUM: 'bg-blue-50 text-blue-500 border-blue-100',
+      HIGH: 'bg-amber-50 text-amber-600 border-amber-100',
     };
     return map[priority] ?? '';
   }

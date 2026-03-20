@@ -1,104 +1,132 @@
 <!-- Decorative Gradients Layered -->
-<div class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 blur-[120px] rounded-full pointer-events-none z-0"></div>
-<div class="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-600/10 blur-[120px] rounded-full pointer-events-none z-0"></div>
+<div
+  class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 blur-[120px] rounded-full pointer-events-none z-0">
+</div>
+<div
+  class="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-600/10 blur-[120px] rounded-full pointer-events-none z-0">
+</div>
 
-<!-- BEGIN: Sidebar & Layout Container -->
-<div class="flex h-screen overflow-hidden relative z-10 text-slate-100 selection:bg-primary/30">
-  
-  <!-- BEGIN: Sidebar Navigation -->
-  <aside class="w-72 glass border-r border-white/10 flex flex-col z-20 shrink-0" data-purpose="sidebar-navigation">
-    <div class="p-8 flex items-center gap-3">
-      <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center shadow-lg shadow-primary/20">
-        <span class="material-symbols-outlined text-white">rocket_launch</span>
+<!-- Main Layout Container -->
+<div class="flex h-screen overflow-hidden relative z-10 text-slate-900 selection:bg-primary/30 bg-slate-50">
+
+  <!-- Optimized Sidebar -->
+  <aside class="w-72 bg-white border-r border-slate-200 flex flex-col z-20 shrink-0 shadow-sm"
+    data-purpose="sidebar-navigation">
+    <div class="p-8 flex items-center gap-4">
+      <div
+        class="w-11 h-11 rounded-xl bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center shadow-lg shadow-primary/25">
+        <span class="material-symbols-outlined text-white text-2xl">rocket_launch</span>
       </div>
-      <div>
-        <h1 class="text-xl font-bold tracking-tight text-white">FutureHR</h1>
-        <p class="text-xs text-slate-400 font-medium">Quantum Core v2.0</p>
+      <div class="space-y-0.5">
+        <h1 class="text-xl font-black tracking-tight text-slate-900 uppercase">Future<span
+            class="text-primary">HR</span></h1>
+        <p class="text-[9px] text-slate-900 font-black uppercase tracking-[0.2em]">Quantum Core v2</p>
       </div>
     </div>
-    
-    <nav class="flex-1 px-4 space-y-2 mt-4">
-      <a routerLink="/tasks" routerLinkActive="sidebar-active text-white"
-         class="flex items-center gap-3 px-4 py-3 rounded-xl glass-hover text-slate-400 hover:text-white transition-all group">
-        <span class="material-symbols-outlined group-[.sidebar-active]:text-primary group-hover:scale-110 transition-transform">grid_view</span>
-        <span class="font-medium text-sm">Dashboard</span>
+
+    <nav class="flex-1 px-4 space-y-1.5 mt-6">
+      <a routerLink="/tasks" routerLinkActive="bg-primary/10 text-primary shadow-sm !text-primary"
+        class="flex items-center gap-3 px-5 py-3.5 rounded-2xl text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all group relative overflow-hidden">
+        <span class="material-symbols-outlined group-hover:scale-110 transition-transform text-slate-400 group-hover:text-primary">grid_view</span>
+        <span class="font-bold text-sm">Dashboard Overview</span>
       </a>
-      
-      <a routerLink="/users" routerLinkActive="sidebar-active text-white"
-         class="flex items-center gap-3 px-4 py-3 rounded-xl glass-hover text-slate-400 hover:text-white transition-all group">
-        <span class="material-symbols-outlined group-[.sidebar-active]:text-primary group-hover:scale-110 transition-transform">group</span>
-        <span class="font-medium text-sm">Employees</span>
+
+      <a routerLink="/users" routerLinkActive="bg-primary/10 text-primary shadow-sm !text-primary"
+        class="flex items-center gap-3 px-5 py-3.5 rounded-2xl text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all group">
+        <span class="material-symbols-outlined group-hover:scale-110 transition-transform text-slate-400 group-hover:text-primary">group</span>
+        <span class="font-bold text-sm">Team Management</span>
       </a>
-      
-      <div class="pt-8 px-4">
-        <p class="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-bold mb-4">Support</p>
+
+      <div class="pt-10 pb-4 px-5">
+        <p class="text-[10px] uppercase tracking-[0.3em] text-slate-800 font-black">System Terminal</p>
       </div>
-      
-      <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl glass-hover text-slate-400 hover:text-white transition-all group">
-        <span class="material-symbols-outlined group-hover:scale-110 transition-transform">settings</span>
-        <span class="font-medium text-sm">Settings</span>
+
+      <a href="#"
+        class="flex items-center gap-3 px-5 py-3.5 rounded-2xl text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all group">
+        <span class="material-symbols-outlined group-hover:scale-110 transition-transform text-slate-400 group-hover:text-primary">settings</span>
+        <span class="font-bold text-sm">Core Settings</span>
       </a>
-      <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl glass-hover text-slate-400 hover:text-white transition-all group">
-        <span class="material-symbols-outlined group-hover:scale-110 transition-transform">help_outline</span>
-        <span class="font-medium text-sm">Help Center</span>
+      <a href="#"
+        class="flex items-center gap-3 px-5 py-3.5 rounded-2xl text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all group">
+        <span class="material-symbols-outlined group-hover:scale-110 transition-transform text-slate-400 group-hover:text-primary">help_outline</span>
+        <span class="font-bold text-sm">Technical Support</span>
       </a>
     </nav>
-    
-    <div class="p-6">
-      <div class="glass rounded-2xl p-4 bg-primary/5 border-primary/20">
-        <p class="text-xs text-slate-400 mb-2 font-medium">Storage Usage</p>
-        <div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden mb-2">
-          <div class="h-full bg-primary w-[72%] rounded-full shadow-[0_0_10px_rgba(55,19,236,0.5)]"></div>
+
+    <!-- Sidebar Footer with Usage Metrics -->
+    <div class="p-6 mt-auto">
+      <div class="bg-slate-50 rounded-[2rem] p-5 border border-slate-100 shadow-inner">
+        <div class="flex justify-between items-center mb-3 px-1">
+          <p class="text-[10px] text-slate-600 font-black uppercase tracking-widest">Storage Status</p>
+          <p class="text-[10px] text-primary font-black">72%</p>
         </div>
-        <p class="text-[10px] text-right text-slate-400 font-medium">72% of 10GB</p>
+        <div class="h-2 w-full bg-slate-200 rounded-full overflow-hidden mb-3">
+          <div class="h-full bg-primary w-[72%] rounded-full shadow-[0_0_8px_rgba(36,99,235,0.4)]"></div>
+        </div>
+        <p class="text-[9px] text-slate-600 font-bold text-center">7.2GB / 10GB Utilized</p>
       </div>
     </div>
   </aside>
-  <!-- END: Sidebar Navigation -->
 
-  <!-- BEGIN: Main Page Content -->
-  <main class="flex-1 flex flex-col overflow-hidden relative">
-    
-    <!-- BEGIN: Top Navigation Bar -->
-    <header class="h-20 glass border-b border-white/10 flex items-center justify-between px-10 sticky top-0 z-10 shrink-0" data-purpose="top-navigation">
-      <div class="flex items-center gap-6">
-        <h2 class="text-xl font-semibold text-white">Management Overview</h2>
-        <div class="h-6 w-px bg-white/10 hidden md:block"></div>
-        <div class="hidden md:flex gap-6">
-          <a class="text-sm font-medium text-primary border-b-2 border-primary pb-7 mt-7 transition-all" href="#">Overview</a>
-          <a class="text-sm font-medium text-slate-400 hover:text-white pb-7 mt-7 transition-all" href="#">Analytics</a>
-          <a class="text-sm font-medium text-slate-400 hover:text-white pb-7 mt-7 transition-all" href="#">Reports</a>
+  <!-- Main Viewport (Layout Cleanup applied) -->
+  <main class="flex-1 flex flex-col overflow-hidden relative bg-white">
+
+    <!-- Standardized Header -->
+    <header
+      class="h-20 bg-white/80 backdrop-blur-xl border-b border-slate-100 flex items-center justify-between px-10 sticky top-0 z-40 shrink-0"
+      data-purpose="top-navigation">
+      <div class="flex items-center">
+        <div class="flex gap-2">
+          <a routerLink="/tasks"
+            class="text-sm font-black text-primary px-4 py-2 bg-primary/5 rounded-xl transition-all"
+            href="#">Overview</a>
+          <a class="text-sm font-bold text-slate-600 px-4 py-2 hover:text-slate-900 transition-all"
+            href="#">Analytics</a>
+          <a class="text-sm font-bold text-slate-600 px-4 py-2 hover:text-slate-900 transition-all" href="#">Reports</a>
         </div>
       </div>
-      <div class="flex items-center gap-6">
-        <div class="relative group hidden sm:block">
-          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl group-focus-within:text-primary transition-colors">search</span>
-          <input class="bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary w-64 transition-all text-white placeholder-slate-500" placeholder="Search data..." type="text"/>
+
+      <div class="flex items-center gap-8">
+        <!-- Modern Search Integration -->
+        <div class="relative group hidden xl:block">
+          <span
+            class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl group-focus-within:text-primary transition-colors">search</span>
+          <input
+            class="bg-slate-50 border border-slate-100 rounded-2xl pl-12 pr-6 py-2.5 text-sm focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary/50 w-72 transition-all text-slate-900 placeholder-slate-500 font-medium"
+            placeholder="System search..." type="text" />
         </div>
-        <div class="flex gap-3">
-          <button class="w-10 h-10 rounded-xl glass glass-hover flex items-center justify-center text-slate-300 relative">
+
+        <div class="flex items-center gap-4">
+          <button
+            class="size-11 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-slate-100 flex items-center justify-center text-slate-700 transition-all relative">
             <span class="material-symbols-outlined">notifications</span>
-            <span class="absolute top-2.5 right-3 w-2 h-2 bg-red-500 rounded-full border-2 border-[var(--color-background-dark)]"></span>
+            <span
+              class="absolute top-3 right-3 w-2 h-2 bg-red-500 rounded-full border-2 border-white animate-pulse"></span>
           </button>
-        </div>
-        <div class="h-10 w-px bg-white/10"></div>
-        <div class="flex items-center gap-3 cursor-pointer group">
-          <div class="text-right hidden sm:block">
-            <p class="text-sm font-semibold text-white group-hover:text-primary transition-colors">Dr. Sarah Vance</p>
-            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">HR Director</p>
-          </div>
-          <div class="w-10 h-10 rounded-full border-2 border-primary/30 p-0.5 group-hover:border-primary transition-all">
-            <div class="w-full h-full rounded-full bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCtxEtDzHUPLDb9_tE4EHjUBTAAO0vjgyW8EMZqAXSj_yGJXaTn626iyLyUmTl1Z993zHAZvSk1IEEYbYqSI2mqm5HGSQMVVO62PPH6768wXlhXdCpMlSnE0cleSXGUg0jOhx1QG9ujgQj9hD4dbQ2pXXvfFlfIU4jYJ4khDYIGLkNCCDy3nLpqeTptFSfyVG-CA5d5pQa5GkHRbxIRvZ2bUlNGFJw4VEAOxrz619QriHXTqdUsGM9_vGalfWatnjkmDqtfsicNe_Y')"></div>
+
+          <div class="h-8 w-px bg-slate-100"></div>
+
+          <div class="flex items-center gap-4 cursor-pointer group pl-2">
+            <div class="text-right hidden sm:block">
+              <p class="text-sm font-black text-slate-900 group-hover:text-primary transition-colors">Dr. Sarah Vance
+              </p>
+              <p class="text-[9px] text-slate-600 font-black uppercase tracking-[0.2em] mt-0.5">HR Operations</p>
+            </div>
+            <div
+              class="size-11 rounded-2xl border-2 border-slate-100 p-0.5 group-hover:border-primary/50 transition-all bg-white shadow-sm overflow-hidden">
+              <img
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtxEtDzHUPLDb9_tE4EHjUBTAAO0vjgyW8EMZqAXSj_yGJXaTn626iyLyUmTl1Z993zHAZvSk1IEEYbYqSI2mqm5HGSQMVVO62PPH6768wXlhXdCpMlSnE0cleSXGUg0jOhx1QG9ujgQj9hD4dbQ2pXXvfFlfIU4jYJ4khDYIGLkNCCDy3nLpqeTptFSfyVG-CA5d5pQa5GkHRbxIRvZ2bUlNGFJw4VEAOxrz619QriHXTqdUsGM9_vGalfWatnjkmDqtfsicNe_Y"
+                class="w-full h-full object-cover rounded-xl" alt="Profile">
+            </div>
           </div>
         </div>
       </div>
     </header>
-    <!-- END: Top Navigation Bar -->
-    
-    <!-- Router Outlet for Dashboard Viewport (tasks page, users page, etc.) -->
-    <div class="flex-1 overflow-y-auto w-full relative">
+
+    <!-- Content Viewport -->
+    <div class="flex-1 overflow-y-auto w-full relative scroll-smooth">
       <router-outlet />
     </div>
-    
+
   </main>
 </div>

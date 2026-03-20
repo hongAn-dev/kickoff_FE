@@ -78,6 +78,7 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.editingUser = null;
     this.userForm.reset({ role: 'DEVELOPER' });
     this.showModal = true;
+    document.body.classList.add('modal-open');
     this.errorMsg = '';
   }
 
@@ -85,11 +86,13 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.editingUser = user;
     this.userForm.patchValue({ name: user.name, email: user.email, role: user.role });
     this.showModal = true;
+    document.body.classList.add('modal-open');
     this.errorMsg = '';
   }
 
   closeModal(): void {
     this.showModal = false;
+    document.body.classList.remove('modal-open');
     this.editingUser = null;
     this.userForm.reset({ role: 'DEVELOPER' });
   }
