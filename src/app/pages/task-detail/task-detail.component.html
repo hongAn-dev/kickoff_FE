@@ -5,14 +5,14 @@
     <button (click)="goBack()"
       class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-slate-700 hover:text-slate-900 hover:bg-white hover:shadow-sm transition-all group">
       <span class="material-symbols-outlined text-lg group-hover:-translate-x-1 transition-transform">arrow_back</span>
-      <span class="text-sm font-black uppercase tracking-widest">Back to Dashboard</span>
+      <span class="text-sm font-black uppercase tracking-widest">Quay lại danh sách</span>
     </button>
   </div>
 
   @if (loading) {
   <div class="flex flex-col justify-center items-center py-24 flex-1">
     <div class="animate-spin rounded-full h-10 w-10 border-4 border-primary border-t-transparent"></div>
-    <span class="mt-4 text-slate-700 font-black uppercase tracking-widest text-[10px]">Synchronizing...</span>
+    <span class="mt-4 text-slate-700 font-black uppercase tracking-widest text-[10px]">Đang đồng bộ...</span>
   </div>
   }
 
@@ -21,11 +21,11 @@
     <div class="w-16 h-16 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-4">
       <span class="material-symbols-outlined text-3xl">warning</span>
     </div>
-    <h3 class="text-lg font-bold text-slate-900 mb-2">Oops! Something went wrong</h3>
+    <h3 class="text-lg font-bold text-slate-900 mb-2">Rất tiếc! Đã có lỗi xảy ra</h3>
     <p class="text-slate-600 mb-6">{{ errorMsg }}</p>
     <button (click)="goBack()"
       class="px-6 py-2 bg-slate-900 text-white rounded-xl text-sm font-semibold hover:bg-slate-800 transition-colors">
-      Return to Task List
+      Quay lại danh sách công việc
     </button>
   </div>
   }
@@ -42,7 +42,7 @@
         <div class="flex-1 space-y-4">
           <div class="flex flex-wrap gap-2">
             <span [class]="getStatusClass(task.status)" 
-                  class="px-2.5 py-0.5 rounded-full text-xs font-semibold border flex items-center gap-1.5 capitalize">
+                  class="px-2.5 py-0.5 rounded-full text-xs font-semibold border flex items-center gap-1.5">
               <span class="w-1.5 h-1.5 rounded-full" 
                     [ngClass]="{
                       'bg-slate-400': task.status === 'TODO',
@@ -50,14 +50,20 @@
                       'bg-emerald-500': task.status === 'DONE',
                       'bg-rose-500': task.status === 'OVERDUE'
                     }"></span>
-              {{ task.status.replace('_', ' ').toLowerCase() }}
+              {{ 
+                task.status === 'TODO' ? 'Cần làm' : 
+                task.status === 'IN_PROGRESS' ? 'Đang làm' : 
+                task.status === 'DONE' ? 'Hoàn thành' : 
+                task.status === 'CANCELLED' ? 'Đã hủy' : 
+                task.status === 'OVERDUE' ? 'Quá hạn' : task.status 
+              }}
             </span>
             <span [class]="getPriorityClass(task.priority)" 
                   class="px-2.5 py-0.5 rounded-full text-xs font-semibold border flex items-center gap-1.5">
               <span class="material-symbols-outlined text-[14px]">
                 {{ task.priority === 'HIGH' ? 'priority_high' : task.priority === 'MEDIUM' ? 'bolt' : 'low_priority' }}
               </span>
-              {{ task.priority }}
+              {{ task.priority === 'HIGH' ? 'Ưu tiên Cao' : task.priority === 'MEDIUM' ? 'Trung bình' : 'Ưu tiên Thấp' }}
             </span>
           </div>
           
@@ -68,20 +74,20 @@
           <div class="flex items-center gap-6 text-slate-700">
             <div class="flex items-center gap-2">
               <span class="material-symbols-outlined text-lg">calendar_today</span>
-              <span class="text-sm font-bold">Due {{ task.dueDate ? (task.dueDate | date:'mediumDate') : 'No date set' }}</span>
+              <span class="text-sm font-bold">Hạn chót: {{ task.dueDate ? (task.dueDate | date:'dd/MM/yyyy') : 'Chưa thiết lập ngày' }}</span>
             </div>
             <div class="flex items-center gap-2">
               <span class="material-symbols-outlined text-lg">tag</span>
-              <span class="text-sm font-mono text-slate-600 font-bold">ID: #{{ task.id }}</span>
+              <span class="text-sm font-mono text-slate-600 font-bold">ID: #{{ task.id! }}</span>
             </div>
           </div>
         </div>
 
         <div class="flex items-center gap-3">
-          <a [routerLink]="['/tasks']" [queryParams]="{ edit: task.id }"
+          <a [routerLink]="['/tasks']" [queryParams]="{ edit: task.id! }"
             class="flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold transition-all shadow-lg shadow-blue-200">
             <span class="material-symbols-outlined text-lg">edit_square</span>
-            Edit Task
+            Chỉnh sửa công việc
           </a>
         </div>
       </div>
@@ -93,10 +99,10 @@
         <div class="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
           <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-6 flex items-center gap-2">
             <span class="material-symbols-outlined text-xl text-blue-500">description</span>
-            Task Description
+            Mô tả công việc
           </h3>
           <div class="text-slate-600 leading-relaxed text-base whitespace-pre-wrap">
-            {{ task.description || 'No detailed description provided for this task.' }}
+            {{ task.description || 'Không có mô tả chi tiết cho công việc này.' }}
           </div>
         </div>
       </div>
@@ -105,7 +111,7 @@
       <div class="space-y-6">
         <!-- Assignee Card -->
         <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
-          <h3 class="text-xs font-black text-slate-700 uppercase tracking-widest mb-4">Assignee</h3>
+          <h3 class="text-xs font-black text-slate-700 uppercase tracking-widest mb-4">Người đảm nhiệm</h3>
           <div class="flex items-center gap-4">
             @if (task.userName || user) {
             <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-lg border border-blue-100">
@@ -119,22 +125,22 @@
             <div class="w-12 h-12 rounded-2xl bg-slate-50 text-slate-600 flex items-center justify-center border border-slate-100 italic">
               ?
             </div>
-            <p class="text-slate-700 italic text-sm font-medium">No assignee linked</p>
+            <p class="text-slate-700 italic text-sm font-medium">Chưa gán người thực hiện</p>
             }
           </div>
         </div>
 
         <!-- Timeline Card -->
         <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
-          <h3 class="text-xs font-black text-slate-700 uppercase tracking-widest mb-4">Timeline</h3>
+          <h3 class="text-xs font-black text-slate-700 uppercase tracking-widest mb-4">Mốc thời gian</h3>
           <div class="space-y-4">
             <div class="flex items-start gap-3">
               <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
                 <span class="material-symbols-outlined text-lg">add_circle</span>
               </div>
               <div>
-                <p class="text-[10px] font-black text-slate-600 uppercase tracking-widest">Created</p>
-                <p class="text-sm text-slate-900 font-bold">{{ task.createdAt ? (task.createdAt | date:'MMM d, y, h:mm a') : '—' }}</p>
+                <p class="text-[10px] font-black text-slate-600 uppercase tracking-widest">Ngày tạo</p>
+                <p class="text-sm text-slate-900 font-bold">{{ task.createdAt ? (task.createdAt | date:'dd/MM/yyyy HH:mm') : '—' }}</p>
               </div>
             </div>
             <div class="flex items-start gap-3">
@@ -142,8 +148,8 @@
                 <span class="material-symbols-outlined text-lg">update</span>
               </div>
               <div>
-                <p class="text-[10px] font-black text-slate-600 uppercase tracking-widest">Modified</p>
-                <p class="text-sm text-slate-900 font-bold">{{ (task.updatedAt || task.createdAt) | date:'MMM d, y, h:mm a' }}</p>
+                <p class="text-[10px] font-black text-slate-600 uppercase tracking-widest">Cập nhật</p>
+                <p class="text-sm text-slate-900 font-bold">{{ (task.updatedAt || task.createdAt) | date:'dd/MM/yyyy HH:mm' }}</p>
               </div>
             </div>
           </div>

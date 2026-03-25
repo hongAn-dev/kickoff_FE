@@ -4,26 +4,23 @@
   <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-10 mb-14">
     <div class="space-y-4">
       <div class="flex items-center gap-3">
-        <div class="h-1 w-12 bg-primary rounded-full"></div>
-        <p class="text-[11px] font-black text-slate-600 uppercase tracking-[0.4em]">Operational Matrix</p>
+        <div class="h-1 w-10 bg-primary rounded-full"></div>
+        <p class="text-[11px] font-black text-slate-600 uppercase tracking-[0.4em]">Ma trận vận hành</p>
       </div>
-      <h2 class="text-4xl lg:text-5xl font-black tracking-tight text-slate-900">Task Overview</h2>
+      <h2 class="text-4xl lg:text-5xl font-black tracking-tight text-slate-900">Tổng Quan Công Việc</h2>
       <p class="text-slate-700 text-lg font-medium flex items-center gap-3">
-        Active synergy across <span
+        Đang xử lý: <span
           class="bg-primary/10 text-primary px-3 py-1 rounded-xl text-sm font-black border border-primary/10 shadow-sm">{{
-          tasks.length }} intelligence nodes</span>
+          tasks.length }} đầu việc</span>
       </p>
     </div>
     <div class="flex flex-wrap items-center gap-4">
       <button (click)="openCreate()"
         class="flex-1 sm:flex-none h-14 px-8 bg-primary text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:opacity-90 shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-3 group">
-        <span class="material-symbols-outlined text-xl transition-all group-hover:scale-110">add_task</span> Deploy New
-        Task
+        <span class="material-symbols-outlined text-xl transition-all group-hover:scale-110">add_task</span> Giao việc mới
       </button>
     </div>
   </div>
-
-  <!-- KPI Cards Grid REMOVED -->
 
   <!-- Standardized Content Controls: Filters & Actions -->
   <div class="flex flex-col xl:flex-row items-center justify-between gap-6 mb-10">
@@ -31,34 +28,40 @@
       class="flex flex-wrap items-center gap-2 bg-white p-1.5 rounded-[1.5rem] border border-slate-200 shadow-sm w-full xl:w-auto">
       <div class="flex items-center gap-2 px-3 py-1.5">
         <span class="material-symbols-outlined text-slate-500 text-xl">filter_list</span>
-        <span class="text-[10px] font-black uppercase tracking-widest text-slate-600">Filters</span>
+        <span class="text-[10px] font-black uppercase tracking-widest text-slate-600">Bộ lọc</span>
       </div>
       <div class="h-8 w-px bg-slate-100 mx-1 hidden sm:block"></div>
 
       <div class="flex flex-1 sm:flex-none gap-2">
         <select [(ngModel)]="filterStatus" (change)="applyFilter()"
           class="flex-1 bg-slate-50 border-none rounded-xl px-4 py-2.5 text-xs font-bold text-slate-600 focus:ring-4 focus:ring-primary/10 outline-none transition-all cursor-pointer hover:bg-slate-100">
-          <option value="">Status: All Levels</option>
-          @for (s of statusOptions; track s) { <option [value]="s">{{ s.replace('_', ' ') }}</option> }
+          <option value="">Trạng thái: Tất cả</option>
+          <option value="TODO">Cần làm</option>
+          <option value="IN_PROGRESS">Đang làm</option>
+          <option value="DONE">Hoàn thành</option>
+          <option value="CANCELLED">Đã hủy</option>
+          <option value="OVERDUE">Quá hạn</option>
         </select>
         <select [(ngModel)]="filterPriority" (change)="applyFilter()"
           class="flex-1 bg-slate-50 border-none rounded-xl px-4 py-2.5 text-xs font-bold text-slate-600 focus:ring-4 focus:ring-primary/10 outline-none transition-all cursor-pointer hover:bg-slate-100">
-          <option value="">Priority: All</option>
-          @for (p of priorityOptions; track p) { <option [value]="p">{{ p }}</option> }
+          <option value="">Mức độ: Tất cả</option>
+          <option value="LOW">Thấp</option>
+          <option value="MEDIUM">Trung bình</option>
+          <option value="HIGH">Cao</option>
         </select>
       </div>
 
       <button (click)="resetFilter()"
         class="p-2.5 text-slate-400 hover:text-primary hover:bg-primary/5 rounded-xl transition-all ml-auto sm:ml-0"
-        title="Purge Filters">
+        title="Xóa bộ lọc">
         <span class="material-symbols-outlined text-xl">restart_alt</span>
       </button>
     </div>
 
     <div class="flex items-center gap-3 w-full xl:w-auto justify-end">
       <div class="text-right hidden sm:block mr-2">
-        <p class="text-[10px] text-slate-600 font-bold uppercase tracking-widest">Master Sync</p>
-        <p class="text-xs font-black text-slate-700">Real-time Terminal</p>
+        <p class="text-[10px] text-slate-600 font-bold uppercase tracking-widest">Đồng bộ hệ thống</p>
+        <p class="text-xs font-black text-slate-700">Dữ liệu thời gian thực</p>
       </div>
       <button (click)="loadTasks()"
         class="size-12 bg-white border border-slate-200 rounded-2xl text-slate-600 hover:text-primary hover:border-primary/50 transition-all shadow-sm flex items-center justify-center group">
@@ -93,7 +96,7 @@
   <div
     class="flex flex-col items-center justify-center py-40 bg-white/50 backdrop-blur-sm rounded-[3rem] border-2 border-dashed border-slate-200 mb-10">
     <div class="size-20 border-4 border-slate-200 border-t-primary rounded-full animate-spin mb-8 shadow-inner"></div>
-    <p class="text-slate-800 font-black tracking-[0.3em] uppercase text-[10px]">Synchronizing Matrix...</p>
+    <p class="text-slate-800 font-black tracking-[0.3em] uppercase text-[10px]">Đang đồng bộ dữ liệu...</p>
   </div>
   }
 
@@ -105,22 +108,22 @@
         <thead>
           <tr class="border-b border-slate-50 bg-slate-50/30">
             <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.25em] text-slate-600">ID</th>
-            <th class="px-10 py-5 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">Agent</th>
-            <th class="px-10 py-5 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">Task
+            <th class="px-10 py-5 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">Người thực hiện</th>
+            <th class="px-10 py-5 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">Nội dung công việc
             </th>
-            <th class="px-10 py-5 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">Priority</th>
-            <th class="px-10 py-5 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">Status</th>
-            <th class="px-10 py-5 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">Target Date</th>
-            <th class="px-10 py-5 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">Time</th>
+            <th class="px-10 py-5 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">Mức độ ưu tiên</th>
+            <th class="px-10 py-5 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">Trạng thái</th>
+            <th class="px-10 py-5 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">Hạn chót</th>
+            <th class="px-10 py-5 text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">Giờ</th>
             <th class="w-32 px-6 py-5 text-[10px] font-black uppercase tracking-[0.25em] text-slate-600 text-right">
-              Controls</th>
+              Thao tác</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-slate-50">
           @for (task of tasks; track task.id) {
           <tr class="group hover:bg-slate-50/50 transition-all duration-500">
             <td class="px-8 py-5">
-              <span class="text-sm font-black text-slate-900 font-mono tracking-tighter">#{{ task.id }}</span>
+              <span class="text-sm font-black text-slate-900 font-mono tracking-tighter">#{{ task.id!.toString().slice(0, 8) }}...</span>
             </td>
             <td class="px-10 py-5">
               <span class="text-base font-black text-slate-900 tracking-tight">{{ task.userName ||
@@ -137,7 +140,7 @@
                     (task.priority === 'HIGH' ? 'bg-rose-50 text-rose-600 ring-1 ring-rose-200' : 
                      task.priority === 'MEDIUM' ? 'bg-amber-50 text-amber-600 ring-1 ring-amber-200' : 
                      'bg-emerald-50 text-emerald-600 ring-1 ring-emerald-200')">
-                {{ task.priority }}
+                {{ task.priority === 'HIGH' ? 'Cao' : task.priority === 'MEDIUM' ? 'Trung bình' : 'Thấp' }}
               </span>
             </td>
             <td class="px-10 py-5">
@@ -146,11 +149,16 @@
                   [class]="'size-2 rounded-full ' + (task.status === 'DONE' ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]' : 'bg-amber-400 animate-pulse')">
                 </div>
                 <span class="text-[11px] font-black text-slate-700 uppercase tracking-widest">{{
-                  task.status.replace('_', ' ') }}</span>
+                  task.status === 'TODO' ? 'Cần làm' : 
+                  task.status === 'IN_PROGRESS' ? 'Đang làm' : 
+                  task.status === 'DONE' ? 'Hoàn thành' : 
+                  task.status === 'CANCELLED' ? 'Đã hủy' : 
+                  task.status === 'OVERDUE' ? 'Quá hạn' : task.status
+                }}</span>
               </div>
             </td>
             <td class="px-10 py-5">
-              <span class="text-sm font-black text-slate-900 tracking-tight">{{ task.dueDate }}</span>
+              <span class="text-sm font-black text-slate-900 tracking-tight">{{ task.dueDate | date:'dd/MM/yyyy' }}</span>
             </td>
             <td class="px-10 py-5 text-sm font-bold text-slate-500">
               {{ task.dueTime || '00:00' }}
@@ -180,9 +188,8 @@
                   <span
                     class="material-symbols-outlined text-5xl text-slate-400 group-hover:text-primary/20 transition-colors">verified</span>
                 </div>
-                <h3 class="text-2xl font-black text-slate-900 mb-3 tracking-tight">System Optimized</h3>
-                <p class="text-slate-600 font-medium text-base max-w-sm mx-auto leading-relaxed">No tasks currently
-                  require processing within this matrix. All flows are clear.</p>
+                <h3 class="text-2xl font-black text-slate-900 mb-3 tracking-tight">Hệ thống tối ưu</h3>
+                <p class="text-slate-600 font-medium text-base max-w-sm mx-auto leading-relaxed">Hiện tại không có công việc nào cần xử lý trong ma trận này. Mọi luồng dữ liệu đã được thông suốt.</p>
               </div>
             </td>
           </tr>
@@ -196,18 +203,18 @@
       <div class="flex items-center gap-3">
         <div class="size-2 bg-primary rounded-full animate-pulse shadow-[0_0_8px_rgba(36,99,235,0.6)]"></div>
         <p class="text-[10px] font-black text-slate-600 uppercase tracking-[0.2em]">
-          Synced: <span class="text-slate-900">{{ tasks.length }} nodes</span>
+          Đã đồng bộ: <span class="text-slate-900">{{ tasks.length }} công việc</span>
         </p>
       </div>
       <div class="flex gap-3">
         <button
           class="px-6 py-2.5 bg-white border border-slate-100 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-600 hover:text-primary hover:border-primary/50 transition-all disabled:opacity-20 flex items-center gap-2 shadow-sm"
           disabled>
-          <span class="material-symbols-outlined text-sm">west</span> Prev
+          <span class="material-symbols-outlined text-sm">west</span> Trước
         </button>
         <button
           class="px-6 py-2.5 bg-white border border-slate-100 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-600 hover:text-primary hover:border-primary/50 transition-all flex items-center gap-2 shadow-sm">
-          Next <span class="material-symbols-outlined text-sm">east</span>
+          Tiếp <span class="material-symbols-outlined text-sm">east</span>
         </button>
       </div>
     </div>
@@ -228,10 +235,9 @@
         <div class="space-y-4">
           <div class="flex items-center gap-3">
             <div class="h-1 w-10 bg-primary rounded-full"></div>
-            <p class="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Mission Control • System 4.0</p>
+            <p class="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Trung tâm điều hành • Hệ thống 4.0</p>
           </div>
-          <h3 class="text-3xl font-black text-slate-900 tracking-tight">{{ editingTask ? 'Modify Objective' : 'Deploy
-            New Task' }}</h3>
+          <h3 class="text-3xl font-black text-slate-900 tracking-tight">{{ editingTask ? 'Chỉnh Sửa Mục Tiêu' : 'Giao Việc Mới' }}</h3>
         </div>
         <button (click)="closeModal()"
           class="size-12 flex items-center justify-center rounded-2xl bg-slate-50 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-all group">
@@ -252,46 +258,48 @@
       <div class="space-y-6">
         <!-- Section: Definition -->
         <div class="space-y-4">
-          <label class="block text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] ml-1">Universal Task
-            Identification</label>
-          <input type="text" formControlName="title" placeholder="Define the objective..."
+          <label class="block text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] ml-1">Tiêu đề công việc</label>
+          <input type="text" formControlName="title" placeholder="Nhập tiêu đề hoặc mục tiêu..."
             class="w-full bg-slate-50 border-2 border-transparent rounded-[1.25rem] px-6 py-4.5 text-base font-bold focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/5 outline-none transition-all placeholder:text-slate-500 text-slate-900">
           @if (f['title'].touched && f['title'].invalid) {
           <p class="text-[10px] text-rose-500 font-black mt-2 ml-1 flex items-center gap-1">
-            <span class="material-symbols-outlined text-sm">error</span> Critical: Required parameter missing
+            <span class="material-symbols-outlined text-sm">error</span> Lỗi: Yêu cầu nhập tiêu đề công việc
           </p>
           }
         </div>
 
         <div class="space-y-4">
-          <label class="block text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] ml-1">Comprehensive
-            Documentation</label>
+          <label class="block text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] ml-1">Mô tả chi tiết</label>
           <textarea formControlName="description" rows="4"
-            placeholder="Provide strategic context or execution requirements..."
+            placeholder="Cung cấp bối cảnh chiến lược hoặc yêu cầu thực thi..."
             class="w-full bg-slate-50 border-2 border-transparent rounded-[1.25rem] px-6 py-4 text-sm font-medium focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/5 outline-none transition-all placeholder:text-slate-500 text-slate-800 resize-none leading-relaxed"></textarea>
         </div>
       </div>
 
       <div class="grid grid-cols-2 gap-8">
         <div class="space-y-4">
-          <label class="block text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] ml-1">Operational
-            State</label>
+          <label class="block text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] ml-1">Trạng thái vận hành</label>
           <div class="relative">
             <select formControlName="status"
               class="w-full bg-slate-50 border-2 border-transparent rounded-[1.25rem] px-6 py-4 text-sm font-black text-slate-800 focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/5 outline-none transition-all appearance-none cursor-pointer">
-              @for (s of statusOptions; track s) { <option [value]="s">{{ s.replace('_', ' ') }}</option> }
+              <option value="TODO">Cần làm</option>
+              <option value="IN_PROGRESS">Đang làm</option>
+              <option value="DONE">Hoàn thành</option>
+              <option value="CANCELLED">Đã hủy</option>
+              <option value="OVERDUE">Quá hạn</option>
             </select>
             <span
               class="material-symbols-outlined absolute right-5 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none">expand_more</span>
           </div>
         </div>
         <div class="space-y-4">
-          <label class="block text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] ml-1">Tactical
-            Priority</label>
+          <label class="block text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] ml-1">Mức độ ưu tiên</label>
           <div class="relative">
             <select formControlName="priority"
               class="w-full bg-slate-50 border-2 border-transparent rounded-[1.25rem] px-6 py-4 text-sm font-black text-slate-800 focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/5 outline-none transition-all appearance-none cursor-pointer">
-              @for (p of priorityOptions; track p) { <option [value]="p">{{ p }}</option> }
+              <option value="LOW">Thấp</option>
+              <option value="MEDIUM">Trung bình</option>
+              <option value="HIGH">Cao</option>
             </select>
             <span
               class="material-symbols-outlined absolute right-5 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none">expand_more</span>
@@ -301,12 +309,11 @@
 
       <div class="grid grid-cols-2 gap-8">
         <div class="space-y-4">
-          <label class="block text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] ml-1">Command
-            Agent</label>
+          <label class="block text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] ml-1">Người đảm nhiệm</label>
           <div class="relative">
             <select formControlName="userId"
               class="w-full bg-slate-50 border-2 border-transparent rounded-[1.25rem] px-6 py-4 text-sm font-black text-slate-800 focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/5 outline-none transition-all appearance-none cursor-pointer">
-              <option value="">-- Choose Agent --</option>
+              <option value="">-- Chọn người thực hiện --</option>
               @for (user of users; track user.id) {
               <option [value]="user.id">{{ user.name }}</option>
               }
@@ -314,20 +321,19 @@
             <span
               class="material-symbols-outlined absolute right-5 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none">person_search</span>
             @if (f['userId'].touched && f['userId'].invalid) {
-            <p class="text-[9px] text-rose-500 font-black mt-2 ml-1 uppercase tracking-tighter">Null Assignment Detected
+            <p class="text-[9px] text-rose-500 font-black mt-2 ml-1 uppercase tracking-tighter">Phát hiện: Chưa chỉ định người thực hiện
             </p>
             }
           </div>
         </div>
         <div class="grid grid-cols-2 gap-8">
           <div class="space-y-4">
-            <label class="block text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] ml-1">Deadline</label>
+            <label class="block text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] ml-1">Hạn chót</label>
             <input type="date" formControlName="dueDate"
               class="w-full bg-slate-50 border-2 border-transparent rounded-[1.25rem] px-6 py-4 text-sm font-black text-slate-800 focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/5 outline-none transition-all cursor-pointer">
           </div>
           <div class="space-y-4">
-            <label class="block text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] ml-1">Execution
-              Time</label>
+            <label class="block text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] ml-1">Thời gian thực hiện</label>
             <input type="time" formControlName="dueTime"
               class="w-full bg-slate-50 border-2 border-transparent rounded-[1.25rem] px-6 py-4 text-sm font-black text-slate-800 focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/5 outline-none transition-all cursor-pointer">
           </div>
@@ -337,11 +343,11 @@
       <div class="pt-6 flex gap-6">
         <button type="button" (click)="closeModal()"
           class="flex-1 py-5 bg-white border border-slate-200 text-slate-700 font-black uppercase tracking-[0.2em] text-[10px] rounded-[1.5rem] hover:bg-slate-50 transition-all shadow-sm">
-          Discard
+          Hủy bỏ
         </button>
         <button type="submit" [disabled]="loading"
           class="flex-[1.8] py-5 bg-primary text-white font-black uppercase tracking-[0.2em] text-[10px] rounded-[1.5rem] shadow-xl shadow-primary/30 hover:shadow-primary/40 hover:-translate-y-0.5 disabled:opacity-50 transition-all flex items-center justify-center gap-2">
-          {{ editingTask ? 'Verify & Commit' : 'Initialize Execution' }}
+          {{ editingTask ? 'Xác Nhận & Lưu' : 'Khởi Tạo Công Việc' }}
         </button>
       </div>
     </form>
