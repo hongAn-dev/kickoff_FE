@@ -18,17 +18,26 @@ export class ThongBaoTinhHinhService {
   private apiUrl = `${environment.apiUrl}/api/thong-bao-tinh-hinh`;
   private http = inject(HttpClient);
 
-  getList(keyword?: string, phanLoaiId?: any, page: number = 0, size: number = 10): Observable<PaginatedResponse<ThongBaoTinhHinh>> {
+  getList(
+    keyword?: string, 
+    phanLoaiId?: any, 
+    page: number = 0, 
+    size: number = 10,
+    fromDate?: string,
+    toDate?: string,
+    donViId?: any,
+    phamVi?: string
+  ): Observable<PaginatedResponse<ThongBaoTinhHinh>> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
 
-    if (keyword) {
-      params = params.set('keyword', keyword);
-    }
-    if (phanLoaiId !== undefined && phanLoaiId !== null && phanLoaiId !== '') {
-      params = params.set('phanLoaiId', phanLoaiId.toString());
-    }
+    if (keyword) params = params.set('keyword', keyword);
+    if (phanLoaiId !== undefined && phanLoaiId !== null && phanLoaiId !== '') params = params.set('phanLoaiId', phanLoaiId.toString());
+    if (fromDate) params = params.set('fromDate', fromDate);
+    if (toDate) params = params.set('toDate', toDate);
+    if (donViId !== undefined && donViId !== null && donViId !== '') params = params.set('donViId', donViId.toString());
+    if (phamVi) params = params.set('phamVi', phamVi);
 
     return this.http.get<ApiResponse<PaginatedResponse<ThongBaoTinhHinh>>>(this.apiUrl, { params })
       .pipe(map(res => res.data));

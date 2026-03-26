@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ThongBaoTinhHinhService } from '../../core/services/thong-bao-tinh-hinh.service';
 import { UserService } from '../../core/services/user.service';
+import { AuthService } from '../../core/services/auth.service';
 import { ThongBaoTinhHinh, ThongBaoExcelDto, AuditLog, ThongBaoDetailResponse } from '../../core/models/thong-bao.model';
 
 @Component({
@@ -15,6 +16,7 @@ import { ThongBaoTinhHinh, ThongBaoExcelDto, AuditLog, ThongBaoDetailResponse } 
 export class ThongBaoListComponent implements OnInit {
   private thongBaoService = inject(ThongBaoTinhHinhService);
   private userService = inject(UserService);
+  private authService = inject(AuthService);
   private fb = inject(FormBuilder);
   private cdr = inject(ChangeDetectorRef);
   private ngZone = inject(NgZone);
@@ -56,6 +58,22 @@ export class ThongBaoListComponent implements OnInit {
   tieuDeSearch = '';
   phanLoaiIdSearch: number | string = '';
 
+  // Advanced Search Filters
+  fromDateSearch = '';
+  toDateSearch = '';
+  donViIdSearch: number | string = '';
+  phamViSearch = '';
+  isAdvancedSearchVisible = false;
+
+  // Role Flags
+  userRole: string | null = null;
+  userDonViId: number | null = null;
+  currentUserId: number | null = null;
+  
+  isCBCT = false;
+  isTruongPhong = false;
+  isThuTruong = false;
+
   constructor() {
     this.thongBaoForm = this.fb.group({
       tieuDe: ['', [Validators.required, Validators.minLength(5)]],
@@ -68,7 +86,38 @@ export class ThongBaoListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userRole = this.authService.getUserRole();
+    this.userDonViId = this.authService.getDonViId();
+    this.currentUserId = this.authService.getUserId();
+    
+    this.isCBCT = this.userRole === 'CBCT' || this.userRole === 'ROLE_CBCT';
+    this.isTruongPhong = this.userRole === 'TRUONG_PHONG' || this.userRole === 'ROLE_TRUONG_PHONG';
+    this.isThuTruong = this.userRole === 'THU_TRUONG' || this.userRole === 'ROLE_THU_TRUONG';
+
     this.loadData();
+  }
+
+  canEdit(item: ThongBaoTinhHinh): boolean {
+    return this.isCBCT && Number(item.donViId) === Number(this.userDonViId);
+  }
+
+  canDelete(item: ThongBaoTinhHinh): boolean {
+    return this.isCBCT && Number(item.donViId) === Number(this.userDonViId);
+  }
+
+  toggleAdvancedSearch(): void {
+    this.isAdvancedSearchVisible = !this.isAdvancedSearchVisible;
+    if (!this.isAdvancedSearchVisible) {
+      this.resetAdvancedSearch();
+    }
+  }
+
+  resetAdvancedSearch(): void {
+    this.fromDateSearch = '';
+    this.toDateSearch = '';
+    this.donViIdSearch = '';
+    this.phamViSearch = '';
+    this.onSearch();
   }
 
   resetDrawers(): void {
@@ -178,9 +227,18 @@ export class ThongBaoListComponent implements OnInit {
     this.isLoading = true;
     this.cdr.detectChanges();
     const phanLoai = this.phanLoaiIdSearch ? Number(this.phanLoaiIdSearch) : undefined;
+    const donViId = this.donViIdSearch ? Number(this.donViIdSearch) : undefined;
 
-    this.thongBaoService.getList(this.tieuDeSearch, phanLoai, this.page, this.size)
-      .subscribe({
+    this.thongBaoService.getList(
+      this.tieuDeSearch, 
+      phanLoai, 
+      this.page, 
+      this.size,
+      this.fromDateSearch || undefined,
+      this.toDateSearch || undefined,
+      donViId,
+      this.phamViSearch || undefined
+    ).subscribe({
         next: (res) => {
           this.dataList = res.content || [];
           this.totalPages = res.totalPages;
@@ -298,7 +356,11 @@ export class ThongBaoListComponent implements OnInit {
         console.error('Save error:', err);
         this.isLoading = false;
         this.cdr.detectChanges();
-        alert('Có lỗi xảy ra khi lưu dữ liệu!');
+        if (err.status === 403) {
+          alert('Bạn không có quyền thực hiện thao tác này!');
+        } else {
+          alert('Có lỗi xảy ra khi lưu dữ liệu!');
+        }
       }
     });
   }
@@ -337,7 +399,11 @@ export class ThongBaoListComponent implements OnInit {
           console.error('Delete error:', err);
           this.isLoading = false;
           this.cdr.detectChanges();
-          alert('Không thể xóa bản ghi này!');
+          if (err.status === 403) {
+            alert('Bạn không có quyền thực hiện thao tác này!');
+          } else {
+            alert('Không thể xóa bản ghi này!');
+          }
         }
       });
     }
@@ -427,9 +493,22 @@ export class ThongBaoListComponent implements OnInit {
   onConfirmImport(): void {
     if (!this.importPreviewData || this.importPreviewData.length === 0) return;
 
+    const validRows = this.importPreviewData.filter(r => r.isValid);
+    const totalRows = this.importPreviewData.length;
+
+    if (validRows.length === 0) {
+      alert('Không có dữ liệu hợp lệ để import. Vui lòng kiểm tra lại file!');
+      return;
+    }
+
+    if (validRows.length < totalRows) {
+      const confirmMsg = `Phát hiện ${totalRows - validRows.length} dòng không hợp lệ. Bạn có muốn tiếp tục import ${validRows.length} dòng hợp lệ không?`;
+      if (!confirm(confirmMsg)) return;
+    }
+
     this.isLoading = true;
     this.cdr.detectChanges();
-    this.thongBaoService.importCommit(this.importPreviewData).subscribe({
+    this.thongBaoService.importCommit(validRows).subscribe({
       next: () => {
         this.isLoading = false;
         this.isImportDrawerOpen = false;

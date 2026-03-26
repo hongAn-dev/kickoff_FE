@@ -7,23 +7,23 @@
     </div>
 
     <div class="flex items-center gap-3">
-      <!-- Import Button -->
-      <button (click)="triggerImport(fileImport)"
+      <!-- Import Button - CBCT ONLY -->
+      <button *ngIf="isCBCT" (click)="triggerImport(fileImport)"
         class="bg-white border border-slate-200 text-slate-700 px-5 py-2.5 rounded-2xl font-bold text-sm hover:bg-slate-50 transition-all flex items-center gap-2 shadow-sm">
         <span class="material-symbols-outlined text-xl">upload_file</span>
         Nhập Excel
       </button>
       <input #fileImport type="file" (change)="onFileImportSelected($event)" hidden accept=".xlsx, .xls">
 
-      <!-- Export Button -->
-      <button (click)="onExport()"
+      <!-- Export Button - CBCT & TRUONG_PHONG ONLY -->
+      <button *ngIf="isCBCT || isTruongPhong" (click)="onExport()"
         class="bg-white border border-slate-200 text-slate-700 px-5 py-2.5 rounded-2xl font-bold text-sm hover:bg-slate-50 transition-all flex items-center gap-2 shadow-sm">
         <span class="material-symbols-outlined text-xl">download</span>
         Xuất Excel
       </button>
 
-      <!-- Create New Button -->
-      <button (click)="onAdd()"
+      <!-- Create New Button - CBCT ONLY -->
+      <button *ngIf="isCBCT" (click)="onAdd()"
         class="bg-primary text-white px-6 py-2.5 rounded-2xl font-bold text-sm hover:bg-blue-700 transition-all flex items-center gap-2 shadow-lg shadow-primary/20">
         <span class="material-symbols-outlined text-xl">add</span>
         Tạo Báo Cáo Mới
@@ -59,6 +59,36 @@
         class="bg-slate-900 text-white px-10 py-4 rounded-[2rem] font-black text-sm hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/20 active:scale-95">
         Lọc Dữ Liệu
       </button>
+    </div>
+
+    <!-- Advanced Search Section - CBCT & TRUONG_PHONG ONLY -->
+    <div *ngIf="isCBCT || isTruongPhong" class="bg-white/50 p-6 rounded-3xl border border-slate-100 grid grid-cols-1 md:grid-cols-4 gap-4 animate-fade-in">
+      <div class="space-y-2">
+        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Từ ngày</label>
+        <input [(ngModel)]="fromDateSearch" type="date"
+          class="w-full px-4 py-3 bg-white border border-slate-100 rounded-xl text-xs font-bold focus:ring-2 focus:ring-primary/10 outline-none">
+      </div>
+      <div class="space-y-2">
+        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Đến ngày</label>
+        <input [(ngModel)]="toDateSearch" type="date"
+          class="w-full px-4 py-3 bg-white border border-slate-100 rounded-xl text-xs font-bold focus:ring-2 focus:ring-primary/10 outline-none">
+      </div>
+      <div class="space-y-2">
+        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Phạm vi</label>
+        <select [(ngModel)]="phamViSearch"
+          class="w-full px-4 py-3 bg-white border border-slate-100 rounded-xl text-xs font-bold focus:ring-2 focus:ring-primary/10 outline-none appearance-none">
+          <option value="">Toàn bộ phạm vi</option>
+          <option value="NOI_BO_CUC">Nội bộ cục</option>
+          <option value="TOAN_NGANH">Toàn ngành</option>
+        </select>
+      </div>
+      <div class="flex items-end">
+        <button (click)="onSearch()"
+          class="w-full py-3 bg-slate-100 text-slate-600 rounded-xl text-xs font-black hover:bg-slate-200 transition-all flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-lg">filter_alt</span>
+          Tìm kiếm nâng cao
+        </button>
+      </div>
     </div>
   </div>
 
@@ -135,25 +165,30 @@
             <!-- Action Column -->
             <td class="px-10 py-8">
               <div class="flex items-center justify-center gap-3">
+                <!-- View: Available for ALL roles -->
                 <button (click)="onView(item)"
                   class="size-11 rounded-2xl bg-white border border-slate-100 text-slate-400 hover:text-primary hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 transition-all flex items-center justify-center group/btn"
                   title="Xem chi tiết">
                   <span
                     class="material-symbols-outlined text-xl group-hover/btn:scale-110 transition-transform">visibility</span>
                 </button>
-                <button (click)="onEdit(item)"
+
+                <!-- Edit/Delete: CBCT AND (Owner or Admin power normally handled by backend but UI hides for others) -->
+                <button *ngIf="isCBCT && item.createdBy == currentUserId" (click)="onEdit(item)"
                   class="size-11 rounded-2xl bg-white border border-slate-100 text-slate-400 hover:text-blue-600 hover:border-blue-200 hover:shadow-lg hover:shadow-blue-500/10 transition-all flex items-center justify-center group/btn"
                   title="Chỉnh sửa">
                   <span
                     class="material-symbols-outlined text-xl group-hover/btn:scale-110 transition-transform">edit</span>
                 </button>
-                <button (click)="onDelete(item.id!)"
+                <button *ngIf="isCBCT && item.createdBy == currentUserId" (click)="onDelete(item.id!)"
                   class="size-11 rounded-2xl bg-white border border-slate-100 text-slate-400 hover:text-red-500 hover:border-red-200 hover:shadow-lg hover:shadow-red-500/10 transition-all flex items-center justify-center group/btn"
                   title="Xóa">
                   <span
                     class="material-symbols-outlined text-xl group-hover/btn:scale-110 transition-transform">delete</span>
                 </button>
-                <button (click)="onViewAuditLog(item)"
+
+                <!-- Audit Log: CBCT and TRUONG_PHONG -->
+                <button *ngIf="isCBCT || isTruongPhong" (click)="onViewAuditLog(item)"
                   class="size-11 rounded-2xl bg-white border border-slate-100 text-slate-400 hover:text-slate-900 hover:border-slate-300 hover:shadow-lg hover:shadow-slate-900/10 transition-all flex items-center justify-center group/btn"
                   title="Lịch sử">
                   <span
@@ -395,10 +430,19 @@
                 1 ? 'Mật' : 'Khẩn' }}</span>
             </td>
             <td class="py-4 text-right">
-              <span class="inline-flex items-center gap-1 text-[10px] font-black uppercase text-green-500">
+              <div *ngIf="row.isValid" class="inline-flex items-center gap-1 text-[10px] font-black uppercase text-green-500">
                 <span class="material-symbols-outlined text-xs">check_circle</span>
                 Hợp lệ
-              </span>
+              </div>
+              <div *ngIf="!row.isValid" class="flex flex-col items-end gap-1">
+                <div class="inline-flex items-center gap-1 text-[10px] font-black uppercase text-red-500">
+                  <span class="material-symbols-outlined text-xs">error</span>
+                  Không hợp lệ
+                </div>
+                <div *ngIf="row.errors && row.errors.length > 0" class="text-[9px] text-red-400 font-bold max-w-[200px] text-right">
+                  {{ row.errors.join(', ') }}
+                </div>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -625,7 +669,7 @@
           <span class="material-symbols-outlined text-amber-500">info</span>
           <div>
             <p class="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-1">Ghi chú quan trọng</p>
-            <p class="text-xs font-bold text-amber-800 italic leading-relaxed">{{ viewingDetail?.data?.ghiChu }}</p>
+            <p class="text-xs font-bold text-amber-800 italic leading-relaxed">{{ viewingDetail.data.ghiChu }}</p>
           </div>
         </div>
       </div>

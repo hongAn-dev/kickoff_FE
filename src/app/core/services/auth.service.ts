@@ -67,6 +67,29 @@ export class AuthService {
     return null;
   }
 
+  getUserRole(): string | null {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      return localStorage.getItem('user_role');
+    }
+    return null;
+  }
+
+  getDonViId(): number | null {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const id = localStorage.getItem('user_donViId');
+      return id ? Number(id) : null;
+    }
+    return null;
+  }
+
+  getUserId(): number | null {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const id = localStorage.getItem('user_id');
+      return id ? Number(id) : null;
+    }
+    return null;
+  }
+
   isAuthenticated(): boolean {
     return !!this.getToken();
   }
