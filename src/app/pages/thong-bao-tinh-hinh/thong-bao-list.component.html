@@ -5,11 +5,10 @@
       <h2 class="text-2xl font-black text-slate-900 tracking-tight">Quản Lý Thông Báo Tình Hình</h2>
       <p class="text-slate-500 text-sm font-medium">Theo dõi và cập nhật các báo cáo khẩn cấp từ cơ sở</p>
     </div>
-    
+
     <div class="flex items-center gap-3">
       <!-- Import Button -->
-      <button 
-        (click)="triggerImport(fileImport)"
+      <button (click)="triggerImport(fileImport)"
         class="bg-white border border-slate-200 text-slate-700 px-5 py-2.5 rounded-2xl font-bold text-sm hover:bg-slate-50 transition-all flex items-center gap-2 shadow-sm">
         <span class="material-symbols-outlined text-xl">upload_file</span>
         Nhập Excel
@@ -17,16 +16,14 @@
       <input #fileImport type="file" (change)="onFileImportSelected($event)" hidden accept=".xlsx, .xls">
 
       <!-- Export Button -->
-      <button 
-        (click)="onExport()"
+      <button (click)="onExport()"
         class="bg-white border border-slate-200 text-slate-700 px-5 py-2.5 rounded-2xl font-bold text-sm hover:bg-slate-50 transition-all flex items-center gap-2 shadow-sm">
         <span class="material-symbols-outlined text-xl">download</span>
         Xuất Excel
       </button>
 
       <!-- Create New Button -->
-      <button 
-        (click)="onAdd()"
+      <button (click)="onAdd()"
         class="bg-primary text-white px-6 py-2.5 rounded-2xl font-bold text-sm hover:bg-blue-700 transition-all flex items-center gap-2 shadow-lg shadow-primary/20">
         <span class="material-symbols-outlined text-xl">add</span>
         Tạo Báo Cáo Mới
@@ -39,21 +36,17 @@
     <!-- Main Search & Quick Filter Bar -->
     <div class="bg-white p-3 rounded-[2.5rem] border border-slate-100 shadow-sm flex items-center gap-3">
       <div class="flex-1 relative group pl-4">
-        <span class="material-symbols-outlined absolute left-8 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors">search</span>
-        <input 
-          [(ngModel)]="tieuDeSearch"
-          (keyup.enter)="onSearch()"
-          type="text" 
-          placeholder="Tìm kiếm theo tiêu đề thông báo..." 
+        <span
+          class="material-symbols-outlined absolute left-8 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors">search</span>
+        <input [(ngModel)]="tieuDeSearch" (keyup.enter)="onSearch()" type="text"
+          placeholder="Tìm kiếm theo tiêu đề thông báo..."
           class="w-full pl-12 pr-4 py-4 bg-transparent border-none text-base font-medium focus:outline-none placeholder:text-slate-400">
       </div>
 
       <div class="h-10 w-px bg-slate-100"></div>
 
       <div class="w-64">
-        <select 
-          [(ngModel)]="phanLoaiIdSearch"
-          (change)="onSearch()"
+        <select [(ngModel)]="phanLoaiIdSearch" (change)="onSearch()"
           class="w-full px-6 py-4 bg-transparent border-none text-sm font-bold text-slate-700 focus:outline-none cursor-pointer appearance-none">
           <option value="">Tất cả phân loại</option>
           <option [value]="1">Báo cáo mật</option>
@@ -62,48 +55,18 @@
         </select>
       </div>
 
-      <button 
-        (click)="onSearch()"
+      <button (click)="onSearch()"
         class="bg-slate-900 text-white px-10 py-4 rounded-[2rem] font-black text-sm hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/20 active:scale-95">
         Lọc Dữ Liệu
       </button>
-    </div>
-
-    <!-- Secondary Filters Bar -->
-    <div class="flex items-center justify-between px-2">
-      <div class="flex items-center gap-4">
-        <div class="flex items-center gap-2 px-4 py-2.5 bg-white border border-slate-100 rounded-2xl shadow-sm">
-          <span class="material-symbols-outlined text-slate-400 text-lg">filter_list</span>
-          <span class="text-[11px] font-black text-slate-400 uppercase tracking-widest">Bộ lọc</span>
-        </div>
-        
-        <div class="flex items-center gap-2">
-          <div class="px-5 py-2.5 bg-slate-50 border border-slate-100 rounded-2xl text-[11px] font-bold text-slate-600 flex items-center gap-2 cursor-pointer hover:bg-white transition-all">
-            Phạm vi: Tất cả
-            <span class="material-symbols-outlined text-sm">expand_more</span>
-          </div>
-          <button (click)="onSearch()" class="p-2.5 bg-white border border-slate-100 rounded-2xl text-slate-400 hover:text-primary transition-all shadow-sm">
-            <span class="material-symbols-outlined text-lg">refresh</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-4">
-        <div class="text-right">
-          <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Đồng bộ hệ thống</p>
-          <p class="text-[11px] font-bold text-slate-900">Dữ liệu thời gian thực</p>
-        </div>
-        <button (click)="loadData()" class="size-11 bg-white border border-slate-100 rounded-2xl flex items-center justify-center text-slate-900 shadow-sm hover:shadow-md transition-all active:scale-90">
-          <span class="material-symbols-outlined">sync</span>
-        </button>
-      </div>
     </div>
   </div>
 
   <!-- Data Table Card -->
   <div class="bg-white rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden relative min-h-[400px]">
     <!-- Loading Overlay -->
-    <div *ngIf="isLoading" class="absolute inset-0 bg-white/60 backdrop-blur-[2px] z-30 flex items-center justify-center">
+    <div *ngIf="isLoading"
+      class="absolute inset-0 bg-white/60 backdrop-blur-[2px] z-30 flex items-center justify-center">
       <div class="flex flex-col items-center gap-3">
         <div class="w-10 h-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
         <p class="text-xs font-bold text-slate-600 animate-pulse">Đang tải dữ liệu...</p>
@@ -116,37 +79,45 @@
           <tr class="border-b border-slate-100">
             <th class="px-10 py-6 text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Mã ID</th>
             <th class="px-10 py-6 text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Tiêu Đề</th>
-            <th class="px-10 py-6 text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Phân Loại / Phạm Vi</th>
+            <th class="px-10 py-6 text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Phân Loại / Phạm Vi
+            </th>
             <th class="px-10 py-6 text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Thời Gian</th>
-            <th class="px-10 py-6 text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] text-center">Thao Tác</th>
+            <th class="px-10 py-6 text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] text-center">Thao Tác
+            </th>
           </tr>
         </thead>
         <tbody class="divide-y divide-slate-50">
           <tr *ngFor="let item of dataList" class="group hover:bg-slate-50/50 transition-all">
             <!-- ID Column -->
             <td class="px-10 py-8">
-              <span class="text-xs font-mono font-bold text-slate-400 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200/50">
-                #{{ item.id?.toString()?.slice(0, 8) }}...
+              <span
+                class="text-xs font-mono font-bold text-slate-400 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200/50">
+                #{{ item.id ? item.id.toString().slice(0, 8) : 'N/A' }}...
               </span>
             </td>
-            
+
             <!-- Title Column -->
             <td class="px-10 py-8">
               <div class="flex flex-col gap-1.5">
-                <span class="text-base font-black text-slate-900 group-hover:text-primary transition-colors leading-snug">{{ item.tieuDe }}</span>
-                <span class="text-xs text-slate-400 font-bold line-clamp-1 italic">{{ item.ghiChu || 'Không có ghi chú' }}</span>
+                <span
+                  class="text-base font-black text-slate-900 group-hover:text-primary transition-colors leading-snug">{{
+                  item.tieuDe }}</span>
+                <span class="text-xs text-slate-400 font-bold line-clamp-1 italic">{{ item.ghiChu || 'Không có ghi chú'
+                  }}</span>
               </div>
             </td>
 
             <!-- Categorization Column -->
             <td class="px-10 py-8">
               <div class="flex flex-col gap-2.5">
-                <span [class]="'inline-flex px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.1em] w-fit border ' + 
+                <span
+                  [class]="'inline-flex px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.1em] w-fit border ' + 
                               (item.phanLoaiId === 1 ? 'bg-orange-50 text-orange-600 border-orange-100' : 
                                item.phanLoaiId === 2 ? 'bg-red-50 text-red-600 border-red-100' : 'bg-blue-50 text-blue-600 border-blue-100')">
                   {{ item.phanLoaiId === 1 ? 'Loại: MẬT' : item.phanLoaiId === 2 ? 'Loại: KHẨN' : 'Loại: THƯỜNG' }}
                 </span>
-                <span class="px-4 py-1.5 rounded-full bg-slate-50 text-slate-600 text-[10px] font-black uppercase tracking-[0.1em] w-fit border border-slate-200/50">
+                <span
+                  class="px-4 py-1.5 rounded-full bg-slate-50 text-slate-600 text-[10px] font-black uppercase tracking-[0.1em] w-fit border border-slate-200/50">
                   {{ item.phamVi === 'NOI_BO_CUC' ? 'Nội bộ cục' : 'Toàn ngành' }}
                 </span>
               </div>
@@ -154,7 +125,8 @@
 
             <!-- Time Column -->
             <td class="px-10 py-8">
-              <div class="flex items-center gap-2.5 text-sm font-black text-slate-700 bg-slate-50/50 px-4 py-2.5 rounded-2xl border border-slate-100 w-fit">
+              <div
+                class="flex items-center gap-2.5 text-sm font-black text-slate-700 bg-slate-50/50 px-4 py-2.5 rounded-2xl border border-slate-100 w-fit">
                 <span class="material-symbols-outlined text-lg text-primary">calendar_today</span>
                 {{ item.ngayThongBao | date:'dd/MM/yyyy' }}
               </div>
@@ -163,17 +135,29 @@
             <!-- Action Column -->
             <td class="px-10 py-8">
               <div class="flex items-center justify-center gap-3">
-                <button (click)="onView(item)" class="size-11 rounded-2xl bg-white border border-slate-100 text-slate-400 hover:text-primary hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 transition-all flex items-center justify-center group/btn" title="Xem chi tiết">
-                  <span class="material-symbols-outlined text-xl group-hover/btn:scale-110 transition-transform">visibility</span>
+                <button (click)="onView(item)"
+                  class="size-11 rounded-2xl bg-white border border-slate-100 text-slate-400 hover:text-primary hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 transition-all flex items-center justify-center group/btn"
+                  title="Xem chi tiết">
+                  <span
+                    class="material-symbols-outlined text-xl group-hover/btn:scale-110 transition-transform">visibility</span>
                 </button>
-                <button (click)="onEdit(item)" class="size-11 rounded-2xl bg-white border border-slate-100 text-slate-400 hover:text-blue-600 hover:border-blue-200 hover:shadow-lg hover:shadow-blue-500/10 transition-all flex items-center justify-center group/btn" title="Chỉnh sửa">
-                  <span class="material-symbols-outlined text-xl group-hover/btn:scale-110 transition-transform">edit</span>
+                <button (click)="onEdit(item)"
+                  class="size-11 rounded-2xl bg-white border border-slate-100 text-slate-400 hover:text-blue-600 hover:border-blue-200 hover:shadow-lg hover:shadow-blue-500/10 transition-all flex items-center justify-center group/btn"
+                  title="Chỉnh sửa">
+                  <span
+                    class="material-symbols-outlined text-xl group-hover/btn:scale-110 transition-transform">edit</span>
                 </button>
-                <button (click)="onDelete(item.id!)" class="size-11 rounded-2xl bg-white border border-slate-100 text-slate-400 hover:text-red-500 hover:border-red-200 hover:shadow-lg hover:shadow-red-500/10 transition-all flex items-center justify-center group/btn" title="Xóa">
-                  <span class="material-symbols-outlined text-xl group-hover/btn:scale-110 transition-transform">delete</span>
+                <button (click)="onDelete(item.id!)"
+                  class="size-11 rounded-2xl bg-white border border-slate-100 text-slate-400 hover:text-red-500 hover:border-red-200 hover:shadow-lg hover:shadow-red-500/10 transition-all flex items-center justify-center group/btn"
+                  title="Xóa">
+                  <span
+                    class="material-symbols-outlined text-xl group-hover/btn:scale-110 transition-transform">delete</span>
                 </button>
-                <button (click)="onViewAuditLog(item)" class="size-11 rounded-2xl bg-white border border-slate-100 text-slate-400 hover:text-slate-900 hover:border-slate-300 hover:shadow-lg hover:shadow-slate-900/10 transition-all flex items-center justify-center group/btn" title="Lịch sử">
-                  <span class="material-symbols-outlined text-xl group-hover/btn:scale-110 transition-transform">history</span>
+                <button (click)="onViewAuditLog(item)"
+                  class="size-11 rounded-2xl bg-white border border-slate-100 text-slate-400 hover:text-slate-900 hover:border-slate-300 hover:shadow-lg hover:shadow-slate-900/10 transition-all flex items-center justify-center group/btn"
+                  title="Lịch sử">
+                  <span
+                    class="material-symbols-outlined text-xl group-hover/btn:scale-110 transition-transform">history</span>
                 </button>
               </div>
             </td>
@@ -204,26 +188,20 @@
       </p>
 
       <div class="flex items-center gap-2">
-        <button 
-          (click)="onPageChange(page - 1)" 
-          [disabled]="page === 0"
+        <button (click)="onPageChange(page - 1)" [disabled]="page === 0"
           class="p-2 rounded-xl border border-slate-200 text-slate-400 hover:text-primary disabled:opacity-30 disabled:hover:text-slate-400 transition-all">
           <span class="material-symbols-outlined text-sm">chevron_left</span>
         </button>
 
         <div class="flex items-center gap-1">
-          <button 
-            *ngFor="let p of getPagesArray()"
-            (click)="onPageChange(p)"
+          <button *ngFor="let p of getPagesArray()" (click)="onPageChange(p)"
             [class]="'size-8 flex items-center justify-center rounded-xl text-xs font-black transition-all ' + 
                      (p === page ? 'bg-primary text-white shadow-lg shadow-primary/25' : 'text-slate-400 hover:bg-slate-100')">
             {{ p + 1 }}
           </button>
         </div>
 
-        <button 
-          (click)="onPageChange(page + 1)" 
-          [disabled]="page >= totalPages - 1"
+        <button (click)="onPageChange(page + 1)" [disabled]="page >= totalPages - 1"
           class="p-2 rounded-xl border border-slate-200 text-slate-400 hover:text-primary disabled:opacity-30 disabled:hover:text-slate-400 transition-all">
           <span class="material-symbols-outlined text-sm">chevron_right</span>
         </button>
@@ -234,14 +212,18 @@
 
 <!-- Drawer: Add/Edit -->
 <div class="fixed inset-0 z-50 pointer-events-none overflow-hidden" *ngIf="isDrawerOpen">
-  <div class="absolute inset-0 bg-slate-900/20 backdrop-blur-sm pointer-events-auto transition-all" (click)="resetDrawers()"></div>
-  <div class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl pointer-events-auto transform transition-transform duration-300 flex flex-col slide-in-right">
+  <div class="absolute inset-0 bg-slate-900/20 backdrop-blur-sm pointer-events-auto transition-all"
+    (click)="resetDrawers()"></div>
+  <div
+    class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl pointer-events-auto transform transition-transform duration-300 flex flex-col slide-in-right">
     <div class="p-8 border-b border-slate-100 flex items-center justify-between shrink-0">
       <div>
-        <h3 class="text-xl font-black text-slate-900 tracking-tight">{{ isEditing ? 'Cập Nhật Thông Báo' : 'Thêm Thông Báo Mới' }}</h3>
+        <h3 class="text-xl font-black text-slate-900 tracking-tight">{{ isEditing ? 'Cập Nhật Thông Báo' : 'Thêm Thông
+          Báo Mới' }}</h3>
         <p class="text-slate-500 text-[10px] font-black uppercase tracking-widest mt-1">Hệ Thống Phân Loại Quantum</p>
       </div>
-      <button (click)="resetDrawers()" class="size-10 rounded-xl bg-slate-50 text-slate-400 hover:text-slate-900 transition-all flex items-center justify-center">
+      <button (click)="resetDrawers()"
+        class="size-10 rounded-xl bg-slate-50 text-slate-400 hover:text-slate-900 transition-all flex items-center justify-center">
         <span class="material-symbols-outlined">close</span>
       </button>
     </div>
@@ -249,14 +231,20 @@
     <div class="flex-1 overflow-y-auto p-8 space-y-8">
       <form [formGroup]="thongBaoForm" class="space-y-6">
         <div class="space-y-2">
-          <label class="text-xs font-black text-slate-900 uppercase tracking-wider">Tiêu Đề Báo Cáo</label>
-          <input formControlName="tieuDe" type="text" placeholder="Nhập tiêu đề thông báo..." class="w-full px-5 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all">
+          <input formControlName="tieuDe" type="text" placeholder="Nhập tiêu đề thông báo..."
+            [class.border-red-500]="thongBaoForm.get('tieuDe')?.invalid && thongBaoForm.get('tieuDe')?.touched"
+            class="w-full px-5 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all">
+          <p *ngIf="thongBaoForm.get('tieuDe')?.errors?.['required'] && thongBaoForm.get('tieuDe')?.touched"
+            class="text-[10px] text-red-500 font-bold px-1">Tiêu đề không được để trống</p>
+          <p *ngIf="thongBaoForm.get('tieuDe')?.errors?.['minlength'] && thongBaoForm.get('tieuDe')?.touched"
+            class="text-[10px] text-red-500 font-bold px-1">Tiêu đề phải có ít nhất 5 ký tự</p>
         </div>
 
         <div class="grid grid-cols-2 gap-4">
           <div class="space-y-2">
             <label class="text-xs font-black text-slate-900 uppercase tracking-wider">Phân Loại</label>
-            <select formControlName="phanLoaiId" class="w-full px-5 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm appearance-none">
+            <select formControlName="phanLoaiId"
+              class="w-full px-5 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm appearance-none">
               <option [value]="1">Báo cáo mật</option>
               <option [value]="2">Báo cáo khẩn</option>
               <option [value]="3">Báo cáo thường</option>
@@ -264,7 +252,8 @@
           </div>
           <div class="space-y-2">
             <label class="text-xs font-black text-slate-900 uppercase tracking-wider">Ngày Báo Cáo</label>
-            <input formControlName="ngayThongBao" type="date" class="w-full px-5 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm">
+            <input formControlName="ngayThongBao" type="date"
+              class="w-full px-5 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm">
           </div>
         </div>
 
@@ -282,21 +271,84 @@
           </div>
         </div>
 
-        <div class="space-y-2">
-          <label class="text-xs font-black text-slate-900 uppercase tracking-wider">Nội Dung Chi Tiết</label>
-          <textarea formControlName="noiDung" rows="8" placeholder="Nhập nội dung thông báo..." class="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all"></textarea>
+        <div class="space-y-4">
+          <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest px-1">Nội dung báo cáo</label>
+          <textarea formControlName="noiDung" rows="12" placeholder="Nhập nội dung chi tiết thông báo..."
+            [class.border-red-500]="thongBaoForm.get('noiDung')?.invalid && thongBaoForm.get('noiDung')?.touched"
+            class="w-full px-6 py-5 bg-slate-50 border border-slate-100 rounded-3xl text-sm focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all placeholder:text-slate-400 placeholder:italic"></textarea>
+          <p *ngIf="thongBaoForm.get('noiDung')?.invalid && thongBaoForm.get('noiDung')?.touched"
+            class="text-[10px] text-red-500 font-bold px-1">Nội dung báo cáo không được để trống</p>
+        </div>
+
+        <!-- File Attachment Field -->
+        <div class="space-y-4">
+          <!-- Existing Files List (Editing) -->
+          <div class="space-y-3 mb-6" *ngIf="isEditing && existingFiles.length > 0">
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Tệp hiện có (Có thể xóa)</p>
+            <div class="grid gap-2">
+              <div *ngFor="let file of existingFiles" 
+                class="flex items-center justify-between p-4 rounded-2xl bg-white border border-slate-100 group/exfile">
+                <div class="flex items-center gap-3 overflow-hidden">
+                  <span class="material-symbols-outlined text-blue-600 text-lg">description</span>
+                  <span class="text-xs font-bold text-slate-700 truncate">{{ file.fileName }}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button (click)="onDownloadFile(file)" type="button" 
+                    class="p-2 rounded-xl bg-slate-50 text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-all">
+                    <span class="material-symbols-outlined text-sm">download</span>
+                  </button>
+                  <button (click)="onRemoveExistingFile(file.id)" type="button"
+                    class="p-2 rounded-xl bg-slate-50 text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all">
+                    <span class="material-symbols-outlined text-sm">delete</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest px-1">File đính kèm mới</label>
+          <div class="relative">
+            <input type="file" #fileInput (change)="onFileChange($event)" multiple class="hidden">
+            <div (click)="fileInput.click()"
+              class="w-full p-8 border-2 border-dashed border-slate-200 rounded-[2rem] bg-slate-50/50 hover:bg-white hover:border-primary/30 transition-all cursor-pointer group/upload text-center">
+              <div class="flex flex-col items-center gap-2">
+                <span
+                  class="material-symbols-outlined text-3xl text-slate-300 group-hover/upload:text-primary transition-colors">cloud_upload</span>
+                <p class="text-xs font-bold text-slate-400 group-hover/upload:text-slate-600">Bấm để chọn hoặc kéo thả
+                  file vào đây</p>
+                <p class="text-[10px] text-slate-400 italic">Hỗ trợ: PDF, JPG, PNG (Tối đa 20MB)</p>
+              </div>
+            </div>
+
+            <!-- Selected Files List -->
+            <div class="mt-4 flex flex-wrap gap-2" *ngIf="selectedFiles && selectedFiles.length > 0">
+              <div *ngFor="let file of [].constructor(selectedFiles.length); let i = index"
+                class="px-4 py-2 bg-primary/5 border border-primary/10 rounded-xl flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-sm">description</span>
+                <span class="text-[11px] font-bold text-slate-700 truncate max-w-[150px]">{{ selectedFiles.item(i)?.name
+                  }}</span>
+                <button (click)="removeSelectedFile()" class="p-1 hover:bg-primary/10 rounded-lg transition-all">
+                  <span class="material-symbols-outlined text-xs text-primary">close</span>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="space-y-2">
           <label class="text-xs font-black text-slate-900 uppercase tracking-wider">Ghi Chú Thêm</label>
-          <input formControlName="ghiChu" type="text" placeholder="Ghi chú nếu có..." class="w-full px-5 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm">
+          <input formControlName="ghiChu" type="text" placeholder="Ghi chú nếu có..."
+            class="w-full px-5 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm">
         </div>
       </form>
     </div>
 
     <div class="p-8 border-t border-slate-100 bg-slate-50 flex gap-4 shrink-0">
-      <button (click)="resetDrawers()" class="flex-1 py-4 rounded-2xl font-bold border border-slate-200 text-slate-600 hover:bg-white transition-all">Huỷ bỏ</button>
-      <button (click)="onSubmit()" [disabled]="isLoading" class="flex-[2] py-4 rounded-2xl font-bold bg-primary text-white hover:bg-blue-700 transition-all shadow-lg shadow-primary/20">
+      <button (click)="resetDrawers()"
+        class="flex-1 py-4 rounded-2xl font-bold border border-slate-200 text-slate-600 hover:bg-white transition-all">Huỷ
+        bỏ</button>
+      <button (click)="onSubmit()" [disabled]="isLoading"
+        class="flex-[2] py-4 rounded-2xl font-bold bg-primary text-white hover:bg-blue-700 transition-all shadow-lg shadow-primary/20">
         {{ isLoading ? 'Đang lưu...' : (isEditing ? 'Cập Nhật Ngay' : 'Lưu Thông Báo') }}
       </button>
     </div>
@@ -306,13 +358,16 @@
 <!-- Drawer: Import Preview -->
 <div class="fixed inset-0 z-50 pointer-events-none" *ngIf="isImportDrawerOpen">
   <div class="absolute inset-0 bg-slate-900/20 backdrop-blur-sm pointer-events-auto" (click)="resetDrawers()"></div>
-  <div class="absolute right-0 top-0 h-full w-full max-w-2xl bg-white shadow-2xl pointer-events-auto transform flex flex-col slide-in-right">
+  <div
+    class="absolute right-0 top-0 h-full w-full max-w-2xl bg-white shadow-2xl pointer-events-auto transform flex flex-col slide-in-right">
     <div class="p-8 border-b border-slate-100 flex items-center justify-between shrink-0">
       <div>
         <h3 class="text-xl font-black text-slate-900 tracking-tight">Rà Soát Dữ Liệu Import</h3>
-        <p class="text-slate-500 text-[11px] font-bold uppercase tracking-widest mt-1">Kiểm tra thông tin trước khi lưu hệ thống</p>
+        <p class="text-slate-500 text-[11px] font-bold uppercase tracking-widest mt-1">Kiểm tra thông tin trước khi lưu
+          hệ thống</p>
       </div>
-      <button (click)="resetDrawers()" class="size-10 rounded-xl bg-slate-50 text-slate-400 hover:text-slate-900 transition-all flex items-center justify-center">
+      <button (click)="resetDrawers()"
+        class="size-10 rounded-xl bg-slate-50 text-slate-400 hover:text-slate-900 transition-all flex items-center justify-center">
         <span class="material-symbols-outlined">close</span>
       </button>
     </div>
@@ -321,7 +376,7 @@
       <div *ngIf="!importPreviewData || importPreviewData.length === 0" class="text-center py-20 text-slate-400">
         Không có dữ liệu để xem trước.
       </div>
-      
+
       <table *ngIf="importPreviewData && importPreviewData.length > 0" class="w-full text-left border-collapse">
         <thead>
           <tr class="border-b border-slate-100">
@@ -336,7 +391,8 @@
             <td class="py-4 font-bold text-slate-400 text-xs">{{ i + 1 }}</td>
             <td class="py-4 text-xs font-bold text-slate-900">{{ row.tieuDe }}</td>
             <td class="py-4">
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-600">{{ row.phanLoaiId === 1 ? 'Mật' : 'Khẩn' }}</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-600">{{ row.phanLoaiId ===
+                1 ? 'Mật' : 'Khẩn' }}</span>
             </td>
             <td class="py-4 text-right">
               <span class="inline-flex items-center gap-1 text-[10px] font-black uppercase text-green-500">
@@ -350,8 +406,10 @@
     </div>
 
     <div class="p-8 border-t border-slate-100 bg-slate-50 flex gap-4 shrink-0">
-      <button (click)="resetDrawers()" class="flex-1 py-4 rounded-2xl font-bold border border-slate-200 text-slate-600 hover:bg-white transition-all">Huỷ</button>
-      <button (click)="onConfirmImport()" [disabled]="isLoading" class="flex-[3] py-4 rounded-2xl font-bold bg-slate-900 text-white hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/20">
+      <button (click)="resetDrawers()"
+        class="flex-1 py-4 rounded-2xl font-bold border border-slate-200 text-slate-600 hover:bg-white transition-all">Huỷ</button>
+      <button (click)="onConfirmImport()" [disabled]="isLoading"
+        class="flex-[3] py-4 rounded-2xl font-bold bg-slate-900 text-white hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/20">
         Xác Nhận & Lưu Vào Hệ Thống
       </button>
     </div>
@@ -361,38 +419,45 @@
 <!-- Drawer: Audit Log -->
 <div class="fixed inset-0 z-50 pointer-events-none" *ngIf="isAuditDrawerOpen">
   <div class="absolute inset-0 bg-slate-900/20 backdrop-blur-sm pointer-events-auto" (click)="resetDrawers()"></div>
-  <div class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl pointer-events-auto transform flex flex-col slide-in-right">
+  <div
+    class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl pointer-events-auto transform flex flex-col slide-in-right">
     <div class="p-8 border-b border-slate-100 flex items-center justify-between shrink-0">
       <div>
         <h3 class="text-xl font-black text-slate-900 tracking-tight">Lịch Sử Biến Động</h3>
         <p class="text-slate-500 text-[10px] font-black uppercase tracking-widest mt-1">Truy vết thay đổi dữ liệu</p>
       </div>
-      <button (click)="resetDrawers()" class="size-10 rounded-xl bg-slate-50 text-slate-400 hover:text-slate-900 transition-all flex items-center justify-center">
+      <button (click)="resetDrawers()"
+        class="size-10 rounded-xl bg-slate-50 text-slate-400 hover:text-slate-900 transition-all flex items-center justify-center">
         <span class="material-symbols-outlined">close</span>
       </button>
     </div>
 
     <div class="flex-1 overflow-y-auto p-8 relative">
       <div *ngIf="isLoading" class="absolute inset-0 z-10 bg-white/60 flex items-center justify-center">
-         <div class="size-8 border-3 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+        <div class="size-8 border-3 border-primary/20 border-t-primary rounded-full animate-spin"></div>
       </div>
 
       <div class="space-y-8 relative">
         <div class="absolute left-[19px] top-2 bottom-2 w-px bg-slate-100"></div>
 
         <div *ngFor="let log of auditLogs" class="relative pl-12">
-          <div class="absolute left-0 top-1 size-10 rounded-xl bg-white border border-slate-100 shadow-sm flex items-center justify-center z-10">
-            <span class="material-symbols-outlined text-slate-400 text-lg">{{ log.action === 'UPDATE' ? 'history_edu' : 'add_circle' }}</span>
+          <div
+            class="absolute left-0 top-1 size-10 rounded-xl bg-white border border-slate-100 shadow-sm flex items-center justify-center z-10">
+            <span class="material-symbols-outlined text-slate-400 text-lg">{{ log.action === 'UPDATE' ? 'history_edu' :
+              'add_circle' }}</span>
           </div>
           <div class="space-y-1">
-            <p class="text-[10px] font-black text-primary uppercase tracking-widest">{{ log.action === 'UPDATE' ? 'Cập Nhật' : 'Khởi Tạo' }}</p>
+            <p class="text-[10px] font-black text-primary uppercase tracking-widest">{{ log.action === 'UPDATE' ? 'Cập
+              Nhật' : 'Khởi Tạo' }}</p>
             <p class="text-xs font-bold text-slate-700">Trường: {{ log.fieldName }}</p>
             <div class="flex items-center gap-2 mt-2 p-3 bg-slate-50 rounded-xl border border-slate-100">
-               <span class="text-[9px] text-slate-400 line-through truncate max-w-[80px]">{{ log.oldValue || 'Trống' }}</span>
-               <span class="material-symbols-outlined text-xs text-slate-300">arrow_forward</span>
-               <span class="text-[9px] text-primary font-bold truncate">{{ log.newValue }}</span>
+              <span class="text-[9px] text-slate-400 line-through truncate max-w-[80px]">{{ log.oldValue || 'Trống'
+                }}</span>
+              <span class="material-symbols-outlined text-xs text-slate-300">arrow_forward</span>
+              <span class="text-[9px] text-primary font-bold truncate">{{ log.newValue }}</span>
             </div>
-            <p class="text-[9px] text-slate-400 font-bold mt-2">Bởi: {{ log.changedBy }} • {{ log.changedAt | date:'HH:mm dd/MM/yyyy' }}</p>
+            <p class="text-[9px] text-slate-400 font-bold mt-2">Bởi: {{ log.changedBy }} • {{ log.changedAt |
+              date:'HH:mm dd/MM/yyyy' }}</p>
           </div>
         </div>
       </div>
@@ -402,69 +467,176 @@
 
 <!-- Drawer: View Details -->
 <div class="fixed inset-0 z-50 pointer-events-none" *ngIf="isViewDrawerOpen">
-  <div class="absolute inset-0 bg-slate-900/20 backdrop-blur-sm pointer-events-auto" (click)="resetDrawers()"></div>
-  <div class="absolute right-0 top-0 h-full w-full max-w-lg bg-white shadow-2xl pointer-events-auto transform flex flex-col slide-in-right">
-    <div class="p-8 border-b border-slate-100 flex items-center justify-between shrink-0">
-      <div>
-        <h3 class="text-xl font-black text-slate-900 tracking-tight">Chi Tiết Thông Báo</h3>
-        <p class="text-slate-500 text-[10px] font-black uppercase tracking-widest mt-1">Thông tin chi tiết bản ghi</p>
+  <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md pointer-events-auto transition-all duration-500"
+    (click)="resetDrawers()"></div>
+  <div
+    class="absolute right-0 top-0 h-full w-full max-w-xl bg-white shadow-[-20px_0_50px_rgba(0,0,0,0.1)] pointer-events-auto transform flex flex-col slide-in-right ring-1 ring-slate-200">
+
+    <!-- Header -->
+    <div
+      class="p-8 border-b border-slate-100 flex items-center justify-between shrink-0 bg-white/80 backdrop-blur-md sticky top-0 z-10">
+      <div class="flex items-center gap-4">
+        <div
+          class="size-12 rounded-2xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-200">
+          <span class="material-symbols-outlined text-2xl">visibility</span>
+        </div>
+        <div>
+          <h3 class="text-xl font-black text-slate-900 tracking-tight">Chi Tiết Thông Báo</h3>
+          <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] mt-0.5">Mã định danh: {{
+            viewingItem?.id }}</p>
+        </div>
       </div>
-      <button (click)="resetDrawers()" class="size-10 rounded-xl bg-slate-50 text-slate-400 hover:text-slate-900 transition-all flex items-center justify-center">
-        <span class="material-symbols-outlined">close</span>
+      <button (click)="resetDrawers()"
+        class="size-10 rounded-xl bg-slate-50 text-slate-400 hover:text-slate-900 hover:bg-slate-100 transition-all flex items-center justify-center group">
+        <span class="material-symbols-outlined group-hover:rotate-90 transition-transform">close</span>
       </button>
     </div>
 
-    <div class="flex-1 overflow-y-auto p-8 space-y-8" *ngIf="viewingItem">
-      <div class="space-y-6">
-        <div class="p-6 bg-slate-50 rounded-3xl border border-slate-100 flex items-center justify-between">
-          <div class="flex items-center gap-4">
-            <div class="size-12 rounded-2xl bg-white border border-slate-100 flex items-center justify-center shadow-sm">
-              <span class="material-symbols-outlined text-primary">tag</span>
+    <!-- Content Area -->
+    <div class="flex-1 overflow-y-auto p-8 custom-scrollbar">
+
+      <!-- Loading State inside Drawer -->
+      <div *ngIf="isLoading" class="h-full flex flex-col items-center justify-center space-y-4 animate-pulse">
+        <div class="size-12 border-4 border-blue-100 border-t-blue-600 rounded-full animate-spin"></div>
+        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Đang tải dữ liệu...</p>
+      </div>
+
+      <!-- Viewing Detail State -->
+      <div *ngIf="!isLoading && viewingDetail" class="space-y-10 animate-fade-in">
+
+        <!-- Creator Info Card -->
+        <div class="relative group">
+          <div
+            class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2rem] blur opacity-10 group-hover:opacity-20 transition duration-500">
+          </div>
+          <div
+            class="relative flex items-center gap-5 p-6 rounded-[1.75rem] bg-white border border-slate-100 shadow-sm">
+            <div
+              class="size-16 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-white font-black text-xs shadow-xl ring-4 ring-blue-50 shrink-0 p-2 text-center break-all overflow-hidden">
+              {{ viewingDetail?.data?.createdBy || 'U' }}
             </div>
-            <div class="min-w-0 flex-1">
-              <p class="text-[10px] font-black text-slate-400 uppercase tracking-wider">Mã Định Danh (UUID)</p>
-              <p class="text-xs font-mono font-bold text-slate-900 break-all">{{ viewingItem.id }}</p>
+            <div class="flex-1 min-w-0">
+              <div class="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-1 flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-600 animate-ping"></span>
+                Thông tin người tạo
+              </div>
+              <div class="text-lg font-black text-slate-900 truncate tracking-tight">{{ viewingDetail?.creatorName }}
+              </div>
+              <div class="text-xs text-slate-500 font-bold flex items-center gap-1.5 mt-1.5">
+                <span class="material-symbols-outlined text-[16px] text-slate-400">domain</span>
+                {{ viewingDetail?.donViName }}
+              </div>
             </div>
           </div>
         </div>
 
+        <!-- Quick Specs -->
+        <div class="grid grid-cols-2 gap-4">
+          <div class="p-5 rounded-2xl bg-slate-50/50 border border-slate-100 flex flex-col gap-1">
+            <span class="text-[9px] font-black uppercase tracking-widest text-slate-400">Ngày thông báo</span>
+            <span class="text-sm font-black text-slate-900 flex items-center gap-2">
+              <span class="material-symbols-outlined text-blue-600 text-sm">calendar_today</span>
+              {{ viewingDetail?.data?.ngayThongBao | date:'dd/MM/yyyy' }}
+            </span>
+          </div>
+          <div class="p-5 rounded-2xl bg-slate-50/50 border border-slate-100 flex flex-col gap-1">
+            <span class="text-[9px] font-black uppercase tracking-widest text-slate-400">Phạm vi</span>
+            <span class="flex items-center gap-2">
+              <span class="size-2 rounded-full"
+                [ngClass]="viewingDetail?.data?.phamVi === 'TOAN_NGANH' ? 'bg-orange-500' : 'bg-blue-500'"></span>
+              <span class="text-sm font-black text-slate-900">{{ viewingDetail?.data?.phamVi === 'TOAN_NGANH' ? 'Toàn
+                ngành' : 'Nội bộ cục' }}</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Title & Classification -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <label class="text-[11px] font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
+              Tiêu đề thông báo
+            </label>
+            <span
+              [class]="'px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ' + 
+                            (viewingDetail?.data?.phanLoaiId === 1 ? 'bg-amber-100 text-amber-700' : 
+                             viewingDetail?.data?.phanLoaiId === 2 ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700')">
+              {{ viewingDetail?.data?.phanLoaiId === 1 ? 'Mật' : viewingDetail?.data?.phanLoaiId === 2 ? 'Khẩn' :
+              'Thường' }}
+            </span>
+          </div>
+          <div class="text-lg font-black text-slate-900 leading-snug">
+            {{ viewingDetail?.data?.tieuDe }}
+          </div>
+        </div>
+
+        <!-- Content Section -->
         <div class="space-y-4">
-          <div class="grid grid-cols-2 gap-4">
-            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-              <p class="text-[9px] font-black text-slate-400 uppercase tracking-wider mb-1">Phân Loại</p>
-              <span [class]="'inline-flex px-2 py-0.5 rounded-lg text-[10px] font-bold ' + 
-                            (viewingItem.phanLoaiId === 1 ? 'bg-orange-100 text-orange-600' : 
-                             viewingItem.phanLoaiId === 2 ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600')">
-                {{ viewingItem.phanLoaiId === 1 ? 'Mật' : viewingItem.phanLoaiId === 2 ? 'Khẩn' : 'Thường' }}
-              </span>
+          <label class="text-[11px] font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
+            Nội dung chi tiết
+          </label>
+          <div
+            class="p-8 rounded-[2rem] bg-slate-50/30 border border-slate-100 leading-relaxed text-slate-700 whitespace-pre-wrap text-sm font-medium">
+            {{ viewingDetail?.data?.noiDung }}
+          </div>
+        </div>
+
+        <!-- Attachments Section -->
+        <div class="space-y-5">
+          <div class="flex items-center justify-between">
+            <label class="text-[11px] font-black text-slate-900 uppercase tracking-widest">
+              Tệp đính kèm ({{ viewingDetail?.files?.length || 0 }})
+            </label>
+            <span class="text-[10px] font-bold text-slate-400 italic">PDF, Hình ảnh bằng chứng</span>
+          </div>
+
+          <div *ngIf="!viewingDetail?.files || viewingDetail?.files?.length === 0"
+            class="p-12 rounded-[2rem] bg-slate-50/50 border-2 border-dashed border-slate-200 flex flex-col items-center justify-center group hover:border-blue-200 transition-colors">
+            <div
+              class="size-16 rounded-full bg-white border border-slate-100 flex items-center justify-center mb-4 shadow-sm group-hover:scale-110 transition-transform">
+              <span class="material-symbols-outlined text-slate-300 text-3xl">cloud_off</span>
             </div>
-            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-              <p class="text-[9px] font-black text-slate-400 uppercase tracking-wider mb-1">Ngày Báo Cáo</p>
-              <p class="text-xs font-bold text-slate-900">{{ viewingItem.ngayThongBao | date:'dd/MM/yyyy' }}</p>
+            <p class="text-sm font-bold text-slate-400">Không có tệp đính kèm nào</p>
+          </div>
+
+          <div *ngIf="viewingDetail?.files && viewingDetail.files.length > 0" class="grid gap-4">
+            <div *ngFor="let file of viewingDetail?.files"
+              class="group/file flex items-center gap-4 p-5 rounded-2xl bg-white border border-slate-100 hover:border-blue-200 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all">
+              <div
+                class="size-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 ring-4 ring-blue-50/50 group-hover/file:bg-blue-600 group-hover/file:text-white transition-all">
+                <span class="material-symbols-outlined text-2xl">description</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="text-sm font-black text-slate-900 truncate">{{ file.fileName }}</div>
+                <div class="text-[10px] text-slate-500 font-bold mt-1 uppercase tracking-tighter">
+                  {{ file.fileSize / 1024 | number:'1.0-1' }} KB • {{ file.uploadedAt | date:'HH:mm dd/MM/yyyy' }}
+                </div>
+              </div>
+              <button (click)="onDownloadFile(file)"
+                class="size-10 rounded-xl bg-slate-50 text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-all flex items-center justify-center">
+                <span class="material-symbols-outlined">download</span>
+              </button>
             </div>
           </div>
+        </div>
 
-          <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-            <p class="text-[9px] font-black text-slate-400 uppercase tracking-wider mb-1">Phạm Vi</p>
-            <p class="text-xs font-bold text-slate-900">{{ viewingItem.phamVi === 'NOI_BO_CUC' ? 'Nội bộ cục' : 'Toàn ngành' }}</p>
-          </div>
-
-          <div class="p-6 bg-white border border-slate-100 rounded-3xl space-y-3 shadow-sm">
-             <h4 class="text-sm font-black text-slate-900 leading-tight">{{ viewingItem.tieuDe }}</h4>
-             <div class="h-px bg-slate-50 w-full"></div>
-             <p class="text-sm text-slate-600 leading-relaxed whitespace-pre-wrap">{{ viewingItem.noiDung }}</p>
-          </div>
-
-          <div class="p-4 bg-amber-50/50 rounded-2xl border border-amber-100/50" *ngIf="viewingItem.ghiChu">
-            <p class="text-[9px] font-black text-amber-600 uppercase tracking-wider mb-1">Ghi Chú</p>
-            <p class="text-xs font-medium text-amber-700 italic">{{ viewingItem.ghiChu }}</p>
+        <!-- Footer Note -->
+        <div class="p-5 rounded-2xl bg-amber-50/50 border border-amber-100 flex gap-4"
+          *ngIf="viewingDetail?.data?.ghiChu">
+          <span class="material-symbols-outlined text-amber-500">info</span>
+          <div>
+            <p class="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-1">Ghi chú quan trọng</p>
+            <p class="text-xs font-bold text-amber-800 italic leading-relaxed">{{ viewingDetail?.data?.ghiChu }}</p>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="p-8 border-t border-slate-100 bg-slate-50 shrink-0">
-      <button (click)="resetDrawers()" class="w-full py-4 rounded-2xl font-bold bg-slate-900 text-white hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/10">Đóng Lại</button>
+    <!-- Actions Area -->
+    <div class="p-8 border-t border-slate-100 bg-white shrink-0">
+      <button (click)="resetDrawers()"
+        class="w-full py-5 rounded-2xl font-black text-sm uppercase tracking-[0.2em] bg-slate-900 text-white hover:bg-slate-800 transition-all shadow-2xl shadow-slate-900/20 active:scale-[0.98]">
+        Đóng Chi Tiết
+      </button>
     </div>
   </div>
 </div>

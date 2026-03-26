@@ -7,6 +7,27 @@ export interface ThongBaoTinhHinh {
   noiDung: string;
   ghiChu?: string;
   isDeleted?: boolean;
+  attachments?: string[];
+  createdBy?: string | number;
+  donViId?: number;
+}
+
+export interface ThongBaoFileDto {
+  id: string;
+  fileName: string;
+  filePath: string;
+  fileSize: number;
+  mimeType: string;
+  uploadedAt: string;
+}
+
+export interface ThongBaoDetailResponse {
+  data: ThongBaoTinhHinh;
+  creatorName: string;
+  donViName: string;
+  files: ThongBaoFileDto[];
+  createdBy?: string | number;
+  donViId?: number;
 }
 
 export interface ThongBaoExcelDto {

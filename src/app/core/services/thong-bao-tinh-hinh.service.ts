@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
-import { ThongBaoTinhHinh, ThongBaoExcelDto, PaginatedResponse, AuditLog } from '../models/thong-bao.model';
+import { ThongBaoTinhHinh, ThongBaoExcelDto, PaginatedResponse, AuditLog, ThongBaoDetailResponse } from '../../core/models/thong-bao.model';
 import { environment } from '../../../environments/environment';
 
 export interface ApiResponse<T> {
@@ -22,7 +22,7 @@ export class ThongBaoTinhHinhService {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
-    
+
     if (keyword) {
       params = params.set('keyword', keyword);
     }
@@ -36,8 +36,14 @@ export class ThongBaoTinhHinhService {
 
   create(data: any, files?: FileList): Observable<ThongBaoTinhHinh> {
     const formData = new FormData();
-    formData.append('data', new Blob([JSON.stringify(data)], { type: 'application/json' }));
-    
+    // Ensure numeric values are numbers
+    const payload = {
+      ...data,
+      phanLoaiId: Number(data.phanLoaiId)
+    };
+
+    formData.append('data', new Blob([JSON.stringify(payload)], { type: 'application/json' }), 'data.json');
+
     if (files) {
       for (let i = 0; i < files.length; i++) {
         formData.append('files', files[i]);
@@ -50,8 +56,14 @@ export class ThongBaoTinhHinhService {
 
   update(id: number | string, data: any, files?: FileList): Observable<ThongBaoTinhHinh> {
     const formData = new FormData();
-    formData.append('data', new Blob([JSON.stringify(data)], { type: 'application/json' }));
-    
+    // Ensure numeric values are numbers, not strings from the select
+    const payload = {
+      ...data,
+      phanLoaiId: Number(data.phanLoaiId)
+    };
+
+    formData.append('data', new Blob([JSON.stringify(payload)], { type: 'application/json' }), 'data.json');
+
     if (files) {
       for (let i = 0; i < files.length; i++) {
         formData.append('files', files[i]);
@@ -59,6 +71,11 @@ export class ThongBaoTinhHinhService {
     }
 
     return this.http.put<ApiResponse<ThongBaoTinhHinh>>(`${this.apiUrl}/${id}`, formData)
+      .pipe(map(res => res.data));
+  }
+
+  getById(id: string | number): Observable<ThongBaoDetailResponse> {
+    return this.http.get<ApiResponse<ThongBaoDetailResponse>>(`${this.apiUrl}/${id}`)
       .pipe(map(res => res.data));
   }
 
@@ -86,5 +103,9 @@ export class ThongBaoTinhHinhService {
   importCommit(data: ThongBaoExcelDto[]): Observable<any> {
     return this.http.post<ApiResponse<any>>(`${this.apiUrl}/import/commit`, data)
       .pipe(map(res => res.data));
+  }
+
+  downloadFile(fileId: string): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/attachments/${fileId}`, { responseType: 'blob' });
   }
 }

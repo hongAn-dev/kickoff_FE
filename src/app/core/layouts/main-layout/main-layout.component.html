@@ -66,9 +66,9 @@
       </div>
 
       <a (click)="onLogout()"
-        class="flex items-center rounded-2xl text-slate-700 hover:text-red-600 hover:bg-red-50 transition-all group py-3.5 cursor-pointer"
+        class="flex items-center rounded-2xl text-slate-700 hover:text-red-600 hover:bg-red-50/50 transition-all group py-3.5 cursor-pointer"
         [class.px-0]="isSidebarCollapsed" [class.justify-center]="isSidebarCollapsed" [class.px-5]="!isSidebarCollapsed">
-        <span class="material-symbols-outlined group-hover:scale-110 transition-transform text-slate-400 group-hover:text-red-50 shrink-0">logout</span>
+        <span class="material-symbols-outlined group-hover:scale-110 transition-transform text-slate-400 group-hover:text-red-500 shrink-0">logout</span>
         <span class="ml-3 font-bold text-sm transition-all duration-300 whitespace-nowrap overflow-hidden" 
               [class.max-w-0]="isSidebarCollapsed" [class.ml-0]="isSidebarCollapsed" [class.opacity-0]="isSidebarCollapsed" [class.max-w-xs]="!isSidebarCollapsed">Đăng xuất hệ thống</span>
       </a>
