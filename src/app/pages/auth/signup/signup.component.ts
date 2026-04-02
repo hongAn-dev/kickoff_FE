@@ -39,8 +39,7 @@ export class SignupComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       donViId: [10, Validators.required], // Default to CBCT unit
       role: ['ROLE_CBCT', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      termsAgreed: [false, Validators.requiredTrue]
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 

@@ -56,6 +56,8 @@ export class ThongBaoListComponent implements OnInit {
   totalElements = 0;
 
   tieuDeSearch = '';
+  get searchQuery() { return this.tieuDeSearch; }
+  set searchQuery(val) { this.tieuDeSearch = val; }
   phanLoaiIdSearch: number | string = '';
 
   // Advanced Search Filters
@@ -73,6 +75,7 @@ export class ThongBaoListComponent implements OnInit {
   isCBCT = false;
   isTruongPhong = false;
   isThuTruong = false;
+  userMap: Map<number, string> = new Map();
 
   constructor() {
     this.thongBaoForm = this.fb.group({
@@ -90,19 +93,30 @@ export class ThongBaoListComponent implements OnInit {
     this.userDonViId = this.authService.getDonViId();
     this.currentUserId = this.authService.getUserId();
     
-    this.isCBCT = this.userRole === 'CBCT' || this.userRole === 'ROLE_CBCT';
+    this.isCBCT = this.userRole === 'CBCT' || this.userRole === 'ROLE_CBCT' || this.userRole === 'CBTC' || this.userRole === 'ROLE_CBTC';
     this.isTruongPhong = this.userRole === 'TRUONG_PHONG' || this.userRole === 'ROLE_TRUONG_PHONG';
     this.isThuTruong = this.userRole === 'THU_TRUONG' || this.userRole === 'ROLE_THU_TRUONG';
 
+    this.loadUsers();
     this.loadData();
   }
 
+  loadUsers(): void {
+    this.userService.getAll().subscribe({
+      next: (users) => {
+        users.forEach(u => this.userMap.set(Number(u.id), u.name));
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('Error loading users:', err)
+    });
+  }
+
   canEdit(item: ThongBaoTinhHinh): boolean {
-    return this.isCBCT && Number(item.donViId) === Number(this.userDonViId);
+    return (this.isCBCT || this.isTruongPhong) && (Number(item.donViId) === Number(this.userDonViId) || item.createdBy == this.currentUserId);
   }
 
   canDelete(item: ThongBaoTinhHinh): boolean {
-    return this.isCBCT && Number(item.donViId) === Number(this.userDonViId);
+    return (this.isCBCT || this.isTruongPhong) && (Number(item.donViId) === Number(this.userDonViId) || item.createdBy == this.currentUserId);
   }
 
   toggleAdvancedSearch(): void {
@@ -226,8 +240,9 @@ export class ThongBaoListComponent implements OnInit {
   loadData(): void {
     this.isLoading = true;
     this.cdr.detectChanges();
+    
     const phanLoai = this.phanLoaiIdSearch ? Number(this.phanLoaiIdSearch) : undefined;
-    const donViId = this.donViIdSearch ? Number(this.donViIdSearch) : undefined;
+    const donViIdSearchVal = this.donViIdSearch ? Number(this.donViIdSearch) : undefined;
 
     this.thongBaoService.getList(
       this.tieuDeSearch, 
@@ -236,22 +251,30 @@ export class ThongBaoListComponent implements OnInit {
       this.size,
       this.fromDateSearch || undefined,
       this.toDateSearch || undefined,
-      donViId,
+      donViIdSearchVal,
       this.phamViSearch || undefined
     ).subscribe({
-        next: (res) => {
-          this.dataList = res.content || [];
-          this.totalPages = res.totalPages;
-          this.totalElements = res.totalElements;
-          this.isLoading = false;
-          this.cdr.detectChanges();
-        },
-        error: (err) => {
-          console.error('Error fetching data:', err);
-          this.isLoading = false;
-          this.cdr.detectChanges();
-        }
-      });
+      next: (res) => {
+        this.dataList = (res.content || []).map(item => {
+          const creatorName = this.userMap.get(Number(item.createdBy));
+          const unit = this.donViList.find(u => u.id === Number(item.donViId));
+          return {
+            ...item,
+            creatorName: creatorName || 'Người dùng #' + item.createdBy,
+            donViName: unit ? unit.name : 'Đơn vị #' + item.donViId
+          };
+        });
+        this.totalPages = res.totalPages;
+        this.totalElements = res.totalElements;
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error fetching data:', err);
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   onSearch(): void {
@@ -271,6 +294,10 @@ export class ThongBaoListComponent implements OnInit {
   }
 
   // Drawer Actions
+  openCreate(): void {
+    this.onAdd();
+  }
+
   onAdd(): void {
     this.resetDrawers();
     this.isEditing = false;
@@ -375,7 +402,10 @@ export class ThongBaoListComponent implements OnInit {
     this.thongBaoService.getAuditLogs(item.id!).subscribe({
       next: (logs) => {
         this.ngZone.run(() => {
-          this.auditLogs = logs;
+          this.auditLogs = (logs || []).map(log => ({
+            ...log,
+            actorName: this.userMap.get(Number(log.changedBy)) || 'Người dùng #' + log.changedBy
+          }));
           this.isLoading = false;
           this.cdr.detectChanges();
         });

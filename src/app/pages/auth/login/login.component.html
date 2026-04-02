@@ -1,107 +1,122 @@
-<div class="min-h-screen bg-[#f8fafe] flex flex-col justify-center items-center py-12 sm:px-6 lg:px-8 font-sans transition-all duration-500">
-  
-    <div class="mb-10 text-center animate-fade-in-up">
-      <h2 class="text-2xl font-extrabold text-[#11235a] tracking-tight">Hệ Thống Kickoff</h2>
-      <p class="mt-2 text-sm text-gray-500 font-medium tracking-wide">Nền tảng Quản trị & Điều hành Doanh nghiệp</p>
-    </div>
-  
-    <div class="sm:mx-auto sm:w-full sm:max-w-[440px] animate-fade-in-up" style="animation-delay: 0.1s">
-      <div class="bg-white py-12 px-6 sm:px-12 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 relative overflow-hidden">
-        
-        <div class="mb-10 text-center">
-          <h3 class="text-2xl font-bold leading-9 tracking-tight text-gray-900">Chào Mừng Trở Lại</h3>
-          <p class="mt-2 text-[13px] text-gray-500 max-w-xs mx-auto">Vui lòng nhập thông tin đăng nhập để truy cập hệ thống quản trị.</p>
-        </div>
-  
-        <form class="space-y-7" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-          
-          <div *ngIf="errorMessage" class="rounded-md bg-red-50 p-4 border border-red-200">
-            <h3 class="text-sm font-medium text-red-800">{{ errorMessage }}</h3>
-          </div>
-  
-          <div>
-            <label for="email" class="block text-[10px] font-bold text-gray-500 tracking-widest uppercase">Địa chỉ Email</label>
-            <div class="mt-2 relative group">
-              <input id="email" formControlName="email" type="email" autocomplete="email" required placeholder="name@company.com" 
-                class="block w-full border-0 border-b-2 border-gray-200 py-3 bg-transparent text-gray-900 placeholder:text-gray-300 focus:ring-0 focus:border-[#1e3478] sm:text-sm transition-colors duration-300">
-            </div>
-          </div>
-  
-          <div>
-            <label for="password" class="block text-[10px] font-bold text-gray-500 tracking-widest uppercase">Mật khẩu</label>
-            <div class="mt-2">
-              <input id="password" formControlName="password" type="password" autocomplete="current-password" required placeholder="••••••••"
-                class="block w-full border-0 border-b-2 border-gray-200 py-3 bg-transparent text-gray-900 placeholder:text-gray-300 focus:ring-0 focus:border-[#1e3478] sm:text-sm tracking-widest transition-colors duration-300">
-            </div>
-          </div>
-  
-          <div class="flex items-center justify-between pt-2">
-            <div class="flex items-center">
-              <input id="remember-me" formControlName="rememberMe" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-[#1e3478] focus:ring-[#1e3478]">
-              <label for="remember-me" class="ml-2 block text-xs font-medium text-gray-700">Ghi nhớ đăng nhập</label>
-            </div>
-  
-            <div class="text-xs">
-              <a href="#" class="font-bold text-gray-900 hover:text-[#1e3478] transition-colors">Quên mật khẩu?</a>
-            </div>
-          </div>
-  
-          <div class="pt-6">
-            <button type="submit" [disabled]="loginForm.invalid || isLoading" 
-              class="flex w-full justify-center rounded-lg bg-[#27408b] px-3 py-3.5 text-sm font-bold text-white shadow-md hover:bg-[#1a2b61] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e3478] transition-all disabled:opacity-50 disabled:cursor-not-allowed">
-              <svg *ngIf="isLoading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              {{ isLoading ? 'Đang xác thực...' : 'Đăng nhập hệ thống' }}
-            </button>
-          </div>
-  
-        </form>
-  
-        <div class="mt-10">
-          <div class="relative">
-            <div class="absolute inset-0 flex items-center" aria-hidden="true">
-              <div class="w-full border-t border-gray-100"></div>
-            </div>
-            <div class="relative flex justify-center text-sm">
-              <span class="bg-white px-4 text-gray-400 text-[10px] font-bold tracking-widest uppercase">HOẶC</span>
-            </div>
-          </div>
-  
-          <div class="mt-8 text-center text-xs">
-            <span class="text-gray-500 font-medium">Chưa có tài khoản? </span>
-            <a routerLink="/signup" class="font-bold text-[#1e3478] hover:text-[#11235a] transition-colors">Đăng ký truy cập</a>
-          </div>
-        </div>
-      </div>
-      
-    </div>
-    
-    <!-- Subtle decorative bars -->
-    <div class="mt-20 sm:mx-auto sm:w-full sm:max-w-md flex justify-center items-end space-x-8 opacity-[0.08] animate-fade-in-up" style="animation-delay: 0.2s">
-      <div class="w-px h-16 bg-[#1a2b6d]"></div>
-      <div class="w-px h-28 bg-[#1a2b6d]"></div>
-      <div class="w-px h-12 bg-[#1a2b6d]"></div>
-      <div class="w-px h-20 bg-[#1a2b6d]"></div>
-      <div class="w-px h-10 bg-[#1a2b6d]"></div>
-      <div class="w-px h-14 bg-[#1a2b6d]"></div>
-    </div>
-  
-    <div class="mt-8 flex gap-8 text-[11px] font-medium text-gray-500 animate-fade-in-up" style="animation-delay: 0.3s">
-      <span>© 2024 Kickoff System. Bảo lưu mọi quyền.</span>
-      <a href="#" class="hover:text-gray-900 transition-colors">Chính sách bảo mật</a>
-      <a href="#" class="hover:text-gray-900 transition-colors">Điều khoản dịch vụ</a>
-      <a href="#" class="hover:text-gray-900 transition-colors">Hỗ trợ</a>
+<div class="bg-background min-h-screen flex items-center justify-center relative overflow-hidden font-sans selection:bg-emerald-500/30">
+    <!-- Background Immersive Visual -->
+    <div class="fixed inset-0 z-0">
+        <div class="absolute inset-0 emerald-gradient opacity-90"></div>
+        <img class="w-full h-full object-cover mix-blend-overlay opacity-40" 
+             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwlnmSZWGWCEuaySvM7FMBo0NxHW_6GiK6ZwFtUgDX72kmF88Tew8HG1z6VNGozPHC7G4x0KM7YMhP-jpqdLTgS4HhR6O6AbRFp0i-W6qUJ1q9X5qmp6cqWmalX3WJEEwWfIDMu7VDC_2jQS6ZdeUVLvSRZMvGjEtxALW8kzFQ_c6SSlQ3vXoxNJUHmUlMLn6iM596NizEeOwUkag5PeJ3L4Je5fUQ_9hbX7XXz8TUxyoCeJacfBzyyMMKWmr_lPhmcFhm7wY9bZg" 
+             alt="Background">
     </div>
 
-    <style>
-      @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(15px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-      .animate-fade-in-up {
-        animation: fadeInUp 0.6s ease-out forwards;
-      }
-    </style>
-  </div>
+    <!-- Main Content Canvas -->
+    <main class="relative z-10 w-full max-w-[1200px] px-6 py-12 flex justify-center animate-fade-in">
+        <div class="glass-panel w-full max-w-md p-10 shadow-premium border border-white/20">
+            
+            <!-- Branding Header -->
+            <div class="mb-12 text-center">
+                <div class="inline-flex items-center gap-2 mb-6">
+                    <span class="material-symbols-outlined text-primary text-4xl">energy_savings_leaf</span>
+                    <h1 class="text-2xl font-black tracking-tighter text-on-surface">Verdant Core</h1>
+                </div>
+                
+                <div class="flex justify-center gap-3 mb-8">
+                    <span class="text-[10px] uppercase tracking-widest font-bold px-2 py-1 bg-on-surface text-surface-container-lowest flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[12px]">lock</span>
+                        Authorized Access Only
+                    </span>
+                    <span class="text-[10px] uppercase tracking-widest font-bold px-2 py-1 border border-primary text-primary flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[12px]">verified_user</span>
+                        Secure Session
+                    </span>
+                </div>
+            </div>
+
+            <!-- Login Form -->
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-10">
+                
+                <!-- Error Message -->
+                <div *ngIf="errorMessage" class="p-4 bg-rose-50 border border-rose-100 text-rose-700 text-[12px] font-bold">
+                    {{ errorMessage }}
+                </div>
+
+                <div class="space-y-6">
+                    <div class="space-y-1">
+                        <label class="block text-[10px] uppercase tracking-[0.1em] font-bold text-on-surface-variant">Email công vụ</label>
+                        <input formControlName="email" 
+                               class="w-full bg-transparent border-t-0 border-x-0 border-b border-outline-variant py-3 text-on-surface focus:ring-0 auth-input-focus placeholder:text-surface-dim transition-all text-sm font-medium" 
+                               placeholder="name@verdant-core.gov" type="email"/>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-[10px] uppercase tracking-[0.1em] font-bold text-on-surface-variant">Mật khẩu chiến thuật</label>
+                        <input formControlName="password" 
+                               class="w-full bg-transparent border-t-0 border-x-0 border-b border-outline-variant py-3 text-on-surface focus:ring-0 auth-input-focus placeholder:text-surface-dim transition-all text-sm font-medium tracking-widest" 
+                               placeholder="••••••••" type="password"/>
+                    </div>
+                </div>
+
+                <div class="pt-4">
+                    <button [disabled]="loginForm.invalid || isLoading" 
+                            class="w-full emerald-gradient text-on-primary py-4 text-sm font-bold uppercase tracking-widest hover:opacity-90 transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-3" 
+                            type="submit">
+                        <span *ngIf="isLoading" class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                        {{ isLoading ? 'Đang xác thực...' : 'Đăng nhập' }}
+                    </button>
+                </div>
+
+                <!-- SSO / Secondary Actions -->
+                <div class="pt-4 space-y-4">
+                    <div class="relative flex items-center">
+                        <div class="flex-grow border-t border-outline-variant/30"></div>
+                        <span class="flex-shrink mx-4 text-[10px] uppercase tracking-widest text-on-surface-variant/60 font-medium">Hoặc sử dụng</span>
+                        <div class="flex-grow border-t border-outline-variant/30"></div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <button class="flex items-center justify-center gap-2 py-3 border border-outline-variant/50 hover:bg-surface-container-lowest transition-colors group" type="button">
+                            <span class="material-symbols-outlined text-xl group-hover:text-primary transition-colors">vpn_key</span>
+                            <span class="text-[10px] uppercase tracking-wider font-bold">Security Key</span>
+                        </button>
+                        <button class="flex items-center justify-center gap-2 py-3 border border-outline-variant/50 hover:bg-surface-container-lowest transition-colors group" type="button">
+                            <span class="material-symbols-outlined text-xl group-hover:text-primary transition-colors">hub</span>
+                            <span class="text-[10px] uppercase tracking-wider font-bold">SSO Gateway</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Footer Assistance -->
+            <div class="mt-12 text-center space-y-6">
+                <div class="space-y-2">
+                    <p class="text-[11px] text-on-surface-variant font-medium">
+                        Quên thông tin truy cập? <a class="text-primary font-bold hover:underline" href="#">Yêu cầu khôi phục</a>
+                    </p>
+                    <p class="text-[11px] text-on-surface-variant font-medium pt-1">
+                        Chưa có tài khoản? <a class="text-primary font-bold hover:underline" routerLink="/signup">Đăng ký ngay</a>
+                    </p>
+                </div>
+                
+                <div class="flex justify-center gap-6 pt-4 text-[10px] uppercase tracking-tighter text-on-surface-variant/40 font-bold border-t border-outline-variant/10">
+                    <span>Hỗ trợ 24/7</span>
+                    <span>Quy định bảo mật</span>
+                    <span>v4.2.0-stable</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Aesthetic Decorative Elements -->
+    <div class="fixed top-12 left-12 z-20 pointer-events-none hidden lg:block">
+        <div class="text-[10px] uppercase tracking-[0.4em] font-light text-white/40 rotate-90 origin-left">
+            Precision Management Architecture
+        </div>
+    </div>
+    
+    <div class="fixed bottom-12 right-12 z-20 pointer-events-none hidden lg:block text-right">
+        <div class="text-[4rem] font-black tracking-tighter leading-none text-white/5 select-none">
+            01
+        </div>
+        <div class="text-[10px] uppercase tracking-[0.2em] font-bold text-white/20">
+            System Core Node
+        </div>
+    </div>
+</div>

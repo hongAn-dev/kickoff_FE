@@ -1,19 +1,43 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
 @import "tailwindcss";
+@plugin "@tailwindcss/forms";
 
 @theme {
-  --color-primary: #2463eb;
-  --color-background-light: #f8fafc;
-  --color-background-dark: #111621;
+  --color-primary: #006c49;
+  --color-on-primary: #ffffff;
+  --color-on-background: #191c1d;
+  --color-on-surface: #191c1d;
+  --color-on-surface-variant: #3c4a42;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-dim: #d9dadb;
+  --color-outline-variant: #bbcabf;
+  
+  --color-primary-container: #10b981;
+  --color-on-primary-container: #00422b;
+  
+  --color-emerald-light: #10b981;
+  --color-emerald-deep: #006c49;
 
-  /* Legacy variable updates */
-  --color-brand-navy: #2463eb;
-  --color-brand-slate: #f1f5f9;
-  --color-brand-charcoal: #0f172a;
-
-  --font-display: "Inter", sans-serif;
   --font-sans: "Inter", sans-serif;
+  --font-display: "Inter", sans-serif;
+
+  --shadow-premium: 0 20px 40px rgba(25, 28, 29, 0.04);
+}
+
+.glass-panel {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+}
+
+.emerald-gradient {
+    background: linear-gradient(135deg, #006c49 0%, #10b981 100%);
+}
+
+.auth-input-focus:focus {
+    outline: none;
+    border-bottom: 2px solid #006c49;
 }
 
 *, *::before, *::after {
@@ -29,7 +53,6 @@ body {
   min-height: 100vh;
 }
 
-/* SPA smooth scroll */
 html {
   scroll-behavior: smooth;
   color-scheme: light;
@@ -37,53 +60,40 @@ html {
 
 /* Glassmorphism Utilities */
 .glass {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.glass-hover:hover {
-  background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.sidebar-active {
-  background: rgba(55, 19, 236, 0.2);
-  border: 1px solid rgba(55, 19, 236, 0.3);
+/* Auth Screens Image Overlay */
+.auth-bg-overlay {
+  background-color: rgba(6, 78, 59, 0.85); /* Deep emerald overlay */
+  mix-blend-mode: multiply;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
 }
 
-/* UI Elements overrides */
-.sidebar-link {
-  transition: all 0.2s ease;
+.auth-bg-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
+  background-position: center;
+  filter: grayscale(100%) contrast(1.2) brightness(0.8);
+  z-index: 0;
 }
 
-/* Senior UI Animations */
-@keyframes fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@keyframes slide-up {
-  from { opacity: 0; transform: translateY(20px) scale(0.98); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-@keyframes shift-right {
-  from { transform: translateX(-10px); opacity: 0; }
-  to   { transform: translateX(0); opacity: 1; }
-}
-
-.animate-fade-in {
-  animation: fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-slide-up {
-  animation: slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-shift-right {
-  animation: shift-right 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.auth-bg-container {
+  background: radial-gradient(circle at center, #10b981 0%, #064e3b 100%);
+  position: relative;
+  overflow: hidden;
 }
 
 /* Global Focus & Scrollbar Refinement */
@@ -110,7 +120,6 @@ html {
   background: #cbd5e1;
 }
 
-/* Line clamp utility */
 .line-clamp-1 {
   display: -webkit-box;
   -webkit-line-clamp: 1;
@@ -118,23 +127,18 @@ html {
   overflow: hidden;
 }
 
-/* Modal Open Focus Blur Effect */
-body.modal-open aside,
-body.modal-open header,
-body.modal-open [data-purpose="blur-layer"] {
-  filter: blur(12px) brightness(0.9);
-  pointer-events: none;
-  transition: filter 0.5s cubic-bezier(0.16, 1, 0.3, 1), brightness 0.5s ease;
-  user-select: none;
+/* Status Badges */
+.badge-red {
+  @apply bg-red-100 text-red-700 font-semibold px-3 py-1 rounded-sm text-xs;
+}
+.badge-orange {
+  @apply bg-orange-100 text-orange-700 font-semibold px-3 py-1 rounded-sm text-xs;
+}
+.badge-green {
+  @apply bg-green-100 text-green-700 font-semibold px-3 py-1 rounded-sm text-xs;
+}
+.badge-gray {
+  @apply bg-gray-200 text-gray-700 font-semibold px-3 py-1 rounded-sm text-xs;
 }
 
-/* Ensure modal stays sharp */
-.fixed.inset-0.z-50 {
-  backdrop-filter: none !important; /* Managed by layer blur */
-}
-
-/* Hide focus ring on mouse click but keep on keyboard tab */
-:focus:not(:focus-visible) {
-  outline: none;
-}
 

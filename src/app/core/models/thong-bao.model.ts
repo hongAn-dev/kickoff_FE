@@ -10,6 +10,8 @@ export interface ThongBaoTinhHinh {
   attachments?: string[];
   createdBy?: string | number;
   donViId?: number;
+  creatorName?: string;
+  donViName?: string;
 }
 
 export interface ThongBaoFileDto {
@@ -51,6 +53,7 @@ export interface AuditLog {
   newValue: string;
   changedBy: number;
   changedAt: string;
+  actorName?: string;
 }
 
 export interface PaginatedResponse<T> {

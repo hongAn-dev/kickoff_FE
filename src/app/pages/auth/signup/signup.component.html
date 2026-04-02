@@ -1,169 +1,151 @@
-<div class="min-h-screen bg-[#f8fafe] flex items-center justify-center p-4 sm:p-8 font-sans">
-  
-  <div class="w-full max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-    
-    <!-- LEFT SIDE: Marketing/Features -->
-    <div class="hidden lg:flex flex-col pr-8 animate-fade-in-up">
-      <h1 class="text-4xl lg:text-[44px] font-extrabold text-[#0d1b46] tracking-tight leading-tight mb-6">
-        Hệ Thống Kickoff
-      </h1>
-      <p class="text-[15px] leading-relaxed text-gray-600 mb-10 max-w-md">
-        Trải nghiệm hệ thống quản trị dữ liệu tập trung, bảo mật và hiệu quả bậc nhất dành cho khối điều hành doanh nghiệp.
-      </p>
+<div class="min-h-screen flex font-sans bg-white h-screen overflow-hidden selection:bg-emerald-500/30">
 
-      <div class="space-y-4 mb-10">
-        <!-- Feature 1 -->
-        <div class="bg-white/60 backdrop-blur-md rounded-xl p-6 flex items-start space-x-4 border border-white shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
-          <div class="flex-shrink-0 mt-1">
-            <svg class="w-6 h-6 text-[#1e3478]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          </div>
-          <div>
-            <h4 class="text-sm font-bold text-gray-900 mb-1 tracking-wide">Kỹ Thuật Chính Xác</h4>
-            <p class="text-xs text-gray-500 font-medium">Trực quan hóa dữ liệu có cấu trúc cho các quy trình phức tạp.</p>
-          </div>
-        </div>
-
-        <!-- Feature 2 -->
-        <div class="bg-white/60 backdrop-blur-md rounded-xl p-6 flex items-start space-x-4 border border-white shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
-          <div class="flex-shrink-0 mt-1">
-            <svg class="w-6 h-6 text-[#1e3478]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.963 11.963 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-          </div>
-          <div>
-            <h4 class="text-sm font-bold text-gray-900 mb-1 tracking-wide">Hạ Tầng Bảo Mật</h4>
-            <p class="text-xs text-gray-500 font-medium">Giao thức bảo mật cấp cao, đáp ứng tiêu chuẩn ngành tài chính.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Image Card -->
-      <div class="relative rounded-2xl overflow-hidden h-48 bg-gradient-to-br from-[#c1d1f0] to-[#e4ebf7] shadow-inner p-6 flex flex-col justify-end">
-        <div class="absolute inset-0 bg-white/20 backdrop-blur-[2px]"></div>
-        
-        <div class="relative z-10">
-          <p class="text-[#11235a] font-bold text-[15px] italic mb-2">"Tiêu chuẩn vàng cho giải pháp ERP hiện đại trong kỷ nguyên số."</p>
-          <p class="text-[10px] font-bold tracking-widest text-[#1e3478] uppercase">TỔ CHỨC ĐỐI TÁC TOÀN CẦU</p>
-        </div>
-      </div>
-
+  <!-- Left: Experience Clarity Hero -->
+  <div class="relative hidden lg:flex lg:w-1/2 flex-col justify-center px-16 xl:px-24 overflow-hidden bg-emerald-deep">
+    <!-- Background Gradient + Overlay -->
+    <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 emerald-gradient opacity-90"></div>
+        <img class="w-full h-full object-cover mix-blend-overlay opacity-40" 
+             src="register_background.png" 
+             alt="Hero Background">
     </div>
+    
+    <!-- Hero Content -->
+    <div class="relative z-10 w-full animate-slide-up">
+      <div class="space-y-6 mb-12">
+        <p class="text-[11px] font-bold text-white/70 uppercase tracking-[0.2em]">System Architecture</p>
+        <h1 class="text-[64px] font-black text-white leading-[1.05] tracking-tight">Experience<br>Clarity.</h1>
+        <p class="text-[15px] text-white/90 font-medium leading-relaxed max-w-sm">
+          Hệ thống quản lý cốt lõi cho sự minh bạch và hiệu quả tuyệt đối trong vận hành tổ chức.
+        </p>
+      </div>
 
-    <!-- RIGHT SIDE: Form -->
-    <div class="w-full max-w-[500px] mx-auto lg:ml-auto animate-fade-in-up" style="animation-delay: 0.1s">
-      <div class="bg-white py-12 px-8 sm:px-12 rounded-2xl shadow-[0_20px_50px_rgb(0,0,0,0.06)] border border-gray-100">
+      <div class="space-y-6">
+        <div class="flex items-center gap-6">
+          <div class="w-10 h-10 bg-white/10 backdrop-blur-sm rounded-[4px] flex items-center justify-center text-white border border-white/5">
+            <span class="material-symbols-outlined text-[16px]">bar_chart</span>
+          </div>
+          <span class="text-[14px] font-medium text-white tracking-wide">Phân tích dữ liệu thời gian thực</span>
+        </div>
         
-        <div class="mb-10">
-          <h2 class="text-2xl font-bold text-gray-900 mb-2">Tạo tài khoản mới</h2>
-          <p class="text-[13px] text-gray-500 font-medium">Tham gia hệ sinh thái Kickoff ngay hôm nay.</p>
+        <div class="flex items-center gap-6">
+          <div class="w-10 h-10 bg-white/10 backdrop-blur-sm rounded-[4px] flex items-center justify-center text-white border border-white/5">
+            <span class="material-symbols-outlined text-[16px]">gpp_good</span>
+          </div>
+          <span class="text-[14px] font-medium text-white tracking-wide">Bảo mật đa tầng tiêu chuẩn quốc tế</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Bottom Left Logo -->
+    <div class="absolute bottom-12 left-16 xl:left-24 z-10 flex items-center gap-4">
+      <div class="h-[2px] w-8 bg-white"></div>
+      <span class="text-[11px] font-black text-white uppercase tracking-[0.1em]">VERDANT CORE</span>
+    </div>
+  </div>
+
+  <!-- Right: Create Account Form -->
+  <div class="flex-1 flex flex-col justify-center px-8 sm:px-16 lg:px-24 bg-white overflow-y-auto custom-scrollbar relative">
+    <div class="max-w-[400px] w-full mx-auto animate-fade-in relative z-10">
+      
+      <!-- Form Header -->
+      <div class="space-y-3 mb-10">
+        <h2 class="text-[32px] font-black text-on-surface tracking-tight">Tạo tài khoản mới</h2>
+        <p class="text-on-surface-variant font-medium text-sm">Bắt đầu hành trình tối ưu hóa cùng Verdant Core</p>
+      </div>
+
+      <!-- Registration Form -->
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="space-y-8">
+        
+        <div *ngIf="errorMessage" class="p-4 bg-rose-50 border border-rose-100 text-rose-700 text-[12px] font-bold">
+          {{ errorMessage }}
         </div>
 
-        <form class="space-y-6" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-          
-          <div *ngIf="errorMessage" class="rounded-md bg-red-50 p-4 border border-red-200">
-            <h3 class="text-sm font-medium text-red-800">{{ errorMessage }}</h3>
-          </div>
+        <!-- Hidden input for donViId -->
+        <input type="hidden" formControlName="donViId">
 
-          <!-- Full Name -->
-          <div>
-            <label for="name" class="block text-[10px] font-bold text-gray-500 tracking-widest uppercase">Họ và tên</label>
-            <div class="mt-2">
-              <input id="name" formControlName="name" type="text" required placeholder="Nguyễn Văn A"
-                class="block w-full border-0 border-b-2 border-gray-200 py-3 bg-transparent text-gray-900 placeholder:text-gray-300 focus:ring-0 focus:border-[#1e3478] sm:text-sm font-medium transition-colors duration-300">
-            </div>
-          </div>
+        <!-- Full Name -->
+        <div class="space-y-1">
+          <label class="block text-[10px] uppercase tracking-[0.1em] font-bold text-on-surface-variant">Họ và tên</label>
+          <input formControlName="name" type="text"
+            class="w-full bg-transparent border-t-0 border-x-0 border-b border-outline-variant py-3 text-on-surface focus:ring-0 auth-input-focus placeholder:text-surface-dim transition-all text-sm font-medium">
+        </div>
 
-          <!-- Work Email -->
-          <div>
-            <label for="email" class="block text-[10px] font-bold text-gray-500 tracking-widest uppercase">Email công việc</label>
-            <div class="mt-2 text-sm">
-              <input id="email" formControlName="email" type="email" autocomplete="email" required placeholder="name@company.com" 
-                class="block w-full border-0 border-b-2 border-gray-200 py-3 bg-transparent text-gray-900 placeholder:text-gray-300 focus:ring-0 focus:border-[#1e3478] sm:text-sm font-medium transition-colors duration-300">
-            </div>
-          </div>
+        <!-- Email -->
+        <div class="space-y-1">
+          <label class="block text-[10px] uppercase tracking-[0.1em] font-bold text-on-surface-variant">Email công vụ</label>
+          <input formControlName="email" type="email"
+            class="w-full bg-transparent border-t-0 border-x-0 border-b border-outline-variant py-3 text-on-surface focus:ring-0 auth-input-focus placeholder:text-surface-dim transition-all text-sm font-medium"
+            placeholder="name@verdant-core.gov">
+        </div>
 
-          <!-- Role (Quyen Han) -->
-          <div>
-            <label for="role" class="block text-[10px] font-bold text-gray-500 tracking-widest uppercase mb-2">Quyền hạn hệ thống</label>
-            <div class="relative">
-              <select id="role" formControlName="role"
-                class="block w-full border-0 border-b-2 border-gray-200 py-3 pl-0 pr-8 bg-transparent text-gray-900 focus:ring-0 focus:border-[#1e3478] sm:text-sm font-medium appearance-none transition-colors duration-300">
-                <option *ngFor="let role of roleList" [value]="role.id">{{ role.name }}</option>
-              </select>
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-              </div>
-            </div>
-          </div>
-
-          <!-- Company Name (Don Vi Dropdown) -->
-          <div>
-            <label for="donVi" class="block text-[10px] font-bold text-gray-500 tracking-widest uppercase mb-2">Đơn vị công tác</label>
-            <div class="relative">
-              <select id="donVi" formControlName="donViId"
-                class="block w-full border-0 border-b-2 border-gray-200 py-3 pl-0 pr-8 bg-transparent text-gray-900 focus:ring-0 focus:border-[#1e3478] sm:text-sm font-medium appearance-none transition-colors duration-300">
-                <option *ngFor="let dv of donViList" [ngValue]="dv.id">{{ dv.name }}</option>
-              </select>
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-              </div>
-            </div>
-          </div>
-
-          <!-- Password -->
-          <div>
-            <label for="password" class="block text-[10px] font-bold text-gray-500 tracking-widest uppercase">Mật khẩu</label>
-            <div class="mt-2">
-              <input id="password" formControlName="password" type="password" autocomplete="new-password" required placeholder="••••••••"
-                class="block w-full border-0 border-b-2 border-gray-200 py-3 bg-transparent text-gray-900 placeholder:text-gray-300 focus:ring-0 focus:border-[#1e3478] sm:text-sm tracking-widest transition-colors duration-300">
-            </div>
-          </div>
-
-          <!-- Terms Checkbox -->
-          <div class="flex items-start pt-4">
-            <div class="flex h-5 items-center">
-              <input id="terms" formControlName="termsAgreed" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-[#1e3478] focus:ring-[#1e3478]">
-            </div>
-            <div class="ml-3 text-[11px] leading-5 text-gray-500 font-medium">
-              <label for="terms">Tôi đồng ý với <a href="#" class="font-bold text-[#1e3478] hover:underline">Điều khoản dịch vụ</a> và <a href="#" class="font-bold text-[#1e3478] hover:underline">Chính sách bảo mật</a>.</label>
-            </div>
-          </div>
-
-          <!-- Submit Button -->
-          <div class="pt-4">
-            <button type="submit" [disabled]="signupForm.invalid || isLoading" 
-              class="flex w-full justify-center rounded-lg bg-[#27408b] px-3 py-3.5 text-sm font-bold text-white shadow-md hover:bg-[#1a2b61] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1e3478] transition-all disabled:opacity-50 disabled:cursor-not-allowed">
-              <svg *ngIf="isLoading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              {{ isLoading ? 'Đang tạo tài khoản...' : 'Đăng ký ngay' }}
+        <!-- Role Selection -->
+        <div class="space-y-4 pt-2">
+          <label class="block text-[10px] uppercase tracking-[0.1em] font-bold text-on-surface-variant">Vai trò hệ thống</label>
+          <div class="grid grid-cols-3 gap-3">
+            <button type="button" (click)="signupForm.get('role')?.setValue('ROLE_CBCT')" 
+              [class]="'py-4 px-2 text-[10px] uppercase tracking-wider font-bold transition-all border ' + 
+              (signupForm.get('role')?.value === 'ROLE_CBCT' ? 'emerald-gradient border-transparent text-white shadow-lg' : 'border-outline-variant/50 bg-white text-on-surface-variant hover:bg-surface-container-lowest')">
+              CBCT
+            </button>
+            <button type="button" (click)="signupForm.get('role')?.setValue('ROLE_TRUONG_PHONG')" 
+              [class]="'py-4 px-2 text-[10px] uppercase tracking-wider font-bold transition-all border leading-tight ' + 
+              (signupForm.get('role')?.value === 'ROLE_TRUONG_PHONG' ? 'emerald-gradient border-transparent text-white shadow-lg' : 'border-outline-variant/50 bg-white text-on-surface-variant hover:bg-surface-container-lowest')">
+              Trưởng<br>phòng
+            </button>
+            <button type="button" (click)="signupForm.get('role')?.setValue('ROLE_THU_TRUONG')" 
+              [class]="'py-4 px-2 text-[10px] uppercase tracking-wider font-bold transition-all border leading-tight ' + 
+              (signupForm.get('role')?.value === 'ROLE_THU_TRUONG' ? 'emerald-gradient border-transparent text-white shadow-lg' : 'border-outline-variant/50 bg-white text-on-surface-variant hover:bg-surface-container-lowest')">
+              Thủ<br>trưởng
             </button>
           </div>
-
-        </form>
-
-        <div class="mt-10 text-center text-xs">
-          <span class="text-gray-500 font-medium">Đã có tài khoản? </span>
-          <a routerLink="/login" class="font-bold text-[#1e3478] hover:text-[#11235a] transition-colors">Đăng nhập</a>
         </div>
+
+        <!-- Password -->
+        <div class="space-y-1 pt-2">
+          <label class="block text-[10px] uppercase tracking-[0.1em] font-bold text-on-surface-variant">Mật khẩu</label>
+          <input formControlName="password" type="password" 
+            class="w-full bg-transparent border-t-0 border-x-0 border-b border-outline-variant py-3 text-on-surface focus:ring-0 auth-input-focus placeholder:text-surface-dim transition-all text-sm font-medium tracking-widest"
+            placeholder="••••••••">
+        </div>
+
+        <!-- Submit Button -->
+        <div class="pt-6">
+          <button type="submit" [disabled]="isLoading || signupForm.invalid"
+            class="w-full emerald-gradient text-on-primary py-4 text-sm font-bold uppercase tracking-widest hover:opacity-90 transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-3">
+            <span *ngIf="isLoading" class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+            {{ isLoading ? 'Đang tạo tài khoản...' : 'Tiếp tục đăng ký' }}
+          </button>
+        </div>
+
+      </form>
+
+      <!-- Footer Help & Links -->
+      <div class="mt-12 flex justify-between items-center text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.05em] border-t border-outline-variant/10 pt-6">
+        <span>Đã có tài khoản?</span>
+        <a routerLink="/login" class="text-primary border-b border-primary hover:opacity-80 transition-all pb-[1px]">Đăng nhập ngay</a>
       </div>
+
     </div>
     
+    <!-- Absolute Bottom Right Watermark -->
+    <div class="absolute bottom-6 right-10 text-[9px] font-bold text-on-surface-variant/40 uppercase tracking-wider hidden sm:flex gap-4">
+      <span>&copy; 2024 VERDANT CORE</span>
+      <span>BẢO MẬT</span>
+      <span>HỖ TRỢ</span>
+    </div>
   </div>
-
-  <div class="absolute bottom-8 left-0 right-0 flex justify-center gap-8 text-[11px] font-medium text-gray-500 animate-fade-in-up" style="animation-delay: 0.2s">
-    <a href="#" class="hover:text-gray-900 transition-colors">Chính sách bảo mật</a>
-    <a href="#" class="hover:text-gray-900 transition-colors">Điều khoản dịch vụ</a>
-    <a href="#" class="hover:text-gray-900 transition-colors">Hỗ trợ</a>
-  </div>
-
-  <style>
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fade-in-up {
-      animation: fadeInUp 0.6s ease-out forwards;
-      opacity: 0;
-    }
-  </style>
 </div>
+
+<style>
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: var(--color-outline-variant);
+        border-radius: 10px;
+    }
+</style>
